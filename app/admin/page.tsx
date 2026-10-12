@@ -1,15 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { contarPorStatus, listarAvaliacoes, type Avaliacao, type StatusAvaliacao } from "../lib/avaliacoes";
+import {
+  calcularMedias,
+  contarPorStatus,
+  listarAvaliacoes,
+  type Avaliacao,
+  type Medias,
+  type StatusAvaliacao,
+} from "../lib/avaliacoes";
+import { formatarNota, mediaDasNotas, TOPICOS } from "../lib/topicos";
 import { moderar, sair } from "./actions";
 import { estaLogado } from "./sessao";
 
-const abas: { status: StatusAvaliacao; rotulo: string; vazio: string }[] = [
+// "todas" não é um status: é a aba que lista tudo o que foi recebido
+type Aba = StatusAvaliacao | "todas";
+
+const abas: { status: Aba; rotulo: string; vazio: string }[] = [
+  { status: "todas", rotulo: "Todas", vazio: "Nenhuma avaliação recebida ainda." },
   { status: "pendente", rotulo: "Pendentes", vazio: "Nenhuma avaliação aguardando aprovação." },
   { status: "aprovada", rotulo: "Aprovadas", vazio: "Nenhuma avaliação aprovada ainda." },
   { status: "recusada", rotulo: "Recusadas", vazio: "Nenhuma avaliação recusada." },
 ];
+
+const nomeStatus: Record<StatusAvaliacao, string> = { pendente: "Pendente", aprovada: "No site", recusada: "Recusada" };
 
 const dataHora = new Intl.DateTimeFormat("pt-BR", {
   day: "2-digit",
@@ -26,7 +40,10 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
   const { status: param } = await searchParams;
   const aba = abas.find((a) => a.status === param) ?? abas[0];
   const contagem = contarPorStatus();
-  const avaliacoes = listarAvaliacoes(aba.status);
+  const todas = contagem.pendente + contagem.aprovada + contagem.recusada;
+  const avaliacoes = listarAvaliacoes(aba.status === "todas" ? undefined : aba.status);
+  // Recusadas (spam, ofensas) não entram nas médias
+  const medias = calcularMedias(listarAvaliacoes().filter((a) => a.status !== "recusada"));
 
   return (
     <>
@@ -58,6 +75,8 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
           <p>Avaliações enviadas pelo site só aparecem para os visitantes depois de aprovadas.</p>
         </div>
 
+        {medias && <PainelMedias medias={medias} />}
+
         <nav className="adm-abas" aria-label="Filtrar avaliações">
           {abas.map((a) => (
             <Link
@@ -67,7 +86,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
               aria-current={a.status === aba.status ? "page" : undefined}
             >
               {a.rotulo}
-              <span className="adm-abas__contador">{contagem[a.status]}</span>
+              <span className="adm-abas__contador">{a.status === "todas" ? todas : contagem[a.status]}</span>
             </Link>
           ))}
         </nav>
@@ -77,7 +96,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
         ) : (
           <ul className="adm-lista">
             {avaliacoes.map((a) => (
-              <Card key={a.id} avaliacao={a} />
+              <Card key={a.id} avaliacao={a} mostrarStatus={aba.status === "todas"} />
             ))}
           </ul>
         )}
@@ -86,7 +105,36 @@ export default async function Admin({ searchParams }: { searchParams: Promise<{ 
   );
 }
 
-function Card({ avaliacao: a }: { avaliacao: Avaliacao }) {
+function PainelMedias({ medias }: { medias: Medias }) {
+  return (
+    <section className="adm-medias" aria-labelledby="adm-medias-titulo">
+      <div className="adm-medias__geral">
+        <h2 id="adm-medias-titulo">Média geral</h2>
+        <strong>{formatarNota(medias.geral)}</strong>
+        <small>
+          {medias.total} {medias.total === 1 ? "avaliação" : "avaliações"} · aprovadas e pendentes
+        </small>
+      </div>
+      <ul className="adm-medias__topicos" aria-label="Média por tópico">
+        {TOPICOS.map((t) => {
+          const valor = medias.porTopico[t.id];
+          return (
+            <li key={t.id}>
+              <span className="adm-medias__nome">{t.nome}</span>
+              <span className="adm-medias__trilho" aria-hidden="true">
+                <span style={{ width: `${(valor / 5) * 100}%` }} />
+              </span>
+              <strong>{formatarNota(valor)}</strong>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Card({ avaliacao: a, mostrarStatus }: { avaliacao: Avaliacao; mostrarStatus: boolean }) {
+  const media = mediaDasNotas(a.notas);
   return (
     <li className="adm-card">
       <div className="adm-card__topo">
@@ -101,13 +149,23 @@ function Card({ avaliacao: a }: { avaliacao: Avaliacao }) {
           <strong>{a.nome}</strong>
           <time dateTime={a.criadaEm}>{dataHora.format(new Date(a.criadaEm))}</time>
         </div>
-        <div className="adm-card__nota" role="img" aria-label={`${a.nota} de 5 estrelas`}>
-          {"★".repeat(a.nota)}
-          <span>{"★".repeat(5 - a.nota)}</span>
+        {mostrarStatus && <span className={`adm-status adm-status--${a.status}`}>{nomeStatus[a.status]}</span>}
+        <div className="adm-card__media" aria-label={`Média ${formatarNota(media)} de 5`}>
+          <span aria-hidden="true">★</span>
+          {formatarNota(media)}
         </div>
       </div>
 
       <blockquote className="adm-card__texto">“{a.comentario}”</blockquote>
+
+      <dl className="adm-card__notas">
+        {TOPICOS.map((t) => (
+          <div key={t.id} className={a.notas[t.id] <= 3 ? "baixa" : undefined}>
+            <dt>{t.nome}</dt>
+            <dd>{a.notas[t.id]}</dd>
+          </div>
+        ))}
+      </dl>
 
       <form action={moderar} className="adm-card__acoes">
         <input type="hidden" name="id" value={a.id} />

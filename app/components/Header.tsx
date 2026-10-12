@@ -15,6 +15,7 @@ const links = [
 
 export default function Header() {
   const [ativo, setAtivo] = useState("inicio");
+  const [aberto, setAberto] = useState(false);
 
   // Destaca no menu a seção visível na tela
   useEffect(() => {
@@ -33,6 +34,20 @@ export default function Header() {
     return () => obs.disconnect();
   }, []);
 
+  // Fecha o menu móvel com Esc ou ao voltar para a largura de desktop
+  useEffect(() => {
+    if (!aberto) return;
+    const mq = window.matchMedia("(min-width: 1141px)");
+    const fecharNoDesktop = () => mq.matches && setAberto(false);
+    const fecharNoEsc = (e: KeyboardEvent) => e.key === "Escape" && setAberto(false);
+    mq.addEventListener("change", fecharNoDesktop);
+    document.addEventListener("keydown", fecharNoEsc);
+    return () => {
+      mq.removeEventListener("change", fecharNoDesktop);
+      document.removeEventListener("keydown", fecharNoEsc);
+    };
+  }, [aberto]);
+
   return (
     <header className="header">
       <div className="header__inner">
@@ -43,9 +58,26 @@ export default function Header() {
             <span className="marca__cargo">{site.cargo}</span>
           </span>
         </a>
-        <nav className="nav" aria-label="Principal">
+        <button
+          type="button"
+          className="menu-botao"
+          aria-controls="menu-principal"
+          aria-expanded={aberto}
+          aria-label={aberto ? "Fechar menu" : "Abrir menu"}
+          onClick={() => setAberto((v) => !v)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <nav id="menu-principal" className={aberto ? "nav nav--aberto" : "nav"} aria-label="Principal">
           {links.map((l) => (
-            <a key={l.id} href={`#${l.id}`} className={ativo === l.id ? "ativo" : undefined}>
+            <a
+              key={l.id}
+              href={`#${l.id}`}
+              className={ativo === l.id ? "ativo" : undefined}
+              onClick={() => setAberto(false)}
+            >
               {l.label}
             </a>
           ))}

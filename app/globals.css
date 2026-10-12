@@ -110,97 +110,78 @@ h1, h2, h3, p { margin: 0; }
 .hero, .aqua { min-height: calc(100vh - var(--barra)); min-height: calc(100svh - var(--barra)); display: flex; flex-direction: column; }
 .hero__inner, .aqua__inner { flex: 1; width: 100%; }
 .hero { background: var(--noite); color: #fff; position: relative; overflow: hidden; }
-.hero__inner { max-width: 1440px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: stretch; }
-.hero__texto {
-  flex: 1 1 520px; min-width: 0; padding: 72px 40px 72px 64px;
-  display: flex; flex-direction: column; gap: 24px; justify-content: center; position: relative; z-index: 2;
+.hero__inner {
+  max-width: 1440px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
 }
-.hero__kicker { color: var(--dourado-claro); font-size: 14px; letter-spacing: 0.16em; line-height: 1.7; font-weight: 700; }
+.hero__texto { display: flex; flex-direction: column; min-width: 0; padding: 0 48px 44px 96px; position: relative; z-index: 2; }
+.hero__conteudo { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 56px 0 40px; }
+.hero__kicker { display: flex; align-items: center; gap: 14px; color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
+.hero__kicker::before { content: ""; flex: none; width: 40px; height: 1px; background: var(--dourado); }
 .hero h1 {
   font-family: var(--font-serif); font-weight: 400;
-  font-size: clamp(40px, 5vw, 64px); line-height: 1.08; letter-spacing: -0.01em;
+  font-size: clamp(40px, 4.4vw, 62px); line-height: 1.1; letter-spacing: -0.015em;
 }
-.hero h1 span { color: var(--verde-claro); }
-.hero__desc { font-size: 17px; line-height: 1.65; color: #e7ece9; max-width: 520px; }
-.hero__tags { color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.18em; font-weight: 700; }
-.hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; }
+.hero h1 em { color: var(--verde-claro); }
+.hero__desc { font-size: 18px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
+.hero__kicker-curto, .hero__desc-curta, .hero__crmv { display: none; }
+.hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
-.botao-pilula {
-  display: flex; align-items: center; gap: 18px; color: #fff; text-decoration: none;
-  padding: 16px 26px; border-radius: 999px; min-width: 300px; flex: 1 1 300px; max-width: 380px;
+.botao-hero {
+  position: relative; overflow: hidden; display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 18px 28px; border-radius: 999px; text-decoration: none;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
 }
-.botao-pilula:hover { color: #fff; }
-.botao-pilula--verde { background: var(--verde); border: 2px solid var(--verde-borda); }
-.botao-pilula--escuro { background: var(--noite); border: 2px solid var(--dourado); }
-.botao-pilula__textos { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-.botao-pilula__titulo { font-weight: 700; letter-spacing: 0.08em; font-size: 15px; }
-.botao-pilula__sub { font-size: 12px; letter-spacing: 0.1em; }
-.botao-pilula--verde .botao-pilula__sub { color: #cfe6d8; }
-.botao-pilula--escuro .botao-pilula__sub { color: #e6d6b0; }
-
-.hero__foto { flex: 1 1 560px; min-width: 0; position: relative; min-height: 480px; }
-.hero__halo { position: absolute; left: 8%; right: 22%; top: 12%; bottom: 0; border-radius: 50% 50% 0 0; transform-origin: 50% 100%; }
-.hero__halo-luz { background: radial-gradient(ellipse at 50% 45%, #1f6a47 0%, #14402c 45%, rgba(12,23,18,0) 72%); }
-.hero__imagem { position: absolute; left: 0; top: 32px; bottom: 0; width: 86%; }
-.hero__imagem img { object-fit: contain; object-position: 50% 100%; }
-.hero__frase { position: absolute; top: 48px; right: 48px; transform: rotate(-12deg); }
-.hero__frase p {
-  font-family: var(--font-script); font-size: 40px; line-height: 1.15; color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.45); white-space: pre;
-}
-.hero__frase div { height: 3px; width: 130px; background: var(--dourado-claro); margin: 8px 0 0 50px; border-radius: 3px; }
-
-/* Hero vivo: brilhos de fundo, patinhas e cards flutuantes (animados com Motion em Hero.tsx) */
-.hero__brilho {
-  position: absolute; width: 760px; height: 760px; left: -260px; top: -300px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(31,106,71,.38) 0%, rgba(31,106,71,0) 65%); pointer-events: none;
-}
-.hero::after {
-  content: ""; position: absolute; width: 520px; height: 520px; left: 30%; bottom: -320px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,160,78,.12) 0%, rgba(201,160,78,0) 65%); pointer-events: none;
-}
-.hero__patinhas { position: absolute; inset: 0; pointer-events: none; }
-.hero__patinhas span { position: absolute; opacity: .08; }
-.hero__patinhas svg { display: block; }
-
-.hero__halo-luz { position: absolute; inset: 0; border-radius: inherit; transform-origin: 50% 100%; }
-.hero__frase p span { display: block; width: fit-content; }
-
-.hero__flutua { position: absolute; z-index: 3; }
-.hero__flutua--casa { left: 0; bottom: 24%; }
-.hero__flutua--peixe { right: 6%; top: 50%; }
-.hero__card {
-  display: flex; align-items: center; gap: 12px; padding: 12px 18px 12px 12px;
-  border-radius: 16px; background: rgba(12,23,18,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(108,196,138,.25); box-shadow: 0 18px 40px -12px rgba(0,0,0,.6); color: #fff;
-}
-.hero__card strong { display: block; font-size: 14px; letter-spacing: .02em; }
-.hero__card small { display: block; font-size: 12px; color: #b9c7bf; margin-top: 2px; }
-.hero__card-icone {
-  flex: none; width: 40px; height: 40px; border-radius: 12px; background: rgba(108,196,138,.14);
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.hero__card-icone svg { width: 22px; height: 22px; stroke: var(--verde-claro); stroke-width: 1.8; }
-
-.hero__desc-curta, .hero__chips { display: none; }
-.hero__chips { list-style: none; margin: 0; padding: 0; flex-wrap: wrap; gap: 8px; }
-.hero__chips li {
-  display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px;
-  background: rgba(108,196,138,.1); border: 1px solid rgba(108,196,138,.3);
-  font-size: 12.5px; font-weight: 700; letter-spacing: .03em; color: #e7ece9;
-}
-.hero__chips svg { width: 16px; height: 16px; stroke: var(--verde-claro); stroke-width: 2; }
-
+.botao-hero svg { flex: none; width: 20px; height: 20px; }
+.botao-hero--verde, .botao-hero--verde:hover { background: var(--verde); border: 1px solid var(--verde-borda); color: #fff; }
+.botao-hero--contorno { border: 1px solid var(--dourado); color: #f1e6cc; }
+.botao-hero--contorno:hover { color: #fff; background: rgba(201,160,78,.08); }
 /* Botões: seta desliza e um brilho passa pelo botão no hover */
-.botao-pilula { position: relative; overflow: hidden; }
-.botao-pilula::after {
+.botao-hero::after {
   content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
   background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.18) 50%, rgba(255,255,255,0) 100%);
   transform: skewX(-20deg); transition: left .7s ease;
 }
-.botao-pilula:hover::after { left: 130%; }
-.botao-pilula > svg:last-child { transition: transform .25s ease; }
-.botao-pilula:hover > svg:last-child { transform: translateX(5px); }
+.botao-hero:hover::after { left: 130%; }
+.botao-hero--verde > svg:last-child { width: 18px; height: 18px; transition: transform .25s ease; }
+.botao-hero--verde:hover > svg:last-child { transform: translateX(5px); }
+
+.hero__servicos {
+  list-style: none; margin: 0; padding: 24px 0 0; border-top: 1px solid rgba(255,255,255,.1);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px 28px;
+}
+.hero__servicos li { display: flex; align-items: center; gap: 12px; }
+.hero__servicos svg { flex: none; }
+.hero__servicos strong { display: block; font-size: 14px; }
+.hero__servicos small { display: block; font-size: 13px; color: #9fb0a6; margin-top: 3px; }
+
+/* Retrato recortado direto sobre o fundo, com luz suave atrás e base que se dissolve no escuro */
+/* Sem overflow no desktop: a luz se espalha além da coluna e a base da foto é cortada pelo próprio .hero */
+.hero__retrato { position: relative; min-height: 480px; }
+.hero__luz {
+  position: absolute; width: 760px; height: 760px; left: 50%; top: -120px; margin-left: -380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(108,196,138,.16) 0%, rgba(20,87,58,.12) 34%, rgba(12,23,18,0) 68%);
+  pointer-events: none;
+}
+.hero__fio { position: absolute; left: 0; top: 96px; width: 1px; height: 380px; background: rgba(201,160,78,.35); transform-origin: top; }
+.hero__foto { position: absolute; left: 0; right: 0; top: 24px; bottom: -40px; }
+.hero__foto img { object-fit: contain; object-position: 50% 100%; }
+.hero__retrato::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 260px; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(12,23,18,0) 0%, rgba(12,23,18,.85) 60%, var(--noite) 100%);
+}
+.hero__assinatura {
+  position: absolute; right: 56px; bottom: 44px; z-index: 2;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right;
+}
+.hero__assinatura::before { content: ""; width: 48px; height: 2px; background: var(--dourado); }
+.hero__assinatura strong { font-family: var(--font-serif); font-weight: 400; font-size: 22px; }
+.hero__assinatura > span { font-size: 11px; letter-spacing: 0.18em; color: #b9c7bf; }
+
+@media (max-width: 1140px) {
+  .hero__texto { padding: 0 32px 36px 40px; }
+  .hero__assinatura { right: 32px; }
+}
 
 /* ---------- Rótulo de seção (traço dourado + texto espaçado) ---------- */
 .rotulo-secao {
@@ -587,7 +568,7 @@ h1, h2, h3, p { margin: 0; }
 @keyframes zapPulso { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.45); opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .botao-pilula::after { display: none; }
+  .botao-hero::after { display: none; }
   .bolha { animation: none; display: none; }
   .zap-flutuante::after { animation: none; display: none; }
   .nav, .menu-botao span { transition: none; }
@@ -672,30 +653,31 @@ h1, h2, h3, p { margin: 0; }
   .nav { padding: 4px 24px 12px; font-size: 15px; }
   .titulo-secao { font-size: 18px; }
 
-  /* Hero: botões de agendamento visíveis já na primeira tela */
-  .hero__texto { padding: 28px 24px 4px; gap: 12px; flex-basis: 100%; }
-  /* Descrição curta e chips no lugar das tags e dos cards flutuantes */
-  .hero__desc-longa, .hero__tags, .hero__flutua { display: none; }
-  .hero__desc-curta { display: inline; }
-  .hero__chips { display: flex; }
-  .hero__kicker { font-size: 12px; }
-  .hero h1 { font-size: 34px; }
-  .hero__desc { font-size: 15px; line-height: 1.6; }
-  .hero__tags { font-size: 12px; }
-  .hero__ctas { margin-top: 4px; gap: 8px; }
-  .botao-pilula { min-width: 0; max-width: none; padding: 8px 18px; gap: 14px; }
-  .botao-pilula svg:first-child { width: 26px; height: 26px; }
-  .botao-pilula__titulo { font-size: 14px; }
-  .botao-pilula__sub { font-size: 11px; }
-  /* Foto centralizada no halo, sem vão acima; o card "Sobre mim" sobe por cima da base dela */
-  /* Em coluna, a altura que sobra na tela vai toda para a foto */
-  .hero__inner { flex-direction: column; flex-wrap: nowrap; }
-  .hero__foto { flex: 1 0 320px; min-height: 320px; }
-  .hero__halo { left: 12%; right: 12%; top: 10%; }
-  .hero__imagem { top: 0; left: 0; width: 100%; }
-  .hero__frase { right: 20px; top: 28px; }
-  .hero__frase p { font-size: 22px; }
-  .hero__frase div { width: 84px; margin-left: 34px; height: 2px; }
+  /* Hero: retrato no topo, dissolvendo no texto; registro vai para a assinatura sobre a foto */
+  .hero__inner { display: flex; flex-direction: column; }
+  .hero__retrato { order: -1; flex: none; min-height: 0; height: clamp(300px, 46svh, 440px); overflow: hidden; }
+  .hero__luz { width: 520px; height: 520px; top: -90px; margin-left: -260px; }
+  .hero__fio, .hero__assinatura::before { display: none; }
+  .hero__foto { top: 16px; bottom: -30px; }
+  .hero__retrato::after { height: 170px; }
+  .hero__assinatura { left: 24px; right: 24px; bottom: 12px; align-items: flex-start; gap: 6px; text-align: left; }
+  .hero__assinatura strong { font-size: 19px; }
+  .hero__assinatura > span { font-size: 10.5px; letter-spacing: 0.14em; }
+  .hero__crmv { display: inline; }
+  .hero__texto { padding: 20px 24px 32px; }
+  .hero__conteudo { padding: 0 0 28px; gap: 18px; }
+  .hero__kicker { font-size: 11.5px; letter-spacing: 0.18em; gap: 12px; }
+  .hero__kicker::before { width: 28px; }
+  .hero__kicker-longo, .hero__desc-longa { display: none; }
+  .hero__kicker-curto, .hero__desc-curta { display: inline; }
+  .hero h1 { font-size: 34px; line-height: 1.14; }
+  .hero__desc { font-size: 16px; line-height: 1.6; }
+  .hero__ctas { flex-direction: column; gap: 12px; margin-top: 6px; }
+  .botao-hero { min-height: 56px; padding: 0 20px; }
+  .hero__servicos { grid-template-columns: 1fr; gap: 0; padding: 0; }
+  .hero__servicos li { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .hero__servicos li:last-child { border-bottom: 0; }
+  .hero__servicos strong { font-size: 15px; }
 
   .rotulo-secao { font-size: 11.5px; }
   .rotulo-secao::before { width: 26px; }
@@ -799,6 +781,5 @@ h1, h2, h3, p { margin: 0; }
   .marca__nome { font-size: 12.5px; letter-spacing: 0.06em; }
   .marca__cargo { font-size: 10px; letter-spacing: 0.14em; }
   .hero h1 { font-size: 30px; }
-  .botao-pilula { padding: 10px 14px; gap: 10px; }
-  .botao-pilula__titulo { font-size: 13px; letter-spacing: 0.04em; }
+  .botao-hero { font-size: 13px; letter-spacing: 0.06em; gap: 10px; }
 }

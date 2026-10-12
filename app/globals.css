@@ -179,7 +179,7 @@ h1, h2, h3, p { margin: 0; }
 .onde__texto { flex: 999 1 640px; min-width: 0; padding: 64px 40px 64px 64px; display: flex; flex-direction: column; gap: 14px; }
 .onde__titulo { display: flex; align-items: center; gap: 14px; }
 .onde__sub { font-size: 22px; line-height: 1.4; color: var(--verde); max-width: 440px; }
-.onde__grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); margin-top: 28px; }
+.onde__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
 .onde__item { padding: 8px 24px; display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #e3ddce; }
 .onde__item:first-child { padding-left: 0; }
 .onde__item:last-child { border-right: 0; }
@@ -203,19 +203,19 @@ h1, h2, h3, p { margin: 0; }
   position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; display: flex; flex-wrap: wrap;
   align-items: center; gap: 40px; padding: 64px;
 }
-.aqua__texto { flex: 1 1 500px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
+.aqua__texto { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
 .aqua__titulo { display: flex; align-items: center; gap: 14px; }
 .aqua__titulo h2 { font-size: 18px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; }
 .aqua__frase { font-family: var(--font-serif); font-size: clamp(30px, 3.4vw, 42px); line-height: 1.15; }
 .aqua__frase span { color: var(--verde-claro); }
 .aqua__desc { font-size: 17px; line-height: 1.65; color: #e7ece9; max-width: 560px; }
 .aqua__desc strong { color: #fff; }
-.aqua__grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 20px 0; margin-top: 16px; }
+.aqua__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 0; margin-top: 16px; }
 .aqua__item { display: flex; flex-direction: column; gap: 12px; padding: 0 18px; border-right: 1px solid var(--linha-escura); }
 .aqua__item:first-child { padding-left: 0; }
 .aqua__item:last-child { border-right: 0; padding-right: 0; }
 .aqua__item p { font-size: 14px; line-height: 1.5; color: #e7ece9; }
-.aqua__fotos { flex: 1 1 520px; min-width: 0; display: flex; gap: 14px; height: 420px; }
+.aqua__fotos { flex: 1 1 440px; min-width: 0; display: flex; gap: 14px; height: 420px; }
 .aqua__fotos > div { position: relative; min-width: 0; height: 100%; overflow: hidden; border: 1px solid var(--linha-escura); }
 .aqua__fotos > div:first-child { flex: 3 1 0; border-radius: 20px 6px 6px 20px; }
 .aqua__fotos > div:last-child { flex: 2 1 0; border-radius: 6px 20px 20px 6px; }
@@ -434,39 +434,145 @@ h1, h2, h3, p { margin: 0; }
   .nav, .menu-botao span { transition: none; }
 }
 
+/* ---------- Áreas de toque ---------- */
+/* Pontos do carrossel: visual pequeno, mas área de toque de 44px de altura */
+.carrossel__pontos { gap: 12px; }
+.carrossel__pontos button { position: relative; }
+.carrossel__pontos button::before { content: ""; position: absolute; inset: -17px -6px; }
+
+/* ---------- Telas médias ---------- */
+/* Grades de 4 itens em 2 colunas quando a área de texto fica estreita */
+@media (min-width: 1141px) and (max-width: 1365px) {
+  .aqua__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .aqua__item:nth-child(odd) { padding-left: 0; }
+  .aqua__item:nth-child(even) { border-right: 0; }
+}
+@media (min-width: 1141px) and (max-width: 1365px), (max-width: 900px) {
+  .onde__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .onde__item { padding: 20px 24px; border-bottom: 1px solid #e3ddce; }
+  .onde__item:nth-child(odd) { padding-left: 0; }
+  .onde__item:nth-child(even) { border-right: 0; }
+  .onde__item:nth-last-child(-n+2) { border-bottom: 0; }
+}
+
+@media (max-width: 1140px) {
+  .rodape__locais { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 14px 48px; }
+  .rodape__locais li { border-right: 0; padding: 0; }
+}
+
 /* ---------- Telas pequenas ---------- */
 @media (max-width: 720px) {
-  html { scroll-padding-top: 86px; }
-  .header__inner { padding: 14px 16px; }
-  .marca img { height: 56px; }
-  .marca__nome { font-size: 16px; letter-spacing: 0.12em; }
-  .nav { padding: 4px 16px 12px; }
-  .hero__texto { padding: 48px 16px; flex-basis: 100%; }
-  .hero__foto { flex-basis: 100%; min-height: 460px; }
-  .hero__frase { right: 16px; top: 24px; }
-  .hero__frase p { font-size: 30px; }
-  .botao-pilula { min-width: 0; max-width: none; }
-  .sobre__wrap { padding: 24px 16px; }
-  .sobre__card { padding: 28px 20px; }
-  .onde__texto { padding: 48px 16px; flex-basis: 100%; }
-  .onde__item, .onde__item:first-child { padding: 16px 0; border-right: 0; border-bottom: 1px solid #e3ddce; }
-  .onde__item:last-child { border-bottom: 0; }
-  .onde__foto { flex-basis: 100%; min-height: 380px; }
-  .onde__arco { left: 32px; }
-  .aqua__inner { padding: 48px 16px; }
+  html { scroll-padding-top: 76px; }
+  .header__inner { padding: 12px 24px; }
+  .marca { gap: 12px; }
+  .marca img { height: 48px; }
+  .marca__nome { font-size: 15px; letter-spacing: 0.1em; }
+  .marca__cargo { font-size: 11px; letter-spacing: 0.2em; }
+  .nav { padding: 4px 24px 12px; font-size: 15px; }
+  .titulo-secao { font-size: 18px; }
+
+  /* Hero: botões de agendamento visíveis já na primeira tela */
+  .hero__texto { padding: 32px 24px 8px; gap: 14px; flex-basis: 100%; }
+  .hero__kicker { font-size: 12px; }
+  .hero h1 { font-size: 34px; }
+  .hero__desc { font-size: 15px; line-height: 1.6; }
+  .hero__tags { font-size: 12px; }
+  .hero__ctas { margin-top: 6px; gap: 10px; }
+  .botao-pilula { min-width: 0; max-width: none; padding: 10px 18px; gap: 14px; }
+  .botao-pilula svg:first-child { width: 26px; height: 26px; }
+  .botao-pilula__titulo { font-size: 14px; }
+  .botao-pilula__sub { font-size: 11px; }
+  /* Foto centralizada no halo, sem vão acima; o card "Sobre mim" sobe por cima da base dela */
+  .hero__foto { flex-basis: 100%; min-height: 360px; }
+  .hero__halo { left: 12%; right: 12%; top: 10%; }
+  .hero__imagem { top: 0; left: 0; width: 100%; }
+  .hero__frase { right: 20px; top: 28px; }
+  .hero__frase p { font-size: 22px; }
+  .hero__frase div { width: 84px; margin-left: 34px; height: 2px; }
+
+  .sobre__wrap { padding: 0 24px 24px; margin-top: -64px; }
+  .sobre__card { padding: 28px 22px; gap: 24px; border-radius: 22px; }
+  .sobre__foto { flex-basis: 160px; }
+  .sobre__moldura, .sobre__retrato { border-radius: 90px 90px 10px 10px; }
+  .sobre__pata { width: 28px; height: 28px; right: -18px; }
+  .sobre__texto > p { font-size: 15px; }
+  .sobre__assinatura span:first-child { font-size: 22px; }
+
+  .onde__texto { padding: 40px 24px 24px; flex-basis: 100%; gap: 10px; }
+  .onde__sub { font-size: 17px; }
+  .onde__item > svg { width: 32px; height: 32px; }
+  .onde__item h3 { font-size: 14px; }
+  /* Foto em arco centralizado, como o retrato do "Sobre mim", com as patas encostadas */
+  .onde__foto { flex-basis: 100%; min-height: 0; height: 300px; max-width: 300px; margin: 0 auto; }
+  .onde__arco { left: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
+  .onde__pata1 { width: 48px; height: 48px; top: 8px; left: -20px; }
+  .onde__pata2 { width: 32px; height: 32px; top: 62px; left: -30px; }
+
+  /* Aquarismo: tópicos em lista, ícone ao lado do texto */
+  .aqua__inner { padding: 40px 24px; gap: 28px; }
+  .aqua__texto { gap: 16px; }
   .aqua__texto, .aqua__fotos { flex-basis: 100%; }
-  .aqua__item, .aqua__item:first-child { padding: 0 12px 0 0; border-right: 0; }
-  .aqua__fotos { height: 300px; }
-  .aval__inner { padding: 48px 16px; }
+  .aqua__titulo h2 { font-size: 15px; }
+  .aqua__titulo svg { width: 36px; height: 24px; }
+  .aqua__frase { font-size: 26px; }
+  .aqua__desc { font-size: 15px; }
+  .aqua__grade { grid-template-columns: 1fr; gap: 0; margin-top: 0; }
+  .aqua__item, .aqua__item:first-child, .aqua__item:last-child {
+    flex-direction: row; align-items: center; gap: 14px; padding: 11px 0;
+    border-right: 0; border-bottom: 1px solid var(--linha-escura);
+  }
+  .aqua__item:last-child { border-bottom: 0; }
+  .aqua__item svg { flex: none; width: 26px; height: 26px; }
+  .aqua__item p { font-size: 14px; }
+  .aqua__fotos { height: 220px; gap: 10px; }
+  .aqua__fotos > div:first-child, .aqua__fotos > div:last-child { flex: 1 1 0; }
+
+  .aval__inner { padding: 40px 24px; gap: 16px; }
   .aval__intro, .aval__lista { flex-basis: 100%; }
-  .rodape__inner { padding: 40px 16px 28px; }
-  .rodape__marca { border-right: 0; padding-right: 0; }
-  .rodape__locais li { border-right: 0; padding: 0 14px; }
+  .aval__intro { gap: 12px; }
+  .aval__estrelas { height: 30px; }
+  .aval__estrelas svg { width: auto; height: 70%; }
+  .aval__estrelas svg:nth-child(3) { height: 100%; }
+  .aval__estrelas svg:nth-child(2), .aval__estrelas svg:nth-child(4) { height: 85%; }
+  .aval__selo h2 { font-size: 22px; }
+  .aval__frase { font-size: 17px; }
+  .aval__botao { padding: 11px 22px; font-size: 14px; }
+
+  /* Rodapé: espaço no fim para o botão flutuante não cobrir o conteúdo */
+  .rodape__inner { padding: 40px 24px 96px; gap: 24px; }
+  .rodape__topo { gap: 20px; }
+  .rodape__marca { border-right: 0; padding-right: 0; gap: 12px; }
+  .rodape__marca img { height: 52px; }
+  .rodape__frase { font-size: 19px; }
+  .botao-redondo { width: 46px; height: 46px; }
+  .rodape__locais { grid-template-columns: 1fr; justify-content: start; gap: 12px; }
+
+  .zap-flutuante { right: 16px; bottom: 16px; width: 52px; height: 52px; }
+  .zap-flutuante svg { width: 26px; height: 26px; }
+}
+
+/* "Onde atendo" em lista: ícone à esquerda, título e texto à direita */
+@media (max-width: 600px) {
+  .onde__grade { grid-template-columns: 1fr; margin-top: 12px; }
+  .onde__grade .onde__item {
+    display: grid; grid-template-columns: 32px 1fr; align-items: start; gap: 2px 16px;
+    padding: 14px 0; border-right: 0; border-bottom: 1px solid #e3ddce;
+  }
+  .onde__grade .onde__item:last-child { border-bottom: 0; }
+  .onde__item > svg { grid-row: span 2; }
+  .onde__item h3 { white-space: normal; }
 }
 
 @media (max-width: 420px) {
-  .marca { gap: 12px; }
-  .marca img { height: 48px; }
-  .marca__nome { font-size: 14px; letter-spacing: 0.08em; }
-  .marca__cargo { font-size: 10px; letter-spacing: 0.22em; }
+  .marca img { height: 44px; }
+  .marca__nome { font-size: 13.5px; letter-spacing: 0.07em; }
+  .marca__cargo { font-size: 10.5px; letter-spacing: 0.16em; }
+}
+
+@media (max-width: 360px) {
+  .marca__nome { font-size: 12.5px; letter-spacing: 0.06em; }
+  .marca__cargo { font-size: 10px; letter-spacing: 0.14em; }
+  .hero h1 { font-size: 30px; }
+  .botao-pilula { padding: 10px 14px; gap: 10px; }
+  .botao-pilula__titulo { font-size: 13px; letter-spacing: 0.04em; }
 }

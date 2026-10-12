@@ -81,9 +81,9 @@ export function Estrela({ size, style }: { size: number; style?: React.CSSProper
   );
 }
 
-export function Seta() {
+export function Seta({ cor = "#ffffff" }: { cor?: string }) {
   return (
-    <Traco size={18} cor="#ffffff" espessura={2.25}>
+    <Traco size={18} cor={cor} espessura={2.25}>
       <path d="m9 18 6-6-6-6" />
     </Traco>
   );
@@ -109,24 +109,6 @@ export function Peixe({ width = 32, height = 32, stroke = "#ffffff" }: P) {
   );
 }
 
-export function Pessoa() {
-  return (
-    <Traco cor="#b8913f" espessura={1.8}>
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </Traco>
-  );
-}
-
-export function PinoMapa() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" fill="#c9a04e" />
-      <circle cx="12" cy="10" r="3" fill="#f8f6f0" />
-    </svg>
-  );
-}
-
 export function Casa() {
   return (
     <Traco size={42} cor="#14573a" espessura={1.4}>
@@ -136,28 +118,17 @@ export function Casa() {
   );
 }
 
-export function Clinica() {
+export function Escudo() {
   return (
-    <Traco size={42} cor="#14573a" espessura={1.4}>
-      {ESTETOSCOPIO}
+    <Traco size={26} cor="#14573a" espessura={1.8}>
+      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z" />
+      <path d="m9 12 2 2 4-4" />
     </Traco>
   );
 }
 
-export function Hospital() {
-  return (
-    <Traco size={42} cor="#14573a" espessura={1.4}>
-      {HOSPITAL}
-    </Traco>
-  );
-}
-
-export function Monitor() {
-  return (
-    <Traco size={42} cor="#14573a" espessura={1.4}>
-      {MONITOR}
-    </Traco>
-  );
+export function PinoDourado() {
+  return <Traco size={24} cor="#d4ad5c" espessura={1.8}>{PINO}</Traco>;
 }
 
 export function Folha() {

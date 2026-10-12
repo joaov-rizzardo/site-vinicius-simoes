@@ -2,7 +2,10 @@ import Image from "next/image";
 import * as motion from "motion/react-client";
 import { site } from "../config";
 import { entrada } from "../lib/animacoes";
-import { Calendario, CasaLinha, Peixe, Pino, Seta } from "./icons";
+import { Calendario, Peixe, Seta } from "./icons";
+
+// Frase manuscrita sobre o retrato, revelada linha a linha
+const linhasFrase = ["Cuidado", "  também é", "    prevenção."];
 
 export default function Hero() {
   return (
@@ -11,60 +14,49 @@ export default function Hero() {
         <div className="hero__texto">
           <div className="hero__conteudo">
             <motion.p className="hero__kicker" {...entrada(0.1)}>
-              {/* No desktop o registro fica aqui; no celular ele vai para a assinatura sobre a foto */}
-              <span className="hero__kicker-longo">
-                {site.cargo} · {site.crmv}
+              <span>
+                CUIDADO, SAÚDE E BEM-ESTAR <br className="hero__quebra" />
+                PARA SEU PET
               </span>
-              <span className="hero__kicker-curto">CÃES E GATOS · AQUARISMO</span>
             </motion.p>
             <motion.h1 {...entrada(0.22)}>
-              Medicina veterinária para cães e gatos, <em>feita com critério.</em>
+              Seu melhor amigo
+              <br />
+              <em>em boas mãos.</em>
             </motion.h1>
             <motion.p className="hero__desc" {...entrada(0.38)}>
               <span className="hero__desc-longa">
-                Atendimento residencial em todo o Vale do Paraíba e presencial em clínicas de Cachoeira Paulista e
-                Cruzeiro. Também ofereço consultoria especializada em aquarismo, de forma virtual.
+                Sou médico veterinário, especializado no atendimento de cães e gatos, com atendimento residencial em
+                todo o Vale do Paraíba e também presencial em clínicas de Cachoeira Paulista e Cruzeiro. Além disso,
+                ofereço consultoria especializada em aquarismo, de forma virtual.
               </span>
               <span className="hero__desc-curta">
                 Atendimento de cães e gatos em domicílio no Vale do Paraíba e em clínicas de Cachoeira Paulista e
                 Cruzeiro. Consultoria de aquarismo online.
               </span>
             </motion.p>
+            <motion.p className="hero__tags" {...entrada(0.44)}>
+              CÃES &nbsp;•&nbsp; GATOS &nbsp;•&nbsp; AQUARISMO
+            </motion.p>
             <motion.div id="servicos" className="hero__ctas" {...entrada(0.5)}>
               <a className="cta botao-hero botao-hero--verde" href="#contato">
                 <Calendario />
-                Agendar consulta
+                <span className="botao-hero__textos">
+                  Marcar consulta
+                  <small>Cães e gatos</small>
+                </span>
                 <Seta />
               </a>
               <a className="cta botao-hero botao-hero--contorno" href="#aquarismo">
                 <Peixe width={20} height={20} stroke="currentColor" />
-                Consultoria de aquarismo
+                <span className="botao-hero__textos">
+                  Marcar consultoria
+                  <small>De aquarismo</small>
+                </span>
+                <Seta />
               </a>
             </motion.div>
           </div>
-          <motion.ul className="hero__servicos" {...entrada(0.66)}>
-            <li>
-              <CasaLinha />
-              <span>
-                <strong>Em domicílio</strong>
-                <small>Vale do Paraíba</small>
-              </span>
-            </li>
-            <li>
-              <Pino />
-              <span>
-                <strong>Em clínica</strong>
-                <small>Cachoeira Paulista e Cruzeiro</small>
-              </span>
-            </li>
-            <li>
-              <Peixe width={22} height={22} stroke="#d4ad5c" />
-              <span>
-                <strong>Aquarismo</strong>
-                <small>Consultoria online</small>
-              </span>
-            </li>
-          </motion.ul>
         </div>
 
         <div className="hero__retrato">
@@ -89,14 +81,33 @@ export default function Hero() {
               alt="Vinicius Vicente Simões, médico veterinário, de braços cruzados com estetoscópio"
               fill
               priority
-              sizes="(max-width: 720px) 100vw, 620px"
+              sizes="(max-width: 720px) 100vw, 540px"
             />
           </motion.div>
+          <div className="hero__frase" aria-hidden="true">
+            <p>
+              {linhasFrase.map((l, i) => (
+                <motion.span
+                  key={l}
+                  initial={{ clipPath: "inset(-30% 100% -30% -10%)" }}
+                  animate={{ clipPath: "inset(-30% -10% -30% -10%)" }}
+                  transition={{ duration: 0.6, delay: 1 + i * 0.5, ease: "easeOut" }}
+                >
+                  {l}
+                </motion.span>
+              ))}
+            </p>
+            <motion.div
+              style={{ originX: 0 }}
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ duration: 0.5, delay: 2.6, ease: [0.6, 0, 0.2, 1] }}
+            />
+          </div>
           <motion.p className="hero__assinatura" {...entrada(0.9, 12)}>
             <strong>Vinicius Vicente Simões</strong>
             <span>
-              {site.cargo}
-              <span className="hero__crmv"> · {site.crmv}</span>
+              {site.cargo} · {site.crmv}
             </span>
           </motion.p>
         </div>

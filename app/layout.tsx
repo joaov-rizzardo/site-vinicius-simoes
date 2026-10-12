@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Lato, Libre_Caslon_Text, Montserrat, Satisfy } from "next/font/google";
+import Movimento from "./components/Movimento";
 import "./globals.css";
 
 const lato = Lato({ subsets: ["latin"], weight: ["400", "700", "900"], variable: "--font-lato" });
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="pt-BR"
       className={`${lato.variable} ${caslon.variable} ${montserrat.variable} ${satisfy.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Movimento>{children}</Movimento>
+      </body>
     </html>
   );
 }

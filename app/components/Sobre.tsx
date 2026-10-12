@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { site } from "../config";
 import { Pata, Pessoa } from "./icons";
+import * as motion from "motion/react-client";
+import { revelar } from "../lib/animacoes";
 
 export default function Sobre() {
   return (
     <section id="sobre" className="sobre">
       <div className="sobre__wrap">
-        <div className="sobre__card">
-          <div className="sobre__foto">
+        <motion.div className="sobre__card" {...revelar("zoom")}>
+          <motion.div className="sobre__foto" {...revelar("esquerda", 2)}>
             <div className="sobre__moldura" />
             <div className="sobre__retrato">
               <Image
@@ -19,8 +21,8 @@ export default function Sobre() {
               />
             </div>
             <Pata className="sobre__pata" />
-          </div>
-          <div className="sobre__texto">
+          </motion.div>
+          <motion.div className="sobre__texto" {...revelar("direita", 3)}>
             <div className="sobre__titulo">
               <Pessoa />
               <h2 className="titulo-secao">SOBRE MIM</h2>
@@ -34,8 +36,8 @@ export default function Sobre() {
               <span>Vinicius V. Simões</span>
               <span className="selo">{site.crmv}</span>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

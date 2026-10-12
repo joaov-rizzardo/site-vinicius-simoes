@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { site } from "../config";
 import { Instagram, RodapeClinica, RodapeHospital, RodapeMonitor, RodapePino, WhatsApp } from "./icons";
+import * as motion from "motion/react-client";
+import { revelar } from "../lib/animacoes";
 
 export default function Footer() {
   return (
     <footer id="contato" className="rodape">
       <div className="rodape__inner">
-        <div className="rodape__topo">
+        <motion.div className="rodape__topo" {...revelar("cima")}>
           <div className="rodape__marca">
             <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={317} height={378} />
             <span className="marca__textos">
@@ -30,8 +32,8 @@ export default function Footer() {
               </a>
             </div>
           </div>
-        </div>
-        <ul className="rodape__locais">
+        </motion.div>
+        <motion.ul className="rodape__locais" {...revelar("cima", 2)}>
           <li>
             <RodapePino />
             Vale do Paraíba
@@ -48,7 +50,7 @@ export default function Footer() {
             <RodapeMonitor />
             Consultoria de Aquarismo (virtual)
           </li>
-        </ul>
+        </motion.ul>
       </div>
     </footer>
   );

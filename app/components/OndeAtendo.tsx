@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Casa, Clinica, Hospital, Monitor, Pata, PinoMapa } from "./icons";
+import * as motion from "motion/react-client";
+import { flutuar, revelar } from "../lib/animacoes";
 
 const locais = [
   { icone: <Casa />, titulo: "ATENDIMENTO\nRESIDENCIAL", texto: "Em todo o Vale do Paraíba. Levo o cuidado até você." },
@@ -18,22 +20,28 @@ export default function OndeAtendo() {
     <section id="onde-atendo" className="onde">
       <div className="onde__inner">
         <div className="onde__texto">
-          <div className="onde__titulo">
+          <motion.div className="onde__titulo" {...revelar("cima")}>
             <PinoMapa />
             <h2 className="titulo-secao">ONDE ATENDO</h2>
-          </div>
-          <p className="onde__sub">Atendimento completo, com flexibilidade e comodidade.</p>
+          </motion.div>
+          <motion.p className="onde__sub" {...revelar("cima", 1)}>
+            Atendimento completo, com flexibilidade e comodidade.
+          </motion.p>
           <div className="onde__grade">
-            {locais.map((l) => (
-              <div key={l.titulo} className={l.destaque ? "onde__item onde__item--destaque" : "onde__item"}>
+            {locais.map((l, i) => (
+              <motion.div
+                key={l.titulo}
+                className={l.destaque ? "onde__item onde__item--destaque" : "onde__item"}
+                {...revelar("cima", i + 2)}
+              >
                 {l.icone}
                 <h3>{l.titulo}</h3>
                 <p>{l.texto}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-        <div className="onde__foto">
+        <motion.div className="onde__foto" {...revelar("direita", 1)}>
           <div className="onde__arco">
             <div className="onde__arco-img">
               <Image
@@ -44,9 +52,13 @@ export default function OndeAtendo() {
               />
             </div>
           </div>
-          <Pata width={78} height={78} className="onde__pata1" />
-          <Pata width={56} height={56} className="onde__pata2" />
-        </div>
+          <motion.div className="onde__pata1" {...flutuar(6, 2.2)}>
+            <Pata width={78} height={78} />
+          </motion.div>
+          <motion.div className="onde__pata2" style={{ rotate: 18 }} {...flutuar(6, 2.8, 1)}>
+            <Pata width={56} height={56} />
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

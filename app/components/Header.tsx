@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { site } from "../config";
 
 const links = [
@@ -16,6 +16,18 @@ const links = [
 export default function Header() {
   const [ativo, setAtivo] = useState("inicio");
   const [aberto, setAberto] = useState(false);
+  const header = useRef<HTMLElement>(null);
+
+  // Publica a altura do cabeçalho em --barra, usada pelas seções de tela cheia e pela rolagem até as âncoras
+  useEffect(() => {
+    const el = header.current;
+    if (!el) return;
+    const medir = () => document.documentElement.style.setProperty("--barra", `${el.offsetHeight}px`);
+    medir();
+    const obs = new ResizeObserver(medir);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   // Destaca no menu a seção visível na tela
   useEffect(() => {
@@ -49,7 +61,7 @@ export default function Header() {
   }, [aberto]);
 
   return (
-    <header className="header">
+    <header ref={header} className="header">
       <div className="header__inner">
         <a href="#inicio" className="marca">
           <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={317} height={378} priority />

@@ -49,7 +49,7 @@ export default function AvaliarModal() {
                 ))}
               </span>
               <h2 id="modal-titulo">Obrigado pela avaliação!</h2>
-              <p>Sua opinião já aparece entre os depoimentos.</p>
+              <p>Ela será publicada no site assim que for aprovada.</p>
               <button type="button" className="modal__enviar" onClick={fechar}>
                 Fechar
               </button>
@@ -141,7 +141,7 @@ function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onCon
           Cancelar
         </button>
         <button type="submit" className="modal__enviar" disabled={enviando || nota === 0}>
-          {enviando ? "Publicando…" : "Publicar avaliação"}
+          {enviando ? "Enviando…" : "Enviar avaliação"}
         </button>
       </div>
     </form>

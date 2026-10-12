@@ -13,7 +13,7 @@
   --texto-3: #4e5953;
   --linha-escura: #2a3a32;
   /* Altura do cabeçalho fixo; o Header.tsx atualiza com o valor medido */
-  --barra: 99px;
+  --barra: 73px;
 
   --font-body: var(--font-lato), system-ui, sans-serif;
   --font-serif: var(--font-caslon), Georgia, serif;
@@ -49,19 +49,19 @@ h1, h2, h3, p { margin: 0; }
 /* ---------- Header ---------- */
 .header { background: var(--creme); border-bottom: 1px solid #ebe6da; position: sticky; top: 0; z-index: 40; }
 .header__inner {
-  max-width: 1360px; margin: 0 auto; padding: 14px 40px;
+  max-width: 1360px; margin: 0 auto; padding: 9px 40px;
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px;
 }
-.marca { display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+.marca { display: flex; align-items: center; gap: 13px; text-decoration: none; color: inherit; }
 .marca:hover { color: inherit; }
-.marca img { height: 70px; width: auto; display: block; }
-.marca__textos { display: flex; flex-direction: column; gap: 6px; }
-.marca__nome { font-size: 20px; letter-spacing: 0.18em; color: var(--texto); }
-.marca__cargo { font-size: 12px; letter-spacing: 0.28em; color: var(--texto-2); }
+.marca img { height: 54px; width: auto; display: block; }
+.marca__textos { display: flex; flex-direction: column; gap: 5px; }
+.marca__nome { font-size: 17px; letter-spacing: 0.16em; color: var(--texto); }
+.marca__cargo { font-size: 11px; letter-spacing: 0.26em; color: var(--texto-2); }
 
 .nav {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px 36px;
-  font-family: var(--font-nav); font-size: 16px; font-weight: 500; letter-spacing: 0.01em;
+  font-family: var(--font-nav); font-size: 15px; font-weight: 500; letter-spacing: 0.01em;
 }
 .nav a { color: var(--texto); text-decoration: none; padding: 10px 0; border-bottom: 3px solid transparent; }
 .nav a:hover { color: var(--verde); }
@@ -84,7 +84,7 @@ h1, h2, h3, p { margin: 0; }
 .menu-botao[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 1280px) {
-  .nav { gap: 8px 24px; font-size: 15px; }
+  .nav { gap: 8px 24px; font-size: 14px; }
 }
 
 /* Menu hambúrguer */
@@ -323,11 +323,20 @@ h1, h2, h3, p { margin: 0; }
   max-width: 1440px; margin: 0 auto; padding: 72px 64px;
   display: flex; flex-wrap: wrap; gap: 40px; align-items: center;
 }
-.aval__intro { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
-.aval__selo { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; align-self: flex-start; }
-.aval__estrelas { display: inline-flex; align-items: flex-end; gap: 4px; height: 40px; }
-.aval__selo h2 { font-size: 28px; letter-spacing: 0.06em; font-weight: 700; }
-.aval__frase { font-size: 22px; line-height: 1.45; color: var(--verde); max-width: 380px; }
+/* isolation: a aspa decorativa (z-index -1) fica atrás do conteúdo sem sair do bloco */
+.aval__intro { flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px; position: relative; isolation: isolate; }
+/* Aspa grande ao fundo, marca visual de depoimento */
+.aval__aspas {
+  position: absolute; top: -56px; left: -18px; z-index: -1; pointer-events: none; user-select: none;
+  font-family: var(--font-serif); font-size: 220px; line-height: 1; color: var(--dourado); opacity: .13;
+}
+.aval__rotulo { display: flex; align-items: center; gap: 10px; }
+.aval__rotulo span { font-size: 15px; letter-spacing: 0.22em; font-weight: 700; color: var(--dourado-escuro); }
+.aval__titulo {
+  font-family: var(--font-serif); font-weight: 400; font-size: clamp(32px, 3vw, 42px); line-height: 1.12; color: var(--texto);
+}
+.aval__titulo span { color: var(--verde); }
+.aval__frase { font-size: 16px; line-height: 1.6; color: var(--texto-3); max-width: 360px; }
 .aval__lista { flex: 999 1 720px; min-width: 0; }
 
 /* Carrossel: 3 cards por página, 2 em telas médias, 1 no celular */
@@ -460,6 +469,12 @@ h1, h2, h3, p { margin: 0; }
 .rodape__marca { display: flex; align-items: center; gap: 16px; padding-right: 28px; border-right: 1px solid var(--linha-escura); }
 .rodape__marca img { height: 72px; width: auto; display: block; }
 .rodape__marca .marca__nome { color: #fff; }
+/* O rodapé mantém a marca no tamanho maior; o cabeçalho usa a versão compacta */
+@media (min-width: 721px) {
+  .rodape__marca .marca__textos { gap: 6px; }
+  .rodape__marca .marca__nome { font-size: 20px; letter-spacing: 0.18em; }
+  .rodape__marca .marca__cargo { font-size: 12px; letter-spacing: 0.28em; }
+}
 .rodape__marca .marca__cargo { color: #c8d1cc; }
 .rodape__frase { flex: 1 1 220px; font-family: var(--font-serif); font-size: 22px; line-height: 1.3; }
 .rodape__frase span { color: var(--dourado-claro); }
@@ -648,12 +663,10 @@ h1, h2, h3, p { margin: 0; }
   .aval__inner { padding: 40px 24px; gap: 16px; }
   .aval__intro, .aval__lista { flex-basis: 100%; }
   .aval__intro { gap: 12px; }
-  .aval__estrelas { height: 30px; }
-  .aval__estrelas svg { width: auto; height: 70%; }
-  .aval__estrelas svg:nth-child(3) { height: 100%; }
-  .aval__estrelas svg:nth-child(2), .aval__estrelas svg:nth-child(4) { height: 85%; }
-  .aval__selo h2 { font-size: 22px; }
-  .aval__frase { font-size: 17px; }
+  .aval__aspas { font-size: 160px; top: -40px; left: -10px; }
+  .aval__rotulo span { font-size: 13px; }
+  .aval__titulo { font-size: 30px; }
+  .aval__frase { font-size: 15px; }
   .aval__botao { padding: 11px 22px; font-size: 14px; }
 
   /* Rodapé: espaço no fim para o botão flutuante não cobrir o conteúdo */

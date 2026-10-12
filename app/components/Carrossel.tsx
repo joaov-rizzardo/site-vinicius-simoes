@@ -9,17 +9,27 @@ export default function Carrossel({ children, rotulo }: { children: React.ReactN
   const itens = Children.toArray(children);
   const [pagina, setPagina] = useState(0);
   const [paginas, setPaginas] = useState(1);
+  // Distância de um card ao próximo (largura + vão) e quantos cabem por página.
+  // Medir pelos cards evita errar a conta por causa do vão: com a largura visível
+  // como "página", a última posição caía perto do fim e o scroll-snap puxava de volta.
+  const medida = useRef({ passo: 1, porPagina: 1 });
 
   const medir = useCallback(() => {
     const el = trilho.current;
-    if (!el) return;
-    // Qualquer sobra além da área visível conta como uma página a mais (4 cards com 3 por página = 2 páginas)
-    const sobra = el.scrollWidth - el.clientWidth;
-    const total = 1 + Math.max(0, Math.ceil((sobra - 4) / el.clientWidth));
+    const cards = el ? (Array.from(el.children) as HTMLElement[]) : [];
+    if (!el || cards.length === 0) return;
+    const passo = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : cards[0].offsetWidth;
+    const estilo = getComputedStyle(el);
+    const util = el.clientWidth - parseFloat(estilo.paddingLeft) - parseFloat(estilo.paddingRight);
+    const vao = passo - cards[0].offsetWidth;
+    const porPagina = Math.max(1, Math.round((util + vao) / passo));
+    medida.current = { passo, porPagina };
+
+    // A última página pode ser parcial (4 cards com 3 por página = 2 páginas)
+    const total = Math.ceil(cards.length / porPagina);
     setPaginas(total);
-    // No fim do trilho a última página pode ser parcial: arredonda para ela
     const fim = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-    setPagina(fim ? total - 1 : Math.round(el.scrollLeft / el.clientWidth));
+    setPagina(fim ? total - 1 : Math.min(total - 1, Math.round(el.scrollLeft / (passo * porPagina))));
   }, []);
 
   // Avaliação nova entra no início; o scroll-snap mantém o card antigo à vista e a esconderia,
@@ -45,7 +55,9 @@ export default function Carrossel({ children, rotulo }: { children: React.ReactN
 
   const irPara = (p: number) => {
     const el = trilho.current;
-    if (el) el.scrollTo({ left: p * el.clientWidth, behavior: "smooth" });
+    const { passo, porPagina } = medida.current;
+    // Leva ao primeiro card da página; no fim o navegador limita ao máximo da rolagem
+    if (el) el.scrollTo({ left: p * porPagina * passo, behavior: "smooth" });
   };
 
   return (

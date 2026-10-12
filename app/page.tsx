@@ -28,7 +28,7 @@ export default function Home() {
         aria-label="Falar no WhatsApp"
         title="Falar no WhatsApp"
       >
-        <WhatsApp size={30} />
+        <WhatsApp size={28} />
       </a>
     </>
   );

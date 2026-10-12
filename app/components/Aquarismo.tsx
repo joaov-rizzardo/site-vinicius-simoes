@@ -12,6 +12,9 @@ const topicos = [
 export default function Aquarismo() {
   return (
     <section id="aquarismo" className="aqua">
+      <div className="aqua__fundo" aria-hidden="true">
+        <Image src="/img/aquario-fundo.jpg" alt="" fill sizes="(max-width: 720px) 100vw, 70vw" />
+      </div>
       <Bolhas />
       <div className="aqua__inner">
         <div className="aqua__texto">
@@ -36,24 +39,6 @@ export default function Aquarismo() {
                 <p>{t.texto}</p>
               </div>
             ))}
-          </div>
-        </div>
-        <div className="aqua__fotos">
-          <div>
-            <Image
-              src="/img/aquario-peixe-dourado.jpg"
-              alt="Peixe dourado nadando entre plantas aquáticas"
-              fill
-              sizes="(max-width: 720px) 55vw, 25vw"
-            />
-          </div>
-          <div>
-            <Image
-              src="/img/aquario-peixe-palhaco.jpg"
-              alt="Peixe-palhaço entre anêmonas"
-              fill
-              sizes="(max-width: 720px) 40vw, 18vw"
-            />
           </div>
         </div>
       </div>

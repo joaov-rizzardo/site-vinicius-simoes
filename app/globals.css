@@ -215,11 +215,17 @@ h1, h2, h3, p { margin: 0; }
 .aqua__item:first-child { padding-left: 0; }
 .aqua__item:last-child { border-right: 0; padding-right: 0; }
 .aqua__item p { font-size: 14px; line-height: 1.5; color: #e7ece9; }
-.aqua__fotos { flex: 1 1 440px; min-width: 0; display: flex; gap: 14px; height: 420px; }
-.aqua__fotos > div { position: relative; min-width: 0; height: 100%; overflow: hidden; border: 1px solid var(--linha-escura); }
-.aqua__fotos > div:first-child { flex: 3 1 0; border-radius: 20px 6px 6px 20px; }
-.aqua__fotos > div:last-child { flex: 2 1 0; border-radius: 6px 20px 20px 6px; }
-.aqua__fotos img { object-fit: cover; }
+/* Foto do aquário integrada ao fundo: ocupa a direita e se dissolve no tom da seção */
+.aqua__fundo { position: absolute; inset: 0 0 0 38%; z-index: 0; pointer-events: none; }
+.aqua__fundo img { object-fit: cover; object-position: 60% center; }
+.aqua__fundo::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, var(--noite) 0%, rgba(12,23,18,.82) 18%, rgba(12,23,18,.35) 45%, rgba(12,23,18,.1) 75%, rgba(12,23,18,.25) 100%),
+    linear-gradient(180deg, var(--noite) 0%, rgba(12,23,18,0) 16%, rgba(12,23,18,0) 80%, var(--noite) 100%);
+}
+.aqua__inner { min-height: 560px; }
+.aqua__texto { flex: 0 1 640px; }
 
 .bolha {
   position: absolute; bottom: -30px; opacity: 0; will-change: transform;
@@ -511,7 +517,7 @@ h1, h2, h3, p { margin: 0; }
   /* Aquarismo: tópicos em lista, ícone ao lado do texto */
   .aqua__inner { padding: 40px 24px; gap: 28px; }
   .aqua__texto { gap: 16px; }
-  .aqua__texto, .aqua__fotos { flex-basis: 100%; }
+  .aqua__texto { flex-basis: 100%; }
   .aqua__titulo h2 { font-size: 15px; }
   .aqua__titulo svg { width: 36px; height: 24px; }
   .aqua__frase { font-size: 26px; }
@@ -524,8 +530,12 @@ h1, h2, h3, p { margin: 0; }
   .aqua__item:last-child { border-bottom: 0; }
   .aqua__item svg { flex: none; width: 26px; height: 26px; }
   .aqua__item p { font-size: 14px; }
-  .aqua__fotos { height: 220px; gap: 10px; }
-  .aqua__fotos > div:first-child, .aqua__fotos > div:last-child { flex: 1 1 0; }
+  /* No celular a foto fica no topo, atrás do título, e some em direção ao texto */
+  .aqua__inner { min-height: 0; padding-top: 200px; }
+  .aqua__fundo { inset: 0 0 auto 0; height: 340px; }
+  .aqua__fundo::after {
+    background: linear-gradient(180deg, rgba(12,23,18,.2) 0%, rgba(12,23,18,.45) 50%, var(--noite) 100%);
+  }
 
   .aval__inner { padding: 40px 24px; gap: 16px; }
   .aval__intro, .aval__lista { flex-basis: 100%; }

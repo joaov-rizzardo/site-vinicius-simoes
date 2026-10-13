@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Lato, Libre_Caslon_Text, Montserrat, Satisfy } from "next/font/google";
 import Movimento from "./components/Movimento";
 import "./globals.css";
@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   title: "Vinicius Vicente Simões – Médico Veterinário | Cães, Gatos e Aquarismo",
   description:
     "Médico veterinário especializado em cães e gatos, com atendimento residencial no Vale do Paraíba e região, clínicas em Cachoeira Paulista e Cruzeiro, e consultoria virtual de aquarismo.",
+};
+
+export const viewport: Viewport = {
+  colorScheme: "only light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

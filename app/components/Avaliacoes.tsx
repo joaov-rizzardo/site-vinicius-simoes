@@ -10,7 +10,7 @@ import { revelar } from "../lib/animacoes";
 export default async function Avaliacoes() {
   // Lê a lista a cada requisição (dados em memória mudam em tempo de execução)
   await connection();
-  const avaliacoes = listarAvaliacoes();
+  const avaliacoes = listarAvaliacoes("aprovada");
 
   return (
     <section id="avaliacoes" className="aval">

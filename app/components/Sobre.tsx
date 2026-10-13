@@ -28,10 +28,11 @@ export default function Sobre() {
               <h2 className="titulo-secao">SOBRE MIM</h2>
             </div>
             <p>
-              Eu sou o Vinicius, e escolhi a medicina veterinária por amor aos animais. Há 5 anos, levo esse cuidado a
+              Eu sou o Vinicius, e escolhi a medicina veterinária por amor aos animais. Sou pós-graduado em Clínica
+              Médica e Cirúrgica de Pequenos Animais e, há 5 anos, levo esse cuidado a
               cada atendimento: ouvir com calma, explicar cada etapa do tratamento e não ter pressa. Para muitos
               animais, ir à clínica é motivo de estresse, então pensando no bem-estar deles, atendo principalmente em
-              domicílio, por todo o Vale do Paraíba. Mas quando o caso pede mais estrutura, atendo também em clínicas de
+              domicílio, por todo o Vale do Paraíba e região. Mas quando o caso pede mais estrutura, atendo também em clínicas de
               Cachoeira Paulista e Cruzeiro.
             </p>
             <p>
@@ -39,7 +40,7 @@ export default function Sobre() {
               virtual, da montagem à manutenção do dia a dia, para manter a água, os peixes e as plantas em equilíbrio.
             </p>
             <div className="sobre__assinatura">
-              <span>Vinicius V. Simões</span>
+              <span>Vinicius Vicente Simões</span>
               <span className="selo">{site.crmv}</span>
             </div>
           </motion.div>

@@ -3,6 +3,7 @@ import { site } from "../config";
 import { Instagram, WhatsApp } from "./icons";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
+import VexLogo from "./VexLogo";
 
 export default function Footer() {
   return (
@@ -33,6 +34,10 @@ export default function Footer() {
             </div>
           </div>
         </motion.div>
+        <div className="rodape__credito">
+          <span>Desenvolvido por</span>
+          <VexLogo />
+        </div>
       </div>
     </footer>
   );

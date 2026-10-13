@@ -65,6 +65,7 @@ export default function AvaliarModal() {
 function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onConcluido: () => void }) {
   const [estado, acao, enviando] = useActionState<EstadoAvaliacao, FormData>(enviarAvaliacao, { ok: false });
   const [notas, setNotas] = useState<Partial<Notas>>({});
+  const [anonimo, setAnonimo] = useState(estado.valores?.anonimo ?? false);
   const [caracteres, setCaracteres] = useState(estado.valores?.comentario.length ?? 0);
   const restantes = COMENTARIO_MAX - caracteres;
   const respondidos = Object.keys(notas).length;
@@ -101,18 +102,25 @@ function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onCon
         {estado.erros?.notas && <p className="modal__erro">{estado.erros.notas}</p>}
       </div>
 
-      <label className="modal__campo">
-        <span>Seu nome</span>
-        <input
-          name="nome"
-          defaultValue={estado.valores?.nome}
-          maxLength={NOME_MAX}
-          autoComplete="name"
-          placeholder="Ex.: Ana P."
-          aria-invalid={!!estado.erros?.nome}
-        />
-        {estado.erros?.nome && <p className="modal__erro">{estado.erros.nome}</p>}
-      </label>
+      <div className="modal__campo">
+        <label className="modal__campo">
+          <span>Seu nome</span>
+          <input
+            name="nome"
+            defaultValue={estado.valores?.nome}
+            maxLength={NOME_MAX}
+            autoComplete="name"
+            placeholder={anonimo ? "Avaliação anônima" : "Ex.: Ana P."}
+            disabled={anonimo}
+            aria-invalid={!anonimo && !!estado.erros?.nome}
+          />
+          {!anonimo && estado.erros?.nome && <p className="modal__erro">{estado.erros.nome}</p>}
+        </label>
+        <label className="modal__anonimo">
+          <input type="checkbox" name="anonimo" checked={anonimo} onChange={(e) => setAnonimo(e.target.checked)} />
+          Prefiro não me identificar (avaliação anônima)
+        </label>
+      </div>
 
       <label className="modal__campo">
         <span>Sua avaliação pessoal</span>

@@ -1,6 +1,6 @@
 import { connection } from "next/server";
-import { listarAvaliacoes } from "../lib/avaliacoes";
-import { TOPICOS } from "../lib/topicos";
+import { calcularMedias, listarAvaliacoes } from "../lib/avaliacoes";
+import { formatarNota, TOPICOS } from "../lib/topicos";
 import AvaliarModal from "./AvaliarModal";
 import Carrossel from "./Carrossel";
 import { STAR } from "./icons";
@@ -11,6 +11,8 @@ export default async function Avaliacoes() {
   // Lê a lista a cada requisição (dados em memória mudam em tempo de execução)
   await connection();
   const avaliacoes = listarAvaliacoes("aprovada");
+  // Média geral das estrelas publicadas; recalculada a cada requisição, acompanha cada avaliação aprovada
+  const medias = calcularMedias(avaliacoes);
 
   return (
     <section id="avaliacoes" className="aval">
@@ -31,6 +33,26 @@ export default async function Avaliacoes() {
             <span>recomenda.</span>
           </h2>
           <p className="aval__frase">A confiança de quem já foi atendido é o meu maior reconhecimento.</p>
+          {medias && (
+            <div className="aval__media">
+              <strong>{formatarNota(medias.geral)}</strong>
+              <div>
+                <span
+                  className="aval__media-estrelas"
+                  role="img"
+                  aria-label={`Média de ${formatarNota(medias.geral)} de 5 estrelas`}
+                >
+                  ★★★★★
+                  <span style={{ width: `${(medias.geral / 5) * 100}%` }} aria-hidden="true">
+                    ★★★★★
+                  </span>
+                </span>
+                <small>
+                  Média de {medias.total} {medias.total === 1 ? "avaliação" : "avaliações"}
+                </small>
+              </div>
+            </div>
+          )}
           <AvaliarModal />
         </motion.div>
         <motion.div className="aval__lista" {...revelar("direita", 2)}>

@@ -22,7 +22,8 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: var(--barra); }
+/* Impede o navegador do celular de aumentar o texto por conta própria (ex.: iPhone deitado, "font boosting" do Android) */
+html { scroll-behavior: smooth; scroll-padding-top: var(--barra); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--creme);
@@ -202,9 +203,10 @@ h1, h2, h3, p { margin: 0; }
   padding: 36px 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 32px 56px;
 }
 .sobre__foto { flex: 0 0 200px; position: relative; margin: 0 auto; }
-.sobre__moldura { position: absolute; inset: 10px -10px -10px 10px; border: 2px solid var(--dourado); border-radius: 110px 110px 12px 12px; }
+.sobre__moldura { position: absolute; top: 10px; right: -10px; bottom: -10px; left: 10px; border: 2px solid var(--dourado); border-radius: 110px 110px 12px 12px; }
+/* Proporção 4:5 pelo padding (funciona também em celulares antigos sem suporte a aspect-ratio) */
 .sobre__retrato {
-  position: relative; aspect-ratio: 4 / 5; border-radius: 110px 110px 12px 12px; background: #e4ddcd;
+  position: relative; height: 0; padding-bottom: 125%; border-radius: 110px 110px 12px 12px; background: #e4ddcd;
   overflow: hidden; box-shadow: 0 12px 30px rgba(12,23,18,0.25);
 }
 .sobre__retrato img { position: absolute; top: 0; left: 0; width: 112%; height: 112%; object-fit: cover; object-position: 0% 0%; }
@@ -568,8 +570,8 @@ h1, h2, h3, p { margin: 0; }
 .sobre__card:hover .sobre__retrato img { transform: scale(1.05); }
 .sobre__pata { transition: rotate .4s cubic-bezier(.3,1.6,.5,1); }
 .sobre__card:hover .sobre__pata { rotate: 16deg; }
-.sobre__moldura { transition: inset .5s cubic-bezier(.2,.7,.2,1); }
-.sobre__card:hover .sobre__moldura { inset: 14px -14px -14px 14px; }
+.sobre__moldura { transition: top .5s cubic-bezier(.2,.7,.2,1), right .5s cubic-bezier(.2,.7,.2,1), bottom .5s cubic-bezier(.2,.7,.2,1), left .5s cubic-bezier(.2,.7,.2,1); }
+.sobre__card:hover .sobre__moldura { top: 14px; right: -14px; bottom: -14px; left: 14px; }
 
 /* Onde atendo: ícones sobem no hover e a foto aproxima */
 .onde__item > svg { transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
@@ -629,11 +631,12 @@ h1, h2, h3, p { margin: 0; }
 /* ---------- Telas pequenas ---------- */
 @media (max-width: 720px) {
   :root { --barra: 73px; }
-  .header__inner { padding: 12px 24px; }
-  .marca { gap: 12px; }
-  .marca img { height: 48px; }
-  .marca__nome { font-size: 15px; letter-spacing: 0.1em; }
-  .marca__cargo { font-size: 11px; letter-spacing: 0.2em; }
+  /* Tamanhos fixos em todo celular (cabem desde telas de 360px) */
+  .header__inner { padding: 12px 16px 12px 20px; gap: 12px; }
+  .marca { gap: 10px; }
+  .marca img { height: 46px; }
+  .marca__nome { font-size: 13.5px; letter-spacing: 0.08em; }
+  .marca__cargo { font-size: 10.5px; letter-spacing: 0.16em; }
   .nav { padding: 4px 24px 12px; font-size: 15px; }
   .titulo-secao { font-size: 18px; }
 
@@ -651,14 +654,17 @@ h1, h2, h3, p { margin: 0; }
   .hero__frase { top: 20px; right: 16px; }
   .hero__frase p { font-size: 21px; }
   .hero__frase div { width: 70px; height: 2px; margin: 6px 0 0 28px; }
-  .hero h1 { font-size: 34px; line-height: 1.14; }
+  .hero h1 { font-size: 32px; line-height: 1.14; }
   .hero__desc { font-size: 16px; line-height: 1.6; }
   .hero__ctas { flex-direction: column; gap: 12px; margin-top: 6px; }
-  .botao-hero { min-height: 56px; padding: 10px 20px; }
+  .botao-hero { min-height: 56px; padding: 10px 20px; font-size: 13px; letter-spacing: 0.06em; gap: 10px; }
+  /* Altura fixa: não depende do tamanho da tela de cada celular */
+  .hero { min-height: 0; }
+  .hero__retrato { height: 380px; }
 
   .sobre__wrap { padding: 32px 20px; }
   .sobre__card { padding: 28px 22px; gap: 24px; border-radius: 22px; }
-  .sobre__foto { flex-basis: 160px; }
+  .sobre__foto { flex: 0 0 160px; width: 160px; }
   .sobre__moldura, .sobre__retrato { border-radius: 90px 90px 10px 10px; }
   .sobre__pata { width: 28px; height: 28px; right: -18px; }
   .sobre__texto > p { font-size: 15px; }
@@ -730,17 +736,4 @@ h1, h2, h3, p { margin: 0; }
   .onde__item > svg { grid-row: span 2; }
   .onde__item h3 { white-space: normal; }
   .onde__endereco { grid-column: 2; }
-}
-
-@media (max-width: 420px) {
-  .marca img { height: 44px; }
-  .marca__nome { font-size: 13.5px; letter-spacing: 0.07em; }
-  .marca__cargo { font-size: 10.5px; letter-spacing: 0.16em; }
-}
-
-@media (max-width: 360px) {
-  .marca__nome { font-size: 12.5px; letter-spacing: 0.06em; }
-  .marca__cargo { font-size: 10px; letter-spacing: 0.14em; }
-  .hero h1 { font-size: 30px; }
-  .botao-hero { font-size: 13px; letter-spacing: 0.06em; gap: 10px; }
 }

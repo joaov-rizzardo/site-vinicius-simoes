@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { site } from "../config";
-import { Instagram, RodapeClinica, RodapeHospital, RodapeMonitor, RodapePino, WhatsApp } from "./icons";
+import { Instagram, WhatsApp } from "./icons";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
 
@@ -33,24 +33,6 @@ export default function Footer() {
             </div>
           </div>
         </motion.div>
-        <motion.ul className="rodape__locais" {...revelar("cima", 2)}>
-          <li>
-            <RodapePino />
-            Vale do Paraíba
-          </li>
-          <li>
-            <RodapeClinica />
-            Cachoeira Paulista
-          </li>
-          <li>
-            <RodapeHospital />
-            Cruzeiro
-          </li>
-          <li>
-            <RodapeMonitor />
-            Consultoria de Aquarismo (virtual)
-          </li>
-        </motion.ul>
       </div>
     </footer>
   );

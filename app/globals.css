@@ -124,7 +124,8 @@ h1, h2, h3, p { margin: 0; }
 }
 .hero h1 em { color: var(--verde-claro); }
 .hero__desc { font-size: 18px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
-.hero__tags { color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.18em; font-weight: 700; }
+/* Detalhe discreto: fino e em dourado translúcido */
+.hero__tags { color: rgba(212,173,92,.7); font-size: 12px; letter-spacing: 0.32em; font-weight: 300; }
 .hero__desc-curta, .hero__quebra { display: none; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
@@ -207,6 +208,7 @@ h1, h2, h3, p { margin: 0; }
 .sobre__texto { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .sobre__titulo { display: flex; align-items: center; gap: 12px; }
 .sobre__texto > p { font-size: 16px; line-height: 1.65; color: var(--texto-2); max-width: 640px; }
+.sobre__texto > p + p { margin-top: 8px; }
 .sobre__assinatura { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
 .sobre__assinatura span:first-child { font-family: var(--font-script); font-size: 26px; color: var(--dourado-escuro); }
 .selo {
@@ -225,11 +227,13 @@ h1, h2, h3, p { margin: 0; }
 .onde__item:first-child { padding-left: 0; }
 .onde__item:last-child { border-right: 0; }
 .onde__item h3 { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.4; white-space: pre-line; }
-.onde__item--destaque h3 { color: var(--verde); }
 .onde__item p { font-size: 14px; line-height: 1.6; color: var(--texto-3); }
+.onde__endereco { font-style: normal; font-size: 14px; line-height: 1.6; color: var(--texto-3); }
+.onde__endereco strong { color: var(--texto-2); }
 .onde__foto { flex: 1 1 420px; min-width: 0; position: relative; min-height: 440px; }
+/* O arco termina antes do fim da seção para não encostar na foto do aquarismo logo abaixo */
 .onde__arco {
-  position: absolute; top: 0; bottom: 0; right: 0; left: 64px; border-radius: 220px 0 0 0; overflow: hidden;
+  position: absolute; top: 0; bottom: 44px; right: 0; left: 64px; border-radius: 220px 220px 28px 28px; overflow: hidden;
   background: #fdfefe; padding-top: 48px;
 }
 .onde__arco-img { position: relative; width: 100%; height: 100%; }
@@ -265,7 +269,8 @@ h1, h2, h3, p { margin: 0; }
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(90deg, var(--noite) 0%, rgba(12,23,18,.82) 18%, rgba(12,23,18,.35) 45%, rgba(12,23,18,.1) 75%, rgba(12,23,18,.25) 100%),
-    linear-gradient(180deg, var(--noite) 0%, rgba(12,23,18,0) 16%, rgba(12,23,18,0) 80%, var(--noite) 100%);
+    /* Faixa escura no topo separa a foto do aquário da seção anterior */
+    linear-gradient(180deg, var(--noite) 0, var(--noite) 56px, rgba(12,23,18,0) 200px, rgba(12,23,18,0) 80%, var(--noite) 100%);
 }
 .aqua__inner { min-height: 560px; }
 .aqua__texto { flex: 0 1 640px; }
@@ -366,9 +371,12 @@ h1, h2, h3, p { margin: 0; }
   position: absolute; top: -38px; left: 50%; transform: translateX(-50%); width: 76px; height: 76px;
   border-radius: 50%; overflow: hidden; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.depoimento__foto img { object-fit: cover; }
 .depoimento blockquote { flex: 1; margin: 0; font-style: italic; font-size: 15px; line-height: 1.6; color: #2b3530; }
 .depoimento__nota { color: var(--dourado); font-size: 18px; letter-spacing: 4px; }
+.depoimento__notas { margin: 0; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #eee8db; }
+.depoimento__notas div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2px 12px; }
+.depoimento__notas dt { font-size: 13px; font-weight: 700; color: var(--texto-2); }
+.depoimento__notas dd { margin: 0; font-size: 15px; letter-spacing: 3px; white-space: nowrap; }
 .depoimento figcaption { font-weight: 700; font-size: 14px; color: var(--verde); overflow-wrap: anywhere; }
 
 .depoimento__nota-vazia { opacity: .25; }
@@ -384,6 +392,7 @@ h1, h2, h3, p { margin: 0; }
 }
 .aval__botao:hover { background: var(--verde-escuro); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(12,23,18,.2); }
 .aval__botao:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+
 
 /* ---------- Modal de avaliação ---------- */
 .modal {
@@ -406,15 +415,30 @@ h1, h2, h3, p { margin: 0; }
 }
 .modal__fechar:hover { background: #ebe6da; color: var(--texto); }
 .modal__form { display: flex; flex-direction: column; gap: 20px; }
-.modal__notas { border: 0; margin: 0; padding: 0; min-width: 0; }
-.modal__notas legend, .modal__campo > span { font-size: 14px; font-weight: 700; color: var(--texto); margin-bottom: 6px; padding: 0; }
-.modal__linha { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+/* Tópicos: um cartão com uma linha por tópico (nome e dica à esquerda, estrelas à direita) */
+.modal__topicos { display: flex; flex-direction: column; background: #fff; border: 1px solid #e6e0d2; border-radius: 14px; padding: 4px 16px 10px; }
+.modal__topicos-topo { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 10px 0 6px; }
+.modal__topicos-topo span, .modal__campo > span { font-size: 14px; font-weight: 700; color: var(--texto); margin-bottom: 6px; padding: 0; }
+.modal__topicos-topo span { margin: 0; }
+.modal__topicos-topo small { font-size: 13px; font-weight: 700; color: var(--texto-3); font-variant-numeric: tabular-nums; }
+.modal__topicos-topo small.completo { color: var(--verde); }
+.modal__topicos .modal__erro { margin: 4px 0 2px; }
+/* Legend flutuante vira item comum do grid (sem o posicionamento especial do fieldset) */
+.modal__notas {
+  border: 0; margin: 0; padding: 10px 0; min-width: 0; border-top: 1px solid #eee8db;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; align-items: center;
+}
+.modal__notas legend { float: left; grid-column: 1; padding: 0; font-size: 15px; font-weight: 700; color: var(--texto); }
+.modal__dica { grid-column: 1; font-size: 13px; line-height: 1.35; color: var(--texto-3); }
+.modal__notas .modal__linha { grid-column: 2; grid-row: 1 / span 2; }
+.modal__linha { display: flex; align-items: center; gap: 0; }
 .modal__notas label { position: relative; display: inline-flex; padding: 2px; border-radius: 6px; cursor: pointer; }
 .modal__notas label svg { opacity: .22; transition: opacity .1s ease, transform .1s ease; }
 .modal__notas label.on svg { opacity: 1; }
 .modal__notas label:hover svg { transform: scale(1.12); }
 .modal__notas input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.modal__rotulo { margin-left: 10px; font-size: 15px; font-weight: 700; color: var(--dourado-escuro); }
+/* Largura fixa: o rótulo muda com o hover e não deve empurrar as estrelas */
+.modal__rotulo { margin-left: 8px; width: 72px; font-size: 13.5px; font-weight: 700; color: var(--dourado-escuro); }
 .modal__campo { display: flex; flex-direction: column; min-width: 0; }
 .modal__campo input, .modal__campo textarea {
   font: inherit; font-size: 15px; color: var(--texto); background: #fff;
@@ -444,13 +468,20 @@ h1, h2, h3, p { margin: 0; }
 @media (max-width: 720px) {
   .modal__caixa { padding: 32px 18px 22px; }
 }
+/* Celular: estrelas embaixo do nome do tópico */
+@media (max-width: 560px) {
+  .modal__topicos { padding: 4px 14px 8px; }
+  .modal__notas { grid-template-columns: minmax(0, 1fr); }
+  .modal__notas .modal__linha { grid-column: 1; grid-row: auto; margin: 4px 0 0 -2px; }
+  .modal__notas label svg { width: 32px; height: 32px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .modal[open] { animation: none; }
 }
 
 /* ---------- Footer ---------- */
 .rodape { background: var(--noite); color: #fff; }
-.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 44px 40px 28px; display: flex; flex-direction: column; gap: 32px; }
+.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 44px 40px; display: flex; flex-direction: column; gap: 32px; }
 .rodape__topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
 .rodape__marca { display: flex; align-items: center; gap: 16px; padding-right: 28px; border-right: 1px solid var(--linha-escura); }
 .rodape__marca img { height: 72px; width: auto; display: block; }
@@ -471,12 +502,6 @@ h1, h2, h3, p { margin: 0; }
   width: 52px; height: 52px; border-radius: 50%; background: var(--verde); border: 1.5px solid var(--verde-borda);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.rodape__locais {
-  list-style: none; margin: 0; padding: 22px 0 0; border-top: 1px solid #22322a;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 0; font-size: 14px; color: #dfe6e2;
-}
-.rodape__locais li { display: flex; align-items: center; gap: 10px; padding: 0 28px; border-right: 1px solid var(--linha-escura); }
-.rodape__locais li:last-child { border-right: 0; }
 
 /* ---------- WhatsApp flutuante ---------- */
 .zap-flutuante {
@@ -559,8 +584,6 @@ h1, h2, h3, p { margin: 0; }
 }
 
 @media (max-width: 1140px) {
-  .rodape__locais { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 14px 48px; }
-  .rodape__locais li { border-right: 0; padding: 0; }
 }
 
 /* Hero empilhado (retrato no topo, dissolvendo no texto) a partir do tablet */
@@ -620,7 +643,7 @@ h1, h2, h3, p { margin: 0; }
   .onde__item h3 { font-size: 14px; }
   /* Foto em arco centralizado, como o retrato do "Sobre mim", com as patas encostadas */
   .onde__foto { flex-basis: 100%; min-height: 0; height: 300px; max-width: 300px; margin: 0 auto 40px; }
-  .onde__arco { left: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
+  .onde__arco { left: 0; bottom: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
   .onde__pata1 { width: 48px; height: 48px; top: 8px; left: -20px; }
   .onde__pata2 { width: 32px; height: 32px; top: 62px; left: -30px; }
 
@@ -644,7 +667,7 @@ h1, h2, h3, p { margin: 0; }
   .aqua__inner { min-height: 0; padding-top: 200px; }
   .aqua__fundo { inset: 0 0 auto 0; height: 340px; }
   .aqua__fundo::after {
-    background: linear-gradient(180deg, rgba(12,23,18,.2) 0%, rgba(12,23,18,.45) 50%, var(--noite) 100%);
+    background: linear-gradient(180deg, var(--noite) 0, var(--noite) 32px, rgba(12,23,18,.3) 120px, rgba(12,23,18,.45) 50%, var(--noite) 100%);
   }
 
   .aval__inner { padding: 40px 24px; gap: 16px; }
@@ -663,7 +686,6 @@ h1, h2, h3, p { margin: 0; }
   .rodape__marca img { height: 52px; }
   .rodape__frase { font-size: 19px; }
   .botao-redondo { width: 46px; height: 46px; }
-  .rodape__locais { grid-template-columns: 1fr; justify-content: start; gap: 12px; }
 
   .zap-flutuante { right: 16px; bottom: 16px; width: 52px; height: 52px; }
   .zap-flutuante svg { width: 26px; height: 26px; }
@@ -679,6 +701,7 @@ h1, h2, h3, p { margin: 0; }
   .onde__grade .onde__item:last-child { border-bottom: 0; }
   .onde__item > svg { grid-row: span 2; }
   .onde__item h3 { white-space: normal; }
+  .onde__endereco { grid-column: 2; }
 }
 
 @media (max-width: 420px) {

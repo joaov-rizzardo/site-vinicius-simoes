@@ -26,19 +26,20 @@ export default function Hero() {
             </motion.h1>
             <motion.p className="hero__desc" {...entrada(0.38)}>
               <span className="hero__desc-longa">
-                Sou médico veterinário, especializado no atendimento de cães e gatos, com atendimento residencial em
-                todo o Vale do Paraíba e também presencial em clínicas de Cachoeira Paulista e Cruzeiro. Além disso,
-                ofereço consultoria especializada em aquarismo, de forma virtual.
+                Sou médico veterinário com anos de experiência, especializado no atendimento de cães e gatos. Atendo
+                principalmente em domicílio, em todo o Vale do Paraíba, para que seu pet seja cuidado com tranquilidade no próprio
+                ambiente. Também atendo em clínicas de Cachoeira Paulista e Cruzeiro e ofereço consultoria
+                especializada em aquarismo, presencial ou virtual.
               </span>
               <span className="hero__desc-curta">
-                Atendimento de cães e gatos em domicílio no Vale do Paraíba e em clínicas de Cachoeira Paulista e
-                Cruzeiro. Consultoria de aquarismo online.
+                Atendimento de cães e gatos em domicílio no Vale do Paraíba, com a tranquilidade do próprio lar, e
+                em clínicas de Cachoeira Paulista e Cruzeiro. Consultoria de aquarismo presencial ou online.
               </span>
             </motion.p>
             <motion.p className="hero__tags" {...entrada(0.44)}>
               CÃES &nbsp;•&nbsp; GATOS &nbsp;•&nbsp; AQUARISMO
             </motion.p>
-            <motion.div id="servicos" className="hero__ctas" {...entrada(0.5)}>
+            <motion.div className="hero__ctas" {...entrada(0.5)}>
               <a className="cta botao-hero botao-hero--verde" href="#contato">
                 <Calendario />
                 <span className="botao-hero__textos">

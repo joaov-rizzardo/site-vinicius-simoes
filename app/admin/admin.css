@@ -63,6 +63,22 @@
 .adm-cabecalho h1 { font-family: var(--font-serif); font-weight: 400; font-size: 34px; }
 .adm-cabecalho p { margin-top: 6px; font-size: 15px; color: var(--texto-3); }
 
+/* Painel de médias: nota geral à esquerda, uma barra por tópico à direita */
+.adm-medias {
+  margin-top: 24px; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 8px 32px; align-items: center;
+  background: #fff; border: 1px solid #e6e0d2; border-radius: 18px; padding: 22px 26px;
+}
+.adm-medias__geral { display: flex; flex-direction: column; gap: 2px; padding-right: 28px; border-right: 1px solid #eee8db; }
+.adm-medias__geral h2 { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--dourado-escuro); }
+.adm-medias__geral strong { font-family: var(--font-serif); font-weight: 400; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums; }
+.adm-medias__geral small { font-size: 13px; color: var(--texto-3); }
+.adm-medias__topicos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; }
+.adm-medias__topicos li { display: grid; grid-template-columns: minmax(0, 1fr) 34px; grid-template-areas: "nome nota" "barra barra"; gap: 6px 10px; align-items: baseline; }
+.adm-medias__nome { grid-area: nome; font-size: 14px; color: var(--texto-2); }
+.adm-medias__topicos strong { grid-area: nota; text-align: right; font-size: 15px; font-variant-numeric: tabular-nums; }
+.adm-medias__trilho { grid-area: barra; display: block; height: 6px; border-radius: 99px; background: #eee8db; overflow: hidden; }
+.adm-medias__trilho span { display: block; height: 100%; border-radius: inherit; background: var(--dourado); }
+
 .adm-abas { margin: 24px 0 20px; display: flex; gap: 6px; padding: 5px; border-radius: 16px; background: #e6e0d2; width: fit-content; max-width: 100%; }
 .adm-abas__item {
   display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px;
@@ -85,30 +101,58 @@
   background: var(--verde); color: #fff; display: flex; align-items: center; justify-content: center;
   font-family: var(--font-serif); font-size: 20px;
 }
-.adm-card__avatar img { object-fit: cover; }
 .adm-card__quem { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .adm-card__quem strong { font-size: 15.5px; overflow-wrap: anywhere; }
 .adm-card__quem time { font-size: 13px; color: var(--texto-3); }
-.adm-card__nota { flex: none; color: var(--dourado); font-size: 17px; letter-spacing: 2px; }
-.adm-card__nota span { opacity: .25; }
+.adm-card__media {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px;
+  background: #f4ead2; color: var(--texto); font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.adm-card__media span { color: var(--dourado); }
+.adm-status { flex: none; padding: 4px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 700; }
+.adm-status--pendente { background: #f4ead2; color: #6b5220; }
+.adm-status--aprovada { background: #e1efe6; color: var(--verde); }
+.adm-status--recusada { background: #f6e3e1; color: #a1251c; }
+/* Notas por tópico; 3 ou menos ficam em destaque para chamar atenção */
+.adm-card__notas { margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.adm-card__notas div { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 12px; border-radius: 10px; background: #f6f3ec; }
+.adm-card__notas dt { font-size: 13px; color: var(--texto-2); }
+.adm-card__notas dd { margin: 0; white-space: nowrap; font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.adm-card__notas dd::after { content: " ★"; color: var(--dourado); }
+.adm-card__notas .baixa { background: #fbeeed; }
+.adm-card__notas .baixa dd { color: #a1251c; }
 .adm-card__texto { margin: 0; font-size: 15.5px; line-height: 1.6; color: #2b3530; overflow-wrap: anywhere; }
 .adm-card__acoes { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 14px; border-top: 1px solid #eee8db; }
 
 .adm-vazio { padding: 48px 24px; text-align: center; border: 1.5px dashed #d6cfbf; border-radius: 18px; color: var(--texto-3); }
 
+@media (max-width: 760px) {
+  .adm-medias { grid-template-columns: minmax(0, 1fr); }
+  .adm-medias__geral { flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 12px; padding: 0 0 14px; border-right: 0; border-bottom: 1px solid #eee8db; }
+  .adm-medias__geral h2 { flex-basis: 100%; }
+}
 @media (max-width: 600px) {
+  .adm-medias { padding: 18px 16px; }
+  .adm-medias__topicos { grid-template-columns: minmax(0, 1fr); }
   .adm-topo__inner { padding: 10px 16px; }
   .adm-marca small { display: none; }
   .adm-main { padding: 24px 16px 48px; }
   .adm-cabecalho h1 { font-size: 28px; }
   /* Abas ocupam a largura toda */
-  .adm-abas { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
-  .adm-abas__item { justify-content: center; padding: 0 6px; gap: 6px; font-size: 13.5px; }
+  .adm-abas { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  .adm-abas__item { justify-content: center; padding: 0 4px; gap: 5px; font-size: 13px; }
   .adm-card { padding: 16px; }
-  .adm-card__topo { flex-wrap: wrap; }
-  .adm-card__nota { flex-basis: 100%; order: 3; font-size: 16px; }
+  /* Status e média descem para a linha de baixo, alinhados ao nome */
+  .adm-card__topo { flex-wrap: wrap; row-gap: 10px; }
+  .adm-card__quem { flex-basis: calc(100% - 56px); }
+  .adm-card__quem + * { margin-left: 56px; }
+  .adm-card__notas { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .adm-card__notas div { padding: 7px 10px; }
   .adm-card__acoes .adm-botao { flex: 1; }
 }
-@media (max-width: 360px) {
+@media (max-width: 420px) {
   .adm-abas__contador { display: none; }
+}
+@media (max-width: 360px) {
+  .adm-card__notas { grid-template-columns: minmax(0, 1fr); }
 }

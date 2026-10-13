@@ -125,7 +125,7 @@ h1, h2, h3, p { margin: 0; }
 .hero h1 em { color: var(--verde-claro); }
 .hero__desc { font-size: 18px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
 /* Detalhe discreto: fino e em dourado translúcido */
-.hero__tags { color: rgba(212,173,92,.7); font-size: 12px; letter-spacing: 0.32em; font-weight: 300; }
+.hero__tags { color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
 .hero__desc-curta, .hero__quebra { display: none; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
@@ -183,6 +183,10 @@ h1, h2, h3, p { margin: 0; }
 .hero__assinatura::before { content: ""; width: 48px; height: 2px; background: var(--dourado); }
 .hero__assinatura strong { font-family: var(--font-serif); font-weight: 400; font-size: 22px; }
 .hero__assinatura > span { font-size: 11px; letter-spacing: 0.18em; color: #b9c7bf; }
+.hero__assinatura .hero__crmv {
+  margin-top: 2px; font-size: 9.5px; letter-spacing: 0.2em;
+  color: var(--dourado-claro);
+}
 
 @media (max-width: 1140px) {
   .hero__texto { padding: 0 32px 36px 40px; }
@@ -230,13 +234,12 @@ h1, h2, h3, p { margin: 0; }
 .onde__item p { font-size: 14px; line-height: 1.6; color: var(--texto-3); }
 .onde__endereco { font-style: normal; font-size: 14px; line-height: 1.6; color: var(--texto-3); }
 .onde__endereco strong { color: var(--texto-2); }
-.onde__foto { flex: 1 1 420px; min-width: 0; position: relative; min-height: 440px; }
 /* O arco termina antes do fim da seção para não encostar na foto do aquarismo logo abaixo */
-.onde__arco {
-  position: absolute; top: 0; bottom: 44px; right: 0; left: 64px; border-radius: 220px 220px 28px 28px; overflow: hidden;
-  background: #fdfefe; padding-top: 48px;
-}
-.onde__arco-img { position: relative; width: 100%; height: 100%; }
+.onde__foto { flex: 1 1 420px; min-width: 0; display: flex; justify-content: center; align-items: flex-end; padding: 24px 24px 44px 0; }
+/* Arco com a proporção da própria foto: nunca corta, em qualquer resolução. O recuo à esquerda abriga as patas */
+.onde__quadro { position: relative; width: 100%; max-width: 444px; padding-left: 64px; }
+.onde__arco { border-radius: 220px 220px 28px 28px; overflow: hidden; background: #fdfefe; padding-top: 48px; }
+.onde__arco-img { position: relative; width: 100%; aspect-ratio: 356 / 410; }
 .onde__arco-img img { object-fit: cover; object-position: 50% 0%; }
 .onde__pata1 { position: absolute; top: 28px; left: -10px; width: 78px; height: 78px; }
 .onde__pata2 { position: absolute; top: 120px; left: 46px; width: 56px; height: 56px; }
@@ -329,6 +332,13 @@ h1, h2, h3, p { margin: 0; }
 .aval__titulo span { color: var(--verde); }
 .aval__frase { font-size: 16px; line-height: 1.6; color: var(--texto-3); max-width: 360px; }
 .aval__lista { flex: 999 1 720px; min-width: 0; }
+.aval__media { display: flex; align-items: center; gap: 14px; }
+.aval__media strong { font-family: var(--font-serif); font-weight: 400; font-size: 46px; line-height: 1; color: var(--verde); }
+.aval__media > div { display: flex; flex-direction: column; gap: 4px; }
+/* Estrelas parciais: camada dourada recortada na largura proporcional à média */
+.aval__media-estrelas { position: relative; width: fit-content; font-size: 20px; letter-spacing: 2px; line-height: 1; color: #ddd5c3; }
+.aval__media-estrelas span { position: absolute; inset: 0 auto 0 0; overflow: hidden; white-space: nowrap; color: var(--dourado); }
+.aval__media small { font-size: 13px; color: var(--texto-3); }
 
 /* Carrossel: 3 cards por página, 2 em telas médias, 1 no celular */
 .carrossel { --por-pagina: 3; --vao: 20px; display: flex; flex-direction: column; gap: 8px; }
@@ -447,6 +457,15 @@ h1, h2, h3, p { margin: 0; }
 .modal__campo input:focus, .modal__campo textarea:focus { outline: none; border-color: var(--verde); box-shadow: 0 0 0 3px rgba(20,87,58,.15); }
 .modal__campo [aria-invalid="true"] { border-color: #b3261e; }
 .modal__erro { color: #b3261e; font-size: 13px; margin-top: 6px; }
+.modal__campo input:disabled { background: #f4f1ea; color: var(--texto-3); cursor: not-allowed; }
+.modal__anonimo { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 14px; color: var(--texto-2); cursor: pointer; width: fit-content; }
+.modal__campo .modal__anonimo input {
+  appearance: none; flex: none; width: 18px; height: 18px; margin: 0; padding: 0; border-radius: 50%;
+  border: 1.5px solid #b9b19f; background: #fff; box-shadow: none; cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease;
+}
+.modal__campo .modal__anonimo input:checked { border-color: var(--verde); box-shadow: inset 0 0 0 3px #fff; background: var(--verde); }
+.modal__campo .modal__anonimo input:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(20,87,58,.15); }
+.modal__campo .modal__anonimo input:checked:focus-visible { box-shadow: inset 0 0 0 3px #fff, 0 0 0 3px rgba(20,87,58,.15); }
 .modal__contador { align-self: flex-end; margin-top: 6px; font-size: 13px; color: var(--texto-3); font-variant-numeric: tabular-nums; }
 .modal__contador--fim { color: var(--dourado-escuro); font-weight: 700; }
 .modal__acoes { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
@@ -642,8 +661,9 @@ h1, h2, h3, p { margin: 0; }
   .onde__item > svg { width: 32px; height: 32px; }
   .onde__item h3 { font-size: 14px; }
   /* Foto em arco centralizado, como o retrato do "Sobre mim", com as patas encostadas */
-  .onde__foto { flex-basis: 100%; min-height: 0; height: 300px; max-width: 300px; margin: 0 auto 40px; }
-  .onde__arco { left: 0; bottom: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
+  .onde__foto { flex-basis: 100%; padding: 0 0 40px; }
+  .onde__quadro { max-width: 300px; padding-left: 0; }
+  .onde__arco { padding-top: 24px; border-radius: 150px 150px 0 0; }
   .onde__pata1 { width: 48px; height: 48px; top: 8px; left: -20px; }
   .onde__pata2 { width: 32px; height: 32px; top: 62px; left: -30px; }
 

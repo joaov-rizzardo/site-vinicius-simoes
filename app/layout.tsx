@@ -11,7 +11,7 @@ const satisfy = Satisfy({ subsets: ["latin"], weight: "400", variable: "--font-s
 export const metadata: Metadata = {
   title: "Vinicius Vicente Simões – Médico Veterinário | Cães, Gatos e Aquarismo",
   description:
-    "Médico veterinário especializado em cães e gatos, com atendimento residencial no Vale do Paraíba, clínicas em Cachoeira Paulista e Cruzeiro, e consultoria virtual de aquarismo.",
+    "Médico veterinário especializado em cães e gatos, com atendimento residencial no Vale do Paraíba e região, clínicas em Cachoeira Paulista e Cruzeiro, e consultoria virtual de aquarismo.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

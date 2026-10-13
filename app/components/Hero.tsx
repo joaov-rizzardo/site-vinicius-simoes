@@ -7,6 +7,9 @@ import { Calendario, Peixe, Seta } from "./icons";
 // Frase manuscrita sobre o retrato, revelada linha a linha
 const linhasFrase = ["Cuidado", "  também é", "    prevenção."];
 
+// Abre o WhatsApp já com a mensagem escrita
+const linkWhatsApp = (mensagem: string) => `${site.whatsapp}?text=${encodeURIComponent(mensagem)}`;
+
 export default function Hero() {
   return (
     <section id="inicio" className="hero">
@@ -27,12 +30,12 @@ export default function Hero() {
             <motion.p className="hero__desc" {...entrada(0.38)}>
               <span className="hero__desc-longa">
                 Sou médico veterinário com anos de experiência, especializado no atendimento de cães e gatos. Atendo
-                principalmente em domicílio, em todo o Vale do Paraíba, para que seu pet seja cuidado com tranquilidade no próprio
+                principalmente em domicílio, em todo o Vale do Paraíba e região, para que seu pet seja cuidado com tranquilidade no próprio
                 ambiente. Também atendo em clínicas de Cachoeira Paulista e Cruzeiro e ofereço consultoria
                 especializada em aquarismo, presencial ou virtual.
               </span>
               <span className="hero__desc-curta">
-                Atendimento de cães e gatos em domicílio no Vale do Paraíba, com a tranquilidade do próprio lar, e
+                Atendimento de cães e gatos em domicílio no Vale do Paraíba e região, com a tranquilidade do próprio lar, e
                 em clínicas de Cachoeira Paulista e Cruzeiro. Consultoria de aquarismo presencial ou online.
               </span>
             </motion.p>
@@ -40,7 +43,12 @@ export default function Hero() {
               CÃES &nbsp;•&nbsp; GATOS &nbsp;•&nbsp; AQUARISMO
             </motion.p>
             <motion.div className="hero__ctas" {...entrada(0.5)}>
-              <a className="cta botao-hero botao-hero--verde" href="#contato">
+              <a
+                className="cta botao-hero botao-hero--verde"
+                href={linkWhatsApp("Olá! Gostaria de marcar uma consulta para o meu pet.")}
+                target="_blank"
+                rel="noopener"
+              >
                 <Calendario />
                 <span className="botao-hero__textos">
                   Marcar consulta
@@ -48,7 +56,12 @@ export default function Hero() {
                 </span>
                 <Seta />
               </a>
-              <a className="cta botao-hero botao-hero--contorno" href="#aquarismo">
+              <a
+                className="cta botao-hero botao-hero--contorno"
+                href={linkWhatsApp("Olá! Gostaria de marcar uma consultoria de aquarismo.")}
+                target="_blank"
+                rel="noopener"
+              >
                 <Peixe width={20} height={20} stroke="currentColor" />
                 <span className="botao-hero__textos">
                   Marcar consultoria
@@ -107,9 +120,8 @@ export default function Hero() {
           </div>
           <motion.p className="hero__assinatura" {...entrada(0.9, 12)}>
             <strong>Vinicius Vicente Simões</strong>
-            <span>
-              {site.cargo} · {site.crmv}
-            </span>
+            <span>{site.cargo} · CLÍNICO GERAL</span>
+            <span className="hero__crmv">{site.crmv}</span>
           </motion.p>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { flutuar, revelar } from "../lib/animacoes";
 
 // Clínicas mostram o endereço no lugar do texto
 const locais: { icone: React.ReactNode; titulo: string; texto?: string; endereco?: string }[] = [
-  { icone: <Casa />, titulo: "ATENDIMENTO\nRESIDENCIAL", texto: "Em todo o Vale do Paraíba. Levo o cuidado até você." },
+  { icone: <Casa />, titulo: "ATENDIMENTO\nRESIDENCIAL", texto: "Em todo o Vale do Paraíba e região. Levo o cuidado até você." },
   {
     icone: <Clinica />,
     titulo: "CLÍNICA PARCEIRA EM\nCACHOEIRA PAULISTA",
@@ -19,7 +19,7 @@ const locais: { icone: React.ReactNode; titulo: string; texto?: string; endereco
   {
     icone: <Monitor />,
     titulo: "CONSULTORIA DE\nAQUARISMO",
-    texto: "Orientação para seu aquário, presencial ou virtual.",
+    texto: "Para aquários de água doce, presencial ou virtual.",
   },
 ];
 
@@ -55,22 +55,24 @@ export default function OndeAtendo() {
           </div>
         </div>
         <motion.div className="onde__foto" {...revelar("direita", 1)}>
-          <div className="onde__arco">
-            <div className="onde__arco-img">
-              <Image
-                src="/img/onde-atendo.jpg"
-                alt="Médico veterinário sorrindo, segurando dois filhotes de cachorro"
-                fill
-                sizes="(max-width: 720px) 90vw, 35vw"
-              />
+          <div className="onde__quadro">
+            <div className="onde__arco">
+              <div className="onde__arco-img">
+                <Image
+                  src="/img/onde-atendo.jpg"
+                  alt="Médico veterinário sorrindo, segurando dois filhotes de cachorro"
+                  fill
+                  sizes="(max-width: 720px) 300px, 380px"
+                />
+              </div>
             </div>
+            <motion.div className="onde__pata1" {...flutuar(6, 2.2)}>
+              <Pata width={78} height={78} />
+            </motion.div>
+            <motion.div className="onde__pata2" style={{ rotate: 18 }} {...flutuar(6, 2.8, 1)}>
+              <Pata width={56} height={56} />
+            </motion.div>
           </div>
-          <motion.div className="onde__pata1" {...flutuar(6, 2.2)}>
-            <Pata width={78} height={78} />
-          </motion.div>
-          <motion.div className="onde__pata2" style={{ rotate: 18 }} {...flutuar(6, 2.8, 1)}>
-            <Pata width={56} height={56} />
-          </motion.div>
         </motion.div>
       </div>
     </section>

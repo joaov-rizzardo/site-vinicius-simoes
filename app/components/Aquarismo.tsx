@@ -37,7 +37,7 @@ export default function Aquarismo() {
             <span>um ecossistema em equilíbrio.</span>
           </motion.p>
           <motion.p className="aqua__desc" {...revelar("cima", 2)}>
-            <strong>A consultoria de aquarismo</strong> é feita de forma virtual, com orientações personalizadas para o
+            <strong>A consultoria de aquarismo</strong> é feita de forma virtual ou presencial, com orientações personalizadas para o
             seu tipo de aquário, peixes e rotina. Assim, você garante um ambiente saudável, com menos problemas e mais
             vida no seu aquário.
           </motion.p>

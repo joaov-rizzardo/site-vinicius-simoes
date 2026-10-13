@@ -124,7 +124,8 @@ h1, h2, h3, p { margin: 0; }
 }
 .hero h1 em { color: var(--verde-claro); }
 .hero__desc { font-size: 18px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
-.hero__tags { color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.18em; font-weight: 700; }
+/* Detalhe discreto: fino e em dourado translúcido */
+.hero__tags { color: rgba(212,173,92,.7); font-size: 12px; letter-spacing: 0.32em; font-weight: 300; }
 .hero__desc-curta, .hero__quebra { display: none; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
@@ -207,6 +208,7 @@ h1, h2, h3, p { margin: 0; }
 .sobre__texto { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .sobre__titulo { display: flex; align-items: center; gap: 12px; }
 .sobre__texto > p { font-size: 16px; line-height: 1.65; color: var(--texto-2); max-width: 640px; }
+.sobre__texto > p + p { margin-top: 8px; }
 .sobre__assinatura { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
 .sobre__assinatura span:first-child { font-family: var(--font-script); font-size: 26px; color: var(--dourado-escuro); }
 .selo {
@@ -225,11 +227,13 @@ h1, h2, h3, p { margin: 0; }
 .onde__item:first-child { padding-left: 0; }
 .onde__item:last-child { border-right: 0; }
 .onde__item h3 { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.4; white-space: pre-line; }
-.onde__item--destaque h3 { color: var(--verde); }
 .onde__item p { font-size: 14px; line-height: 1.6; color: var(--texto-3); }
+.onde__endereco { font-style: normal; font-size: 14px; line-height: 1.6; color: var(--texto-3); }
+.onde__endereco strong { color: var(--texto-2); }
 .onde__foto { flex: 1 1 420px; min-width: 0; position: relative; min-height: 440px; }
+/* O arco termina antes do fim da seção para não encostar na foto do aquarismo logo abaixo */
 .onde__arco {
-  position: absolute; top: 0; bottom: 0; right: 0; left: 64px; border-radius: 220px 0 0 0; overflow: hidden;
+  position: absolute; top: 0; bottom: 44px; right: 0; left: 64px; border-radius: 220px 220px 28px 28px; overflow: hidden;
   background: #fdfefe; padding-top: 48px;
 }
 .onde__arco-img { position: relative; width: 100%; height: 100%; }
@@ -265,7 +269,8 @@ h1, h2, h3, p { margin: 0; }
   content: ""; position: absolute; inset: 0;
   background:
     linear-gradient(90deg, var(--noite) 0%, rgba(12,23,18,.82) 18%, rgba(12,23,18,.35) 45%, rgba(12,23,18,.1) 75%, rgba(12,23,18,.25) 100%),
-    linear-gradient(180deg, var(--noite) 0%, rgba(12,23,18,0) 16%, rgba(12,23,18,0) 80%, var(--noite) 100%);
+    /* Faixa escura no topo separa a foto do aquário da seção anterior */
+    linear-gradient(180deg, var(--noite) 0, var(--noite) 56px, rgba(12,23,18,0) 200px, rgba(12,23,18,0) 80%, var(--noite) 100%);
 }
 .aqua__inner { min-height: 560px; }
 .aqua__texto { flex: 0 1 640px; }
@@ -366,9 +371,12 @@ h1, h2, h3, p { margin: 0; }
   position: absolute; top: -38px; left: 50%; transform: translateX(-50%); width: 76px; height: 76px;
   border-radius: 50%; overflow: hidden; border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.depoimento__foto img { object-fit: cover; }
 .depoimento blockquote { flex: 1; margin: 0; font-style: italic; font-size: 15px; line-height: 1.6; color: #2b3530; }
 .depoimento__nota { color: var(--dourado); font-size: 18px; letter-spacing: 4px; }
+.depoimento__notas { margin: 0; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #eee8db; }
+.depoimento__notas div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2px 12px; }
+.depoimento__notas dt { font-size: 13px; font-weight: 700; color: var(--texto-2); }
+.depoimento__notas dd { margin: 0; font-size: 15px; letter-spacing: 3px; white-space: nowrap; }
 .depoimento figcaption { font-weight: 700; font-size: 14px; color: var(--verde); overflow-wrap: anywhere; }
 
 .depoimento__nota-vazia { opacity: .25; }
@@ -385,55 +393,6 @@ h1, h2, h3, p { margin: 0; }
 .aval__botao:hover { background: var(--verde-escuro); transform: translateY(-2px); box-shadow: 0 10px 24px rgba(12,23,18,.2); }
 .aval__botao:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
 
-/* Médias por tópico: cartão escuro (mesmo tom do hero) abaixo do carrossel */
-.aval__medias { flex: 1 1 100%; min-width: 0; }
-.medias {
-  display: grid; grid-template-columns: 280px minmax(0, 1fr); border-radius: 22px; overflow: hidden;
-  background: var(--noite); color: #fff; box-shadow: 0 24px 50px -24px rgba(12,23,18,.45);
-}
-.medias__geral {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 36px 36px 32px;
-  border-right: 1px solid var(--linha-escura);
-  /* Luz dourada suave atrás do número */
-  background: radial-gradient(circle at 20% 15%, rgba(201,160,78,.18), rgba(201,160,78,0) 65%);
-}
-.medias__rotulo { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--dourado-claro); }
-.medias__numero { font-family: var(--font-serif); font-weight: 400; font-size: 84px; line-height: .95; font-variant-numeric: tabular-nums; }
-.medias__estrelas { position: relative; display: inline-block; font-size: 22px; letter-spacing: 4px; line-height: 1; color: rgba(255,255,255,.16); white-space: nowrap; }
-.medias__estrelas-cheias { position: absolute; inset: 0 auto 0 0; overflow: hidden; color: var(--dourado); }
-.medias__base { margin-top: 4px; font-size: 13.5px; color: #b9c7bf; }
-.medias__topicos {
-  list-style: none; margin: 0; padding: 34px 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px 44px; align-content: center;
-}
-.medias__linha { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-.medias__linha span { font-size: 15px; color: #dfe6e2; }
-.medias__linha strong { font-family: var(--font-serif); font-weight: 400; font-size: 22px; color: #fff; font-variant-numeric: tabular-nums; }
-.medias__trilho { display: block; height: 6px; margin-top: 10px; border-radius: 99px; background: rgba(255,255,255,.1); overflow: hidden; }
-.medias__barra {
-  display: block; height: 100%; border-radius: inherit; transform-origin: left center;
-  background: linear-gradient(90deg, var(--dourado-escuro), var(--dourado-claro));
-}
-@media (max-width: 900px) {
-  .medias { grid-template-columns: minmax(0, 1fr); }
-  /* Nota geral vira uma faixa: número à esquerda, estrelas e base à direita */
-  .medias__geral {
-    display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 20px; row-gap: 6px; align-items: center;
-    padding: 26px 24px; border-right: 0; border-bottom: 1px solid var(--linha-escura);
-  }
-  .medias__rotulo { grid-column: 1 / -1; }
-  .medias__numero { grid-row: 2 / span 2; font-size: 68px; }
-  .medias__estrelas { align-self: end; }
-  .medias__base { align-self: start; margin: 0; }
-  .medias__topicos { padding: 26px 24px; gap: 18px 32px; }
-}
-@media (max-width: 600px) {
-  .medias { border-radius: 18px; }
-  .medias__topicos { grid-template-columns: minmax(0, 1fr); padding: 22px 20px 24px; }
-  .medias__geral { padding: 22px 20px; }
-  .medias__linha span { font-size: 14.5px; }
-  .medias__linha strong { font-size: 20px; }
-}
 
 /* ---------- Modal de avaliação ---------- */
 .modal {
@@ -522,7 +481,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* ---------- Footer ---------- */
 .rodape { background: var(--noite); color: #fff; }
-.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 44px 40px 28px; display: flex; flex-direction: column; gap: 32px; }
+.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 44px 40px; display: flex; flex-direction: column; gap: 32px; }
 .rodape__topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
 .rodape__marca { display: flex; align-items: center; gap: 16px; padding-right: 28px; border-right: 1px solid var(--linha-escura); }
 .rodape__marca img { height: 72px; width: auto; display: block; }
@@ -543,12 +502,6 @@ h1, h2, h3, p { margin: 0; }
   width: 52px; height: 52px; border-radius: 50%; background: var(--verde); border: 1.5px solid var(--verde-borda);
   display: inline-flex; align-items: center; justify-content: center;
 }
-.rodape__locais {
-  list-style: none; margin: 0; padding: 22px 0 0; border-top: 1px solid #22322a;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 0; font-size: 14px; color: #dfe6e2;
-}
-.rodape__locais li { display: flex; align-items: center; gap: 10px; padding: 0 28px; border-right: 1px solid var(--linha-escura); }
-.rodape__locais li:last-child { border-right: 0; }
 
 /* ---------- WhatsApp flutuante ---------- */
 .zap-flutuante {
@@ -631,8 +584,6 @@ h1, h2, h3, p { margin: 0; }
 }
 
 @media (max-width: 1140px) {
-  .rodape__locais { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 14px 48px; }
-  .rodape__locais li { border-right: 0; padding: 0; }
 }
 
 /* Hero empilhado (retrato no topo, dissolvendo no texto) a partir do tablet */
@@ -692,7 +643,7 @@ h1, h2, h3, p { margin: 0; }
   .onde__item h3 { font-size: 14px; }
   /* Foto em arco centralizado, como o retrato do "Sobre mim", com as patas encostadas */
   .onde__foto { flex-basis: 100%; min-height: 0; height: 300px; max-width: 300px; margin: 0 auto 40px; }
-  .onde__arco { left: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
+  .onde__arco { left: 0; bottom: 0; padding-top: 24px; border-radius: 150px 150px 0 0; }
   .onde__pata1 { width: 48px; height: 48px; top: 8px; left: -20px; }
   .onde__pata2 { width: 32px; height: 32px; top: 62px; left: -30px; }
 
@@ -716,7 +667,7 @@ h1, h2, h3, p { margin: 0; }
   .aqua__inner { min-height: 0; padding-top: 200px; }
   .aqua__fundo { inset: 0 0 auto 0; height: 340px; }
   .aqua__fundo::after {
-    background: linear-gradient(180deg, rgba(12,23,18,.2) 0%, rgba(12,23,18,.45) 50%, var(--noite) 100%);
+    background: linear-gradient(180deg, var(--noite) 0, var(--noite) 32px, rgba(12,23,18,.3) 120px, rgba(12,23,18,.45) 50%, var(--noite) 100%);
   }
 
   .aval__inner { padding: 40px 24px; gap: 16px; }
@@ -735,7 +686,6 @@ h1, h2, h3, p { margin: 0; }
   .rodape__marca img { height: 52px; }
   .rodape__frase { font-size: 19px; }
   .botao-redondo { width: 46px; height: 46px; }
-  .rodape__locais { grid-template-columns: 1fr; justify-content: start; gap: 12px; }
 
   .zap-flutuante { right: 16px; bottom: 16px; width: 52px; height: 52px; }
   .zap-flutuante svg { width: 26px; height: 26px; }
@@ -751,6 +701,7 @@ h1, h2, h3, p { margin: 0; }
   .onde__grade .onde__item:last-child { border-bottom: 0; }
   .onde__item > svg { grid-row: span 2; }
   .onde__item h3 { white-space: normal; }
+  .onde__endereco { grid-column: 2; }
 }
 
 @media (max-width: 420px) {

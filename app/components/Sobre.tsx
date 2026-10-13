@@ -28,9 +28,15 @@ export default function Sobre() {
               <h2 className="titulo-secao">SOBRE MIM</h2>
             </div>
             <p>
-              Sou médico veterinário dedicado a cães e gatos, com um atendimento próximo, atencioso e sem pressa — em
-              domicílio por todo o Vale do Paraíba e em clínicas parceiras. Apaixonado por aquarismo, também ofereço
-              consultoria virtual para quem quer um aquário saudável e equilibrado.
+              Eu sou o Vinicius, e escolhi a medicina veterinária por amor aos animais. Há 5 anos, levo esse cuidado a
+              cada atendimento: ouvir com calma, explicar cada etapa do tratamento e não ter pressa. Para muitos
+              animais, ir à clínica é motivo de estresse, então pensando no bem-estar deles, atendo principalmente em
+              domicílio, por todo o Vale do Paraíba. Mas quando o caso pede mais estrutura, atendo também em clínicas de
+              Cachoeira Paulista e Cruzeiro.
+            </p>
+            <p>
+              O mesmo cuidado se estende aos aquários: apaixonado por aquarismo, ofereço consultoria presencial ou
+              virtual, da montagem à manutenção do dia a dia, para manter a água, os peixes e as plantas em equilíbrio.
             </p>
             <div className="sobre__assinatura">
               <span>Vinicius V. Simões</span>

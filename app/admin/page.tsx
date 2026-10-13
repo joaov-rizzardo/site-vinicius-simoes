@@ -139,11 +139,7 @@ function Card({ avaliacao: a, mostrarStatus }: { avaliacao: Avaliacao; mostrarSt
     <li className="adm-card">
       <div className="adm-card__topo">
         <div className="adm-card__avatar">
-          {a.foto ? (
-            <Image src={a.foto.src} alt={a.foto.alt} fill sizes="44px" />
-          ) : (
-            <span aria-hidden="true">{a.nome.charAt(0).toUpperCase()}</span>
-          )}
+          <span aria-hidden="true">{a.nome.charAt(0).toUpperCase()}</span>
         </div>
         <div className="adm-card__quem">
           <strong>{a.nome}</strong>

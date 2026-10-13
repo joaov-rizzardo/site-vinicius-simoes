@@ -78,7 +78,7 @@ function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onCon
     <form action={acao} className="modal__form" noValidate>
       <div>
         <h2 id="modal-titulo">Deixe sua avaliação</h2>
-        <p className="modal__sub">Dê uma nota para cada parte do atendimento e conte como foi para você e seu pet.</p>
+        <p className="modal__sub">Dê sua nota para os dois tópicos abaixo e escreva sua avaliação pessoal do atendimento.</p>
       </div>
 
       <div className="modal__topicos">
@@ -115,7 +115,7 @@ function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onCon
       </label>
 
       <label className="modal__campo">
-        <span>Conte com suas palavras</span>
+        <span>Sua avaliação pessoal</span>
         <textarea
           name="comentario"
           rows={4}

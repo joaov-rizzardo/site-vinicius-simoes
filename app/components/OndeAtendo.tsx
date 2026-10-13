@@ -3,15 +3,23 @@ import { Casa, Clinica, Hospital, Monitor, Pata, PinoMapa } from "./icons";
 import * as motion from "motion/react-client";
 import { flutuar, revelar } from "../lib/animacoes";
 
-const locais = [
+// Clínicas mostram o endereço no lugar do texto
+const locais: { icone: React.ReactNode; titulo: string; texto?: string; endereco?: string }[] = [
   { icone: <Casa />, titulo: "ATENDIMENTO\nRESIDENCIAL", texto: "Em todo o Vale do Paraíba. Levo o cuidado até você." },
-  { icone: <Clinica />, titulo: "CLÍNICA EM\nCACHOEIRA PAULISTA", texto: "Atendimento presencial em clínica parceira." },
-  { icone: <Hospital />, titulo: "CLÍNICA EM\nCRUZEIRO", texto: "Atendimento presencial em clínica parceira." },
+  {
+    icone: <Clinica />,
+    titulo: "CLÍNICA PARCEIRA EM\nCACHOEIRA PAULISTA",
+    endereco: "Rua Orris Benedito Barbosa, 318.",
+  },
+  {
+    icone: <Hospital />,
+    titulo: "CLÍNICA PARCEIRA EM\nCRUZEIRO",
+    endereco: "Rua Dom Bôsco, Centro, 343.",
+  },
   {
     icone: <Monitor />,
-    titulo: "CONSULTORIA VIRTUAL\nDE AQUARISMO",
-    texto: "Orientação e suporte especializado para seu aquário.",
-    destaque: true,
+    titulo: "CONSULTORIA DE\nAQUARISMO",
+    texto: "Orientação para seu aquário, presencial ou virtual.",
   },
 ];
 
@@ -31,12 +39,17 @@ export default function OndeAtendo() {
             {locais.map((l, i) => (
               <motion.div
                 key={l.titulo}
-                className={l.destaque ? "onde__item onde__item--destaque" : "onde__item"}
+                className="onde__item"
                 {...revelar("cima", i + 2)}
               >
                 {l.icone}
                 <h3>{l.titulo}</h3>
-                <p>{l.texto}</p>
+                {l.texto && <p>{l.texto}</p>}
+                {l.endereco && (
+                  <address className="onde__endereco">
+                    <strong>Endereço:</strong> {l.endereco}
+                  </address>
+                )}
               </motion.div>
             ))}
           </div>

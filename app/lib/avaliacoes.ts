@@ -12,8 +12,6 @@ export type Avaliacao = {
   // Uma nota de 1 a 5 por tópico; a nota geral é a média delas
   notas: Notas;
   comentario: string;
-  // Foto do pet; sem foto, o card mostra a inicial do nome
-  foto?: { src: string; alt: string };
   status: StatusAvaliacao;
   criadaEm: string; // ISO
 };
@@ -27,8 +25,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-1",
     nome: "Mariana S.",
-    notas: n(5, 5, 5, 5, 5, 4),
-    foto: { src: "/img/avaliacao-labrador.jpg", alt: "Labrador preto" },
+    notas: n(5, 5),
     comentario: "Atendimento atencioso, explica tudo com calma e seu cuidado faz toda a diferença. Meu dog ama!",
     status: "aprovada",
     criadaEm: new Date(Date.now() - 40 * dia).toISOString(),
@@ -36,8 +33,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-2",
     nome: "Rafael T.",
-    notas: n(5, 5, 5, 5, 5, 5),
-    foto: { src: "/img/avaliacao-gato.jpg", alt: "Gato tigrado" },
+    notas: n(5, 5),
     comentario:
       "Excelente profissional! Cuidou muito bem da minha gata e me deixou super tranquila durante todo o atendimento.",
     status: "aprovada",
@@ -46,8 +42,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-3",
     nome: "Juliana M.",
-    notas: n(5, 4, 5, 5, 5, 4),
-    foto: { src: "/img/aquario-peixe-palhaco.jpg", alt: "Peixe-palhaço" },
+    notas: n(5, 5),
     comentario: "A consultoria de aquarismo foi perfeita! Meu aquário nunca esteve tão equilibrado.",
     status: "aprovada",
     criadaEm: new Date(Date.now() - 5 * dia).toISOString(),
@@ -55,7 +50,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-7",
     nome: "Patrícia R.",
-    notas: n(5, 5, 4, 5, 4, 4),
+    notas: n(5, 4),
     comentario:
       "Explicou o tratamento da minha calopsita com paciência e respondeu todas as dúvidas pelo WhatsApp depois.",
     status: "aprovada",
@@ -64,7 +59,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-8",
     nome: "Diego F.",
-    notas: n(5, 5, 5, 4, 5, 4),
+    notas: n(5, 4),
     comentario: "Muito cuidadoso com o Thor, que é bem medroso. Atrasou uns minutinhos, mas valeu cada um.",
     status: "aprovada",
     criadaEm: new Date(Date.now() - 11 * dia).toISOString(),
@@ -73,7 +68,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-4",
     nome: "Carlos A.",
-    notas: n(5, 5, 4, 5, 5, 5),
+    notas: n(4, 5),
     comentario: "Veio em casa atender meu cachorro idoso, com muita paciência. Recomendo demais!",
     status: "pendente",
     criadaEm: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
@@ -81,7 +76,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-5",
     nome: "Fernanda L.",
-    notas: n(5, 4, 4, 4, 4, 3),
+    notas: n(4, 4),
     comentario: "Ótimo atendimento na clínica de Cruzeiro. Só demorou um pouco para conseguir horário.",
     status: "pendente",
     criadaEm: new Date(Date.now() - 1 * dia).toISOString(),
@@ -89,7 +84,7 @@ const iniciais: Avaliacao[] = [
   {
     id: "seed-6",
     nome: "promo123",
-    notas: n(1, 1, 1, 1, 1, 1),
+    notas: n(1, 1),
     comentario: "Compre seguidores baratos no meu perfil!!! Acesse o link na bio.",
     status: "recusada",
     criadaEm: new Date(Date.now() - 3 * dia).toISOString(),
@@ -97,8 +92,8 @@ const iniciais: Avaliacao[] = [
 ];
 
 // globalThis evita que o hot reload do `next dev` zere a lista a cada edição
-const g = globalThis as typeof globalThis & { __avaliacoesStoreV4?: Avaliacao[] };
-const store = (g.__avaliacoesStoreV4 ??= [...iniciais]);
+const g = globalThis as typeof globalThis & { __avaliacoesStoreV5?: Avaliacao[] };
+const store = (g.__avaliacoesStoreV5 ??= [...iniciais]);
 
 // Mais recentes primeiro; sem filtro, devolve todas
 export function listarAvaliacoes(status?: StatusAvaliacao): Avaliacao[] {

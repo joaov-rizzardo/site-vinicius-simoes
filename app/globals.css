@@ -500,7 +500,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* ---------- Footer ---------- */
 .rodape { background: var(--noite); color: #fff; }
-.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 44px 40px; display: flex; flex-direction: column; gap: 32px; }
+.rodape__inner { max-width: 1360px; margin: 0 auto; padding: 28px 40px 20px; display: flex; flex-direction: column; gap: 20px; }
 .rodape__topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
 .rodape__marca { display: flex; align-items: center; gap: 16px; padding-right: 28px; border-right: 1px solid var(--linha-escura); }
 .rodape__marca img { height: 72px; width: auto; display: block; }
@@ -517,6 +517,14 @@ h1, h2, h3, p { margin: 0; }
 .rodape__redes { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .rodape__redes > span { font-size: 12px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; }
 .rodape__redes > div { display: flex; gap: 14px; }
+.rodape__credito {
+  display: flex; align-items: center; justify-content: center; gap: 18px; padding-top: 16px;
+  border-top: 1px solid var(--linha-escura); font-size: 13px; letter-spacing: 0.06em; color: #c8d1cc;
+}
+/* margem negativa compensa a folga do canvas reservada para os pixels se espalharem */
+.vex { display: block; line-height: 0; margin: -10px; border-radius: 4px; }
+.vex canvas { display: block; }
+.vex:focus-visible { outline: 2px solid var(--dourado); outline-offset: -4px; }
 .botao-redondo {
   width: 52px; height: 52px; border-radius: 50%; background: var(--verde); border: 1.5px solid var(--verde-borda);
   display: inline-flex; align-items: center; justify-content: center;
@@ -700,7 +708,7 @@ h1, h2, h3, p { margin: 0; }
   .aval__botao { padding: 11px 22px; font-size: 14px; }
 
   /* Rodapé: espaço no fim para o botão flutuante não cobrir o conteúdo */
-  .rodape__inner { padding: 40px 24px 96px; gap: 24px; }
+  .rodape__inner { padding: 28px 24px 96px; gap: 18px; }
   .rodape__topo { gap: 20px; }
   .rodape__marca { border-right: 0; padding-right: 0; gap: 12px; }
   .rodape__marca img { height: 52px; }

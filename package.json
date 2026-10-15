@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "firebase": "^13.0.0",
     "motion": "13.4.4",
     "next": "^16.4.0",
     "react": "^19.3.0",

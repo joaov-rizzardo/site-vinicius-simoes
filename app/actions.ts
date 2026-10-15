@@ -38,8 +38,7 @@ export async function enviarAvaliacao(_prev: EstadoAvaliacao, formData: FormData
   if (Object.keys(erros).length)
     return { ok: false, erros, valores: { notas, nome: anonimo ? "" : nome, anonimo, comentario } };
 
-  adicionarAvaliacao({ nome, notas: notas as Notas, comentario });
+  await adicionarAvaliacao({ nome, notas: notas as Notas, comentario });
   revalidatePath("/");
-  revalidatePath("/admin");
   return { ok: true };
 }

@@ -40,8 +40,6 @@
 .adm-login__sub { margin-top: 4px; font-size: 15px; color: var(--texto-3); }
 .adm-login__form { width: 100%; margin-top: 24px; display: flex; flex-direction: column; gap: 14px; text-align: left; }
 .adm-login__form .adm-botao { width: 100%; margin-top: 4px; }
-.adm-login__demo { margin-top: 20px; padding: 10px 14px; border-radius: 10px; background: #f4ead2; color: #6b5220; font-size: 13.5px; }
-.adm-login__demo code { font-weight: 700; font-size: 14px; }
 
 /* Topo */
 .adm-topo { background: var(--noite); color: #fff; }

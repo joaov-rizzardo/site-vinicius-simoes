@@ -1,0 +1,48 @@
+rules_version = '2';
+
+// Publicar em: Console do Firebase → Firestore Database → Regras (colar e clicar em Publicar).
+// Os limites repetem app/lib/limites.ts e app/lib/topicos.ts: se mudarem lá, mudar aqui também.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Admin = logado no Firebase Auth E com documento em admins/{uid} (criado à mão no console)
+    function ehAdmin() {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function notaValida(n) {
+      return n is int && n >= 1 && n <= 5;
+    }
+
+    function avaliacaoNovaValida(a) {
+      return a.keys().hasOnly(["nome", "notas", "comentario", "status", "criadaEm"])
+        && a.keys().hasAll(["nome", "notas", "comentario", "status", "criadaEm"])
+        && a.status == "pendente"
+        && a.nome is string && a.nome.size() >= 2 && a.nome.size() <= 30
+        && a.comentario is string && a.comentario.size() >= 10 && a.comentario.size() <= 160
+        && a.criadaEm is string
+        && a.notas is map
+        && a.notas.keys().hasOnly(["clareza", "carisma"])
+        && a.notas.keys().hasAll(["clareza", "carisma"])
+        && notaValida(a.notas.clareza) && notaValida(a.notas.carisma);
+    }
+
+    match /avaliacoes/{id} {
+      // Visitantes só leem as aprovadas; o admin lê todas
+      allow read: if resource.data.status == "aprovada" || ehAdmin();
+      // Qualquer um envia, mas sempre como "pendente" e dentro dos limites do formulário
+      allow create: if avaliacaoNovaValida(request.resource.data);
+      // Moderação: o admin só troca o status
+      allow update: if ehAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["status"])
+        && request.resource.data.status in ["pendente", "aprovada", "recusada"];
+      allow delete: if ehAdmin();
+    }
+
+    // Cada usuário só consegue checar o próprio registro; ninguém escreve por aqui
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}

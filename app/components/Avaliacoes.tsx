@@ -1,5 +1,5 @@
 import { connection } from "next/server";
-import { calcularMedias, listarAvaliacoes } from "../lib/avaliacoes";
+import { calcularMedias, listarAprovadas } from "../lib/avaliacoes";
 import { formatarNota, TOPICOS } from "../lib/topicos";
 import AvaliarModal from "./AvaliarModal";
 import Carrossel from "./Carrossel";
@@ -8,9 +8,9 @@ import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
 
 export default async function Avaliacoes() {
-  // Lê a lista a cada requisição (dados em memória mudam em tempo de execução)
+  // Lê a lista a cada requisição (as avaliações mudam no Firestore em tempo de execução)
   await connection();
-  const avaliacoes = listarAvaliacoes("aprovada");
+  const avaliacoes = await listarAprovadas();
   // Média geral das estrelas publicadas; recalculada a cada requisição, acompanha cada avaliação aprovada
   const medias = calcularMedias(avaliacoes);
 

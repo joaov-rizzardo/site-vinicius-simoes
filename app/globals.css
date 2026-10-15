@@ -714,8 +714,8 @@ h1, h2, h3, p { margin: 0; }
   .aval__frase { font-size: 15px; }
   .aval__botao { padding: 11px 22px; font-size: 14px; }
 
-  /* Rodapé: espaço no fim para o botão flutuante não cobrir o conteúdo */
-  .rodape__inner { padding: 28px 24px 96px; gap: 18px; }
+  /* Crédito centralizado não colide com o botão flutuante (canto direito), então não precisa de folga extra */
+  .rodape__inner { padding: 28px 24px 24px; gap: 18px; }
   .rodape__topo { gap: 20px; }
   .rodape__marca { border-right: 0; padding-right: 0; gap: 12px; }
   .rodape__marca img { height: 52px; }

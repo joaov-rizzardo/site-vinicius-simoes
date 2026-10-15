@@ -9,7 +9,7 @@ const NOME_ANONIMO = "Anônimo";
 
 export type EstadoAvaliacao = {
   ok: boolean;
-  erros?: { notas?: string; nome?: string; comentario?: string };
+  erros?: { notas?: string; nome?: string; comentario?: string; envio?: string };
   // Devolve o que foi digitado para não perder o texto quando há erro
   valores?: { notas: Partial<Notas>; nome: string; anonimo: boolean; comentario: string };
 };
@@ -38,7 +38,16 @@ export async function enviarAvaliacao(_prev: EstadoAvaliacao, formData: FormData
   if (Object.keys(erros).length)
     return { ok: false, erros, valores: { notas, nome: anonimo ? "" : nome, anonimo, comentario } };
 
-  await adicionarAvaliacao({ nome, notas: notas as Notas, comentario });
+  try {
+    await adicionarAvaliacao({ nome, notas: notas as Notas, comentario });
+  } catch (erro) {
+    console.error("Falha ao salvar avaliação", erro);
+    return {
+      ok: false,
+      erros: { envio: "Não foi possível enviar sua avaliação agora. Tente novamente em instantes." },
+      valores: { notas, nome: anonimo ? "" : nome, anonimo, comentario },
+    };
+  }
   revalidatePath("/");
   return { ok: true };
 }

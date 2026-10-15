@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="rodape__inner">
         <motion.div className="rodape__topo" {...revelar("cima")}>
           <div className="rodape__marca">
-            <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={317} height={378} />
+            <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={61} height={72} />
             <span className="marca__textos">
               <span className="marca__nome">{site.nome}</span>
               <span className="marca__cargo">{site.cargo}</span>

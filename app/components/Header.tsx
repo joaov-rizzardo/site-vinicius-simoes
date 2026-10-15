@@ -63,7 +63,7 @@ export default function Header() {
     <header ref={header} className="header">
       <div className="header__inner">
         <a href="#inicio" className="marca">
-          <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={317} height={378} priority />
+          <Image src="/img/logo.png" alt="Logo Vinicius Vicente Simões" width={61} height={72} preload />
           <span className="marca__textos">
             <span className="marca__nome">{site.nome}</span>
             <span className="marca__cargo">{site.cargo}</span>

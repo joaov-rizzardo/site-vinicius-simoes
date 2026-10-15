@@ -26,10 +26,12 @@ export default function VexLogo() {
   useEffect(() => {
     const familia = getComputedStyle(document.documentElement).getPropertyValue("--font-montserrat").trim() || "sans-serif";
     let ativo = true;
-    Promise.all([
+    // allSettled: a fonte reserva do next/font aponta para a Arial local, e onde ela não existe
+    // (Android, Linux) o load rejeita com NetworkError mesmo com a Montserrat já carregada
+    Promise.allSettled([
       document.fonts.load(`800 ${FONTE_VEX}px ${familia}`),
       document.fonts.load(`600 ${FONTE_SOFTWARE}px ${familia}`),
-    ]).finally(() => {
+    ]).then(() => {
       if (!ativo) return;
       preparar(familia);
       desenhar(-1);

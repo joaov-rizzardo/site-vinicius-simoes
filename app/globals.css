@@ -554,7 +554,28 @@ h1, h2, h3, p { margin: 0; }
   .nav, .menu-botao span { transition: none; }
 }
 
+/* ---------- Página 404 ---------- */
+.nao-encontrada {
+  min-height: 100svh; padding: 40px 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 16px; text-align: center;
+}
+.nao-encontrada img { height: 72px; width: auto; margin-bottom: 8px; }
+.nao-encontrada h1 { font-family: var(--font-serif); font-size: 32px; color: var(--texto); }
+.nao-encontrada p { color: var(--texto-2); font-size: 17px; max-width: 420px; }
+.nao-encontrada__botao {
+  margin-top: 8px; padding: 14px 26px; border-radius: 999px; font-weight: 700; text-decoration: none;
+  color: #fff; background: var(--verde); border: 2px solid var(--verde-borda);
+}
+.nao-encontrada__botao:hover { color: #fff; background: var(--verde-escuro); }
+
 /* ---------- Animações do site ---------- */
+/* Entrada da hero ao carregar (atraso e deslocamento vêm de entrada() em lib/animacoes.ts) */
+.entrada { animation: entrada 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) var(--atraso, 0s) both; }
+@keyframes entrada { from { opacity: 0; transform: translateY(var(--y, 26px)); } }
+@media (prefers-reduced-motion: reduce) {
+  @keyframes entrada { from { opacity: 0; } }
+}
+
 /* Menu: sublinhado que cresce no hover */
 @media (min-width: 1141px) {
   .nav a { position: relative; }

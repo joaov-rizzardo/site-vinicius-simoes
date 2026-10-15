@@ -16,18 +16,18 @@ export default function Hero() {
       <div className="hero__inner">
         <div className="hero__texto">
           <div className="hero__conteudo">
-            <motion.p className="hero__kicker" {...entrada(0.1)}>
+            <p className="hero__kicker entrada" style={entrada(0.1)}>
               <span>
                 CUIDADO, SAÚDE E BEM-ESTAR <br className="hero__quebra" />
                 PARA SEU PET
               </span>
-            </motion.p>
-            <motion.h1 {...entrada(0.22)}>
+            </p>
+            <h1 className="entrada" style={entrada(0.22)}>
               Seu melhor amigo
               <br />
               <em>em boas mãos.</em>
-            </motion.h1>
-            <motion.p className="hero__desc" {...entrada(0.38)}>
+            </h1>
+            <p className="hero__desc entrada" style={entrada(0.38)}>
               <span className="hero__desc-longa">
                 Sou médico veterinário com anos de experiência, especializado no atendimento de cães e gatos. Atendo
                 principalmente em domicílio, em todo o Vale do Paraíba e região, para que seu pet seja cuidado com tranquilidade no próprio
@@ -38,11 +38,11 @@ export default function Hero() {
                 Atendimento de cães e gatos em domicílio no Vale do Paraíba e região, com a tranquilidade do próprio lar, e
                 em clínicas de Cachoeira Paulista e Cruzeiro. Consultoria de aquarismo presencial ou online.
               </span>
-            </motion.p>
-            <motion.p className="hero__tags" {...entrada(0.44)}>
+            </p>
+            <p className="hero__tags entrada" style={entrada(0.44)}>
               CÃES &nbsp;•&nbsp; GATOS &nbsp;•&nbsp; AQUARISMO
-            </motion.p>
-            <motion.div className="hero__ctas" {...entrada(0.5)}>
+            </p>
+            <div className="hero__ctas entrada" style={entrada(0.5)}>
               <a
                 className="cta botao-hero botao-hero--verde"
                 href={linkWhatsApp("Olá! Gostaria de marcar uma consulta para o meu pet.")}
@@ -69,7 +69,7 @@ export default function Hero() {
                 </span>
                 <Seta />
               </a>
-            </motion.div>
+            </div>
           </div>
         </div>
 
@@ -89,15 +89,16 @@ export default function Hero() {
             animate={{ scaleY: 1 }}
             transition={{ duration: 0.9, delay: 0.6, ease: [0.6, 0, 0.2, 1] }}
           />
-          <motion.div className="hero__foto" {...entrada(0.25, 40)}>
+          <div className="hero__foto entrada" style={entrada(0.25, 40)}>
             <Image
               src="/img/hero-vinicius.png"
               alt="Vinicius Vicente Simões, médico veterinário, de braços cruzados com estetoscópio"
               fill
-              priority
-              sizes="(max-width: 720px) 100vw, 540px"
+              preload
+              fetchPriority="high"
+              sizes="(max-width: 720px) 340px, 540px"
             />
-          </motion.div>
+          </div>
           <div className="hero__frase" aria-hidden="true">
             <p>
               {linhasFrase.map((l, i) => (
@@ -118,11 +119,11 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 2.6, ease: [0.6, 0, 0.2, 1] }}
             />
           </div>
-          <motion.p className="hero__assinatura" {...entrada(0.9, 12)}>
+          <p className="hero__assinatura entrada" style={entrada(0.9, 12)}>
             <strong>Vinicius Vicente Simões</strong>
             <span>{site.cargo} · CLÍNICO GERAL</span>
             <span className="hero__crmv">{site.crmv}</span>
-          </motion.p>
+          </p>
         </div>
       </div>
     </section>

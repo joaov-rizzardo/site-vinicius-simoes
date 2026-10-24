@@ -107,9 +107,10 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* ---------- Hero ---------- */
-/* Hero e Aquarismo ocupam a tela inteira, descontando o cabeçalho */
-.hero, .aqua { min-height: calc(100vh - var(--barra)); min-height: calc(100svh - var(--barra)); display: flex; flex-direction: column; }
+/* Cada seção ocupa a tela inteira, descontando o cabeçalho, com o conteúdo centralizado na vertical */
+main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh - var(--barra)); display: flex; flex-direction: column; justify-content: center; }
 .hero__inner, .aqua__inner { flex: 1; width: 100%; }
+.sobre__grade, .onde__inner, .aval__inner { width: 100%; }
 .hero { background: var(--noite); color: #fff; position: relative; overflow: hidden; }
 .hero__inner {
   max-width: 1440px; margin: 0 auto;
@@ -195,57 +196,207 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* ---------- Sobre ---------- */
-.sobre { background: var(--creme); position: relative; z-index: 2; }
-.sobre__wrap { max-width: 1100px; margin: 0 auto; padding: 36px 24px 40px; }
-.sobre__card {
-  background: #fff; border-radius: 28px; border: 1px solid #ece6d8;
-  box-shadow: 0 22px 50px -18px rgba(12,23,18,0.22), 0 4px 14px rgba(12,23,18,0.06);
-  padding: 36px 48px; display: flex; flex-wrap: wrap; align-items: center; gap: 32px 56px;
+/* Pré-título: texto em dourado com um fio antes, como o do hero */
+.kicker {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 18px;
+  font-family: var(--font-nav); font-size: 13px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dourado-escuro);
 }
-.sobre__foto { flex: 0 0 200px; position: relative; margin: 0 auto; }
-.sobre__moldura { position: absolute; top: 10px; right: -10px; bottom: -10px; left: 10px; border: 2px solid var(--dourado); border-radius: 110px 110px 12px 12px; }
+.kicker::before { content: ""; flex: none; width: 40px; height: 1px; background: var(--dourado); }
+.serv .kicker { color: var(--dourado-claro); }
+
+/* Títulos grandes em serifa; o trecho em <em> ganha um marca-texto dourado */
+.titulo-grande {
+  font-family: var(--font-serif); font-weight: 400; font-size: clamp(34px, 3.6vw, 52px);
+  line-height: 1.12; letter-spacing: -0.015em; color: var(--texto); text-wrap: balance;
+}
+.titulo-grande em {
+  font-style: normal; padding-inline: 0.06em;
+  background: linear-gradient(transparent 60%, rgba(201,160,78,.38) 60%, rgba(201,160,78,.38) 92%, transparent 92%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.titulo-grande--claro { color: #fff; }
+.titulo-grande--claro em { background: none; color: var(--verde-claro); font-style: italic; }
+
+.sobre { background: var(--creme); position: relative; z-index: 2; }
+.sobre__grade {
+  max-width: 1280px; margin: 0 auto; padding: 72px 64px;
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(48px, 7vw, 112px); align-items: center;
+}
+.sobre__foto { position: relative; margin: 0; width: 100%; max-width: 420px; justify-self: center; }
 /* Proporção 4:5 pelo padding (funciona também em celulares antigos sem suporte a aspect-ratio) */
 .sobre__retrato {
-  position: relative; height: 0; padding-bottom: 125%; border-radius: 110px 110px 12px 12px; background: #e4ddcd;
-  overflow: hidden; box-shadow: 0 12px 30px rgba(12,23,18,0.25);
+  position: relative; height: 0; padding-bottom: 125%; border-radius: 16px; background: #e4ddcd;
+  overflow: hidden; box-shadow: 0 22px 50px -18px rgba(12,23,18,0.35);
 }
-.sobre__retrato img { position: absolute; top: 0; left: 0; width: 112%; height: 112%; object-fit: cover; object-position: 0% 0%; }
-.sobre__pata { position: absolute; right: -26px; bottom: 30px; transform: rotate(18deg); }
-.sobre__texto { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
-.sobre__titulo { display: flex; align-items: center; gap: 12px; }
-.sobre__texto > p { font-size: 16px; line-height: 1.65; color: var(--texto-2); max-width: 640px; }
-.sobre__texto > p + p { margin-top: 8px; }
-.sobre__assinatura { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
-.sobre__assinatura span:first-child { font-family: var(--font-script); font-size: 26px; color: var(--dourado-escuro); }
-.selo {
-  display: inline-flex; align-items: center; padding: 6px 14px; border: 1.5px solid var(--verde);
-  border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--verde);
+.sobre__retrato img { object-fit: cover; object-position: 0% 0%; transform: scale(1.12); transform-origin: 0 0; }
+.sobre__pata { position: absolute; right: -30px; bottom: 80px; transform: rotate(18deg); }
+.sobre__legenda { margin-top: 18px; font-size: 14px; color: var(--texto-3); }
+.sobre__texto { min-width: 0; display: flex; flex-direction: column; }
+.sobre__texto .titulo-grande { max-width: 16ch; margin-bottom: 32px; }
+.sobre__prosa { display: grid; gap: 1.1em; max-width: 62ch; }
+.sobre__prosa p { font-size: 17px; line-height: 1.7; color: var(--texto-2); }
+/* Assinatura à esquerda e CRMV no canto direito, com um fio antes */
+.sobre__assinatura { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 40px; max-width: 62ch; }
+.sobre__assinatura span:first-child { font-family: var(--font-script); font-size: 30px; color: var(--dourado-escuro); }
+.sobre__crmv {
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-nav); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--verde);
 }
+.sobre__crmv::before { content: ""; width: 40px; height: 1px; background: currentColor; }
+
+/* ---------- Serviços ---------- */
+.serv {
+  background:
+    radial-gradient(40% 50% at 100% 0%, rgba(20,87,58,.45), transparent 70%),
+    radial-gradient(35% 40% at 0% 100%, rgba(12,61,40,.55), transparent 70%),
+    var(--noite);
+  color: #fff; overflow: hidden;
+}
+.serv :focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+.serv__inner {
+  max-width: 1360px; margin: 0 auto; padding: 72px 64px; width: 100%;
+  display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 56px; align-items: center;
+}
+.serv__cabeca { display: grid; gap: 24px; }
+.serv__lead { font-size: 18px; line-height: 1.6; color: #c9d3cd; max-width: 36ch; }
+.serv__trilho {
+  /* Sangra até a borda direita da tela para mostrar que há mais cards */
+  margin: 0 calc(-64px - max(0px, (100vw - 1360px) / 2)) 0 0; padding: 4px 64px 4px 0; list-style: none;
+  display: grid; grid-auto-flow: column; grid-auto-columns: clamp(250px, 21vw, 300px); column-gap: 20px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.serv__trilho::-webkit-scrollbar { display: none; }
+/* Card com a foto desfocada ao fundo e o texto na frente */
+.serv-card {
+  scroll-snap-align: start; position: relative; isolation: isolate; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 24px;
+  aspect-ratio: 3 / 4.9; padding: 26px; border: 1px solid rgba(255,255,255,.14); border-radius: 22px;
+  background: var(--verde-escuro); transition: border-color .3s;
+}
+/* Foto nítida e presa ao topo: o rosto do animal fica no alto e o texto, embaixo, sobre o escurecido */
+.serv-card__fundo {
+  z-index: -2; object-fit: cover; object-position: center top; transform-origin: center top;
+  transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .6s cubic-bezier(.2,.7,.2,1);
+}
+/* Com mouse, a foto fica desfocada e ganha nitidez ao repousar o cursor; no toque ela já aparece nítida */
+@media (hover: hover) {
+  .serv-card__fundo { filter: blur(5px) saturate(.9); transform: scale(1.06); }
+  .serv-card:hover .serv-card__fundo { filter: none; }
+}
+.serv-card::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(12,23,18,.35) 0%, rgba(12,23,18,0) 16%, rgba(12,23,18,0) 46%, rgba(12,23,18,.78) 66%, rgba(12,23,18,.96) 100%);
+}
+.serv-card:hover { border-color: var(--dourado); }
+.serv-card:hover .serv-card__fundo { transform: scale(1.05); }
+.serv-card__num { font-family: var(--font-nav); font-weight: 700; font-size: 13px; letter-spacing: 0.12em; color: var(--dourado-claro); }
+.serv-card__corpo { display: grid; gap: 10px; }
+.serv-card__titulo { font-family: var(--font-serif); font-weight: 400; font-size: 26px; line-height: 1.12; transition: color .3s; }
+.serv-card:hover .serv-card__titulo { color: var(--dourado-claro); }
+.serv-card__texto { font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.82); }
+.serv__controles { display: flex; align-items: center; gap: 20px; margin-top: 28px; }
+.serv__contador { font-size: 14px; letter-spacing: 0.08em; color: rgba(255,255,255,.6); font-variant-numeric: tabular-nums; }
+.serv__contador strong { color: var(--dourado-claro); }
+.serv__progresso { flex: 1; height: 2px; background: rgba(255,255,255,.14); overflow: hidden; }
+.serv__progresso span { display: block; height: 100%; background: var(--dourado); transform-origin: left; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.serv__setas { display: flex; gap: 10px; }
+.serv__seta {
+  display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.2); background: transparent; cursor: pointer;
+  transition: background-color .2s, border-color .2s, opacity .2s;
+}
+.serv__seta:hover:not(:disabled) { background: var(--verde); border-color: var(--verde-borda); }
+.serv__seta:disabled { opacity: .35; cursor: default; }
+.serv__seta--voltar svg { transform: rotate(180deg); }
 
 /* ---------- Onde atendo ---------- */
-.onde { background: var(--creme); position: relative; overflow: hidden; }
-.onde__inner { max-width: 1440px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: stretch; }
-.onde__texto { flex: 999 1 640px; min-width: 0; padding: 64px 40px 64px 64px; display: flex; flex-direction: column; gap: 14px; }
-.onde__titulo { display: flex; align-items: center; gap: 14px; }
-.onde__sub { font-size: 22px; line-height: 1.4; color: var(--verde); max-width: 440px; }
-.onde__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 28px; }
-.onde__item { padding: 8px 24px; display: flex; flex-direction: column; gap: 14px; border-right: 1px solid #e3ddce; }
-.onde__item:first-child { padding-left: 0; }
-.onde__item:last-child { border-right: 0; }
-.onde__item h3 { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; line-height: 1.4; white-space: pre-line; }
-.onde__item p { font-size: 14px; line-height: 1.6; color: var(--texto-3); }
-.onde__endereco { font-style: normal; font-size: 14px; line-height: 1.6; color: var(--texto-3); }
-.onde__endereco strong { color: var(--texto-2); }
-/* O arco termina antes do fim da seção para não encostar na foto do aquarismo logo abaixo */
-.onde__foto { flex: 1 1 420px; min-width: 0; display: flex; justify-content: center; align-items: flex-end; padding: 24px 24px 44px 0; }
-/* Arco com a proporção da própria foto: nunca corta, em qualquer resolução. O recuo à esquerda abriga as patas */
-.onde__quadro { position: relative; width: 100%; max-width: 444px; padding-left: 64px; }
-.onde__arco { border-radius: 220px 220px 28px 28px; overflow: hidden; background: #fdfefe; padding-top: 48px; }
-.onde__arco-img { position: relative; width: 100%; aspect-ratio: 356 / 410; }
-.onde__arco-img img { object-fit: cover; object-position: 50% 0%; }
-.onde__pata1 { position: absolute; top: 28px; left: -10px; width: 78px; height: 78px; }
-.onde__pata2 { position: absolute; top: 120px; left: 46px; width: 56px; height: 56px; }
-.onde__pata1 svg, .onde__pata2 svg { display: block; width: 100%; height: 100%; }
+.onde { background: var(--creme); position: relative; overflow: hidden; isolation: isolate; }
+/* Mapa do Vale ao fundo, deslocado para a direita para deixar o título livre */
+.onde__mapa { position: absolute; inset: 3% -2% 3% 24%; z-index: -1; pointer-events: none; }
+.vale { display: block; width: 100%; height: 100%; overflow: visible; }
+.vale__terra { fill: #e9e1cf; }
+.vale__divisas { fill: none; stroke: var(--creme); stroke-width: 2; stroke-linejoin: round; }
+/* Pinos escondidos; surgem com um pequeno salto quando o card correspondente recebe o mouse */
+.vale__pino { opacity: 0; transform: translateY(-14px) scale(.2); transform-box: fill-box; transform-origin: 50% 100%; transition: opacity .25s ease, transform .45s cubic-bezier(.3,1.6,.5,1); }
+.vale__pino--visivel { opacity: 1; transform: none; }
+.vale__gota { fill: var(--dourado); stroke: #fff; stroke-width: 3; }
+.vale__miolo { fill: #fff; }
+.vale__nome { font-family: var(--font-nav); font-size: 17px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; fill: var(--dourado-escuro); paint-order: stroke; stroke: var(--creme); stroke-width: 6px; }
+@media (prefers-reduced-motion: reduce) { .vale__pino { transform: none; transition: opacity .2s ease; } }
+/* Frase abaixo do título: mesmo texto corrido do site, com o lugar em destaque; troca com um leve fade */
+.onde__legenda { display: flex; align-items: center; gap: 10px; margin-top: -12px; font-size: 17px; line-height: 1.5; color: var(--texto-3); }
+.onde__legenda svg { flex: none; width: 20px; height: 20px; }
+.onde__legenda span { animation: onde-legenda .4s cubic-bezier(.2,.7,.2,1) both; }
+.onde__legenda strong { font-weight: 700; color: var(--verde); }
+@keyframes onde-legenda { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .onde__legenda span { animation-name: none; } }
+
+.onde__inner {
+  position: relative; flex: 1; width: 100%; max-width: 1360px; margin: 0 auto; padding: 56px 64px 24px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+/* Computador: a frase vai para o canto vazio acima da ponta do mapa, alinhada à direita */
+@media (min-width: 1101px) {
+  .onde__legenda { position: absolute; top: 60px; right: 64px; margin: 0; white-space: nowrap; }
+  /* desce o mapa para abrir o espaço da frase no canto superior direito */
+  .onde__mapa { inset: 13% -2% -4% 24%; }
+}
+.onde__cabeca .titulo-grande { max-width: 14ch; }
+.onde__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin: auto 0 0; padding: 0; list-style: none; }
+
+/* Card claro, como uma ficha sobre o mapa: foto pequena, texto centralizado e botão */
+.ponto {
+  display: flex; flex-direction: column; overflow: hidden; background: #fff; border: 1px solid #ece6d8; border-radius: 18px;
+  box-shadow: 0 22px 50px -22px rgba(12,23,18,.3), 0 4px 14px rgba(12,23,18,.05);
+  transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .3s;
+}
+.ponto:hover { transform: translateY(-6px); border-color: var(--dourado); box-shadow: 0 28px 56px -22px rgba(12,23,18,.38), 0 4px 14px rgba(12,23,18,.06); }
+.ponto__foto { position: relative; aspect-ratio: 3 / 2; background: #e4ddcd; overflow: hidden; }
+.ponto__foto img { object-fit: cover; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.ponto:hover .ponto__foto img { transform: scale(1.06); }
+.ponto__corpo { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 18px 20px; text-align: center; }
+.ponto__tag { display: flex; align-items: center; gap: 8px; font-family: var(--font-nav); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--dourado-escuro); }
+.ponto__tag::before, .ponto__tag::after { content: ""; width: 14px; height: 1px; background: var(--dourado); }
+.ponto__titulo { font-family: var(--font-serif); font-weight: 400; font-size: 21px; line-height: 1.2; color: var(--texto); }
+.ponto__texto { flex: 1; font-style: normal; font-size: 14px; line-height: 1.55; color: var(--texto-3); }
+.ponto__texto strong { color: var(--texto-2); }
+.ponto__botao {
+  margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 0 20px;
+  border-radius: 999px; border: 1px solid var(--verde); background: var(--verde); color: #fff; text-decoration: none;
+  font-family: var(--font-nav); font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.ponto__botao:hover { background: var(--verde-escuro); border-color: var(--verde-escuro); color: #fff; }
+.ponto__botao--contorno { background: transparent; color: var(--verde); }
+.ponto__botao--contorno svg path { fill: currentColor; }
+.ponto__botao--contorno:hover svg path { fill: #fff; }
+.ponto__botao:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
+
+/* Telas estreitas: cards deslizam para o lado, como em Serviços */
+@media (max-width: 1100px) {
+  .onde__mapa { inset: 2% -10% 40% 18%; }
+  .onde__cards {
+    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78%, 280px);
+    overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-right: -64px; padding: 8px 64px 16px 0;
+  }
+  .onde__cards::-webkit-scrollbar { display: none; }
+  .ponto { scroll-snap-align: start; }
+  .ponto:hover { transform: none; }
+}
+@media (max-width: 900px) {
+  .onde__inner { padding: 48px 40px; }
+  .onde__cards { margin-right: -40px; padding-right: 40px; }
+}
+@media (max-width: 720px) {
+  .onde__inner { padding: 36px 24px; gap: 24px; }
+  .onde__mapa { inset: 4% -30% 46% 8%; }
+  .onde__cards { margin-right: -24px; padding-right: 24px; gap: 14px; }
+  .ponto__titulo { font-size: 19px; }
+  .vale__nome { display: none; }
+  .onde__legenda { font-size: 15px; margin-top: -8px; }
+}
 
 /* ---------- Aquarismo ---------- */
 .aqua { background: var(--noite); color: #fff; position: relative; overflow: hidden; }
@@ -266,22 +417,21 @@ h1, h2, h3, p { margin: 0; }
 .aqua__item:first-child { padding-left: 0; }
 .aqua__item:last-child { border-right: 0; padding-right: 0; }
 .aqua__item p { font-size: 14px; line-height: 1.5; color: #e7ece9; }
-/* Foto do aquário integrada ao fundo: ocupa a direita e se dissolve no tom da seção */
-.aqua__fundo { position: absolute; inset: 0 0 0 38%; z-index: 0; pointer-events: none; overflow: hidden; }
+/* Foto do aquário cobrindo a seção inteira; escurece à esquerda para o texto ficar legível */
+.aqua__fundo { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .aqua__foto { position: absolute; inset: 0; }
 .aqua__fundo img { object-fit: cover; object-position: 60% center; }
 .aqua__fundo::after {
   content: ""; position: absolute; inset: 0;
   background:
-    linear-gradient(90deg, var(--noite) 0%, rgba(12,23,18,.82) 18%, rgba(12,23,18,.35) 45%, rgba(12,23,18,.1) 75%, rgba(12,23,18,.25) 100%),
-    /* Faixa escura no topo separa a foto do aquário da seção anterior */
-    linear-gradient(180deg, var(--noite) 0, var(--noite) 56px, rgba(12,23,18,0) 200px, rgba(12,23,18,0) 80%, var(--noite) 100%);
+    linear-gradient(90deg, rgba(12,23,18,.94) 0%, rgba(12,23,18,.86) 28%, rgba(12,23,18,.45) 55%, rgba(12,23,18,.12) 80%, rgba(12,23,18,.25) 100%),
+    linear-gradient(180deg, rgba(12,23,18,.55) 0, rgba(12,23,18,0) 160px, rgba(12,23,18,0) 82%, rgba(12,23,18,.7) 100%);
 }
 .aqua__inner { min-height: 560px; }
 .aqua__texto { flex: 0 1 640px; }
 
 .bolha {
-  position: absolute; bottom: -30px; opacity: 0; will-change: transform;
+  position: absolute; bottom: -40px; opacity: 0; will-change: transform;
   animation-name: bolhaSobe; animation-timing-function: cubic-bezier(.4,.1,.7,1);
   animation-iteration-count: infinite; animation-fill-mode: both;
 }
@@ -305,12 +455,63 @@ h1, h2, h3, p { margin: 0; }
   0% { transform: translate3d(0,0,0); opacity: 0; }
   8% { opacity: .95; }
   85% { opacity: .85; }
-  100% { transform: translate3d(0,-820px,0); opacity: 0; }
+  /* sobe a altura da tela toda, já que a seção ocupa a tela inteira */
+  100% { transform: translate3d(0,-105vh,0); opacity: 0; }
 }
 @keyframes bolhaBalanca {
   0% { transform: translateX(-5px) scale(1.04,.96); }
   50% { transform: translateX(0) scale(.97,1.03); }
   100% { transform: translateX(6px) scale(1.03,.97); }
+}
+
+/* ---------- Galeria (retratos em parede de exposição) ---------- */
+/* Tom de papel um pouco mais quente que o creme, para separar das Avaliações logo abaixo */
+.galeria { background: #f1ebde; position: relative; overflow: hidden; }
+.galeria__inner { width: 100%; max-width: 1440px; margin: 0 auto; padding: 56px 64px 48px; display: flex; flex-direction: column; gap: 36px; }
+.galeria__cabeca { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 16px 56px; align-items: end; }
+.galeria__lead { font-size: 17px; line-height: 1.6; color: var(--texto-3); }
+
+/* Cinco retratos verticais; os pares descem um pouco, criando um ritmo de exposição */
+.galeria__parede {
+  --altura-foto: clamp(240px, 40vh, 380px);
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: clamp(16px, 2vw, 28px);
+  margin: 0; padding: 0; list-style: none; align-items: start;
+}
+.retrato:nth-child(even) { margin-top: 40px; }
+.retrato figure { margin: 0; }
+.retrato__foto {
+  position: relative; height: var(--altura-foto); overflow: hidden; border-radius: 14px; background: #e4ddcd;
+  box-shadow: 0 24px 46px -26px rgba(12,23,18,.45);
+}
+.retrato__foto img { object-fit: cover; object-position: center 30%; transition: transform 1s cubic-bezier(.2,.7,.2,1), filter .6s; filter: saturate(.92); }
+.retrato:hover .retrato__foto img { transform: scale(1.06); filter: saturate(1.05); }
+/* Legenda: número, nome em serifa itálica e nota em caixa alta, com um fio dourado que cresce no hover */
+.retrato figcaption { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; align-items: baseline; padding-top: 14px; }
+.retrato figcaption::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 28px; height: 1px; background: var(--dourado);
+  transition: width .5s cubic-bezier(.2,.7,.2,1);
+}
+.retrato:hover figcaption::before { width: 100%; }
+.retrato__num { grid-row: span 2; font-family: var(--font-nav); font-size: 11px; font-weight: 700; letter-spacing: .12em; color: var(--dourado-escuro); }
+.retrato__nome { font-family: var(--font-serif); font-style: italic; font-size: 21px; line-height: 1.2; color: var(--texto); }
+.retrato__nota { font-family: var(--font-nav); font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-3); }
+
+@media (max-width: 1100px) {
+  .galeria__parede { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 220px; overflow-x: auto; scrollbar-width: none; margin-right: -64px; padding-right: 64px; scroll-snap-type: x mandatory; }
+  .galeria__parede::-webkit-scrollbar { display: none; }
+  .retrato { scroll-snap-align: start; }
+}
+@media (max-width: 900px) {
+  .galeria__inner { padding: 48px 40px 40px; gap: 28px; }
+  .galeria__cabeca { grid-template-columns: minmax(0, 1fr); }
+  .galeria__parede { margin-right: -40px; padding-right: 40px; }
+}
+@media (max-width: 720px) {
+  .galeria__inner { padding: 36px 24px 32px; gap: 24px; }
+  .galeria__lead { font-size: 15px; }
+  .galeria__parede { --altura-foto: 300px; grid-auto-columns: 62%; margin-right: -24px; padding-right: 24px; gap: 14px; }
+  .retrato:nth-child(even) { margin-top: 24px; }
+  .retrato__nome { font-size: 19px; }
 }
 
 /* ---------- Avaliações ---------- */
@@ -566,18 +767,12 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* Sobre: foto aproxima e a patinha balança */
-.sobre__retrato img { transition: transform .7s cubic-bezier(.2,.7,.2,1); transform-origin: 30% 30%; }
-.sobre__card:hover .sobre__retrato img { transform: scale(1.05); }
+.sobre__retrato img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.sobre__foto:hover .sobre__retrato img { transform: scale(1.17); }
 .sobre__pata { transition: rotate .4s cubic-bezier(.3,1.6,.5,1); }
-.sobre__card:hover .sobre__pata { rotate: 16deg; }
-.sobre__moldura { transition: top .5s cubic-bezier(.2,.7,.2,1), right .5s cubic-bezier(.2,.7,.2,1), bottom .5s cubic-bezier(.2,.7,.2,1), left .5s cubic-bezier(.2,.7,.2,1); }
-.sobre__card:hover .sobre__moldura { top: 14px; right: -14px; bottom: -14px; left: 14px; }
+.sobre__foto:hover .sobre__pata { rotate: 16deg; }
 
 /* Onde atendo: ícones sobem no hover e a foto aproxima */
-.onde__item > svg { transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
-.onde__item:hover > svg { transform: translateY(-4px) scale(1.08); }
-.onde__arco-img img { transition: transform .8s cubic-bezier(.2,.7,.2,1); }
-.onde__foto:hover .onde__arco-img img { transform: scale(1.04); }
 
 /* Aquarismo: ícones reagindo ao hover */
 .aqua__item svg { transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
@@ -604,13 +799,6 @@ h1, h2, h3, p { margin: 0; }
   .aqua__item:nth-child(odd) { padding-left: 0; }
   .aqua__item:nth-child(even) { border-right: 0; }
 }
-@media (min-width: 1141px) and (max-width: 1365px), (max-width: 900px) {
-  .onde__grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .onde__item { padding: 20px 24px; border-bottom: 1px solid #e3ddce; }
-  .onde__item:nth-child(odd) { padding-left: 0; }
-  .onde__item:nth-child(even) { border-right: 0; }
-  .onde__item:nth-last-child(-n+2) { border-bottom: 0; }
-}
 
 @media (max-width: 1140px) {
 }
@@ -626,6 +814,12 @@ h1, h2, h3, p { margin: 0; }
   .hero__assinatura { left: 40px; right: 40px; bottom: 12px; align-items: flex-start; gap: 6px; text-align: left; }
   .hero__texto { padding: 24px 40px 40px; }
   .hero__conteudo { padding: 0; }
+
+  /* Sobre e Serviços: colunas viram uma pilha */
+  .sobre__grade, .serv__inner { grid-template-columns: minmax(0, 1fr); }
+  .sobre__grade { padding: 56px 40px; }
+  .serv__inner { padding: 56px 40px; gap: 40px; }
+  .serv__trilho { margin-right: -40px; padding-right: 40px; }
 }
 
 /* ---------- Telas pequenas ---------- */
@@ -659,27 +853,26 @@ h1, h2, h3, p { margin: 0; }
   .hero__ctas { flex-direction: column; gap: 12px; margin-top: 6px; }
   .botao-hero { min-height: 56px; padding: 10px 20px; font-size: 13px; letter-spacing: 0.06em; gap: 10px; }
   /* Altura fixa: não depende do tamanho da tela de cada celular */
-  .hero { min-height: 0; }
   .hero__retrato { height: 380px; }
 
-  .sobre__wrap { padding: 32px 20px; }
-  .sobre__card { padding: 28px 22px; gap: 24px; border-radius: 22px; }
-  .sobre__foto { flex: 0 0 160px; width: 160px; }
-  .sobre__moldura, .sobre__retrato { border-radius: 90px 90px 10px 10px; }
-  .sobre__pata { width: 28px; height: 28px; right: -18px; }
-  .sobre__texto > p { font-size: 15px; }
-  .sobre__assinatura span:first-child { font-size: 22px; }
+  .kicker { font-size: 11.5px; letter-spacing: 0.18em; gap: 12px; margin-bottom: 14px; }
+  .kicker::before { width: 28px; }
+  .titulo-grande { font-size: 30px; }
 
-  .onde__texto { padding: 40px 24px 24px; flex-basis: 100%; gap: 10px; }
-  .onde__sub { font-size: 17px; }
-  .onde__item > svg { width: 32px; height: 32px; }
-  .onde__item h3 { font-size: 14px; }
-  /* Foto em arco centralizado, como o retrato do "Sobre mim", com as patas encostadas */
-  .onde__foto { flex-basis: 100%; padding: 0 0 40px; }
-  .onde__quadro { max-width: 300px; padding-left: 0; }
-  .onde__arco { padding-top: 24px; border-radius: 150px 150px 0 0; }
-  .onde__pata1 { width: 48px; height: 48px; top: 8px; left: -20px; }
-  .onde__pata2 { width: 32px; height: 32px; top: 62px; left: -30px; }
+  .sobre__grade { padding: 48px 24px; gap: 36px; }
+  .sobre__foto { max-width: 260px; }
+  .sobre__pata { width: 28px; height: 28px; right: -22px; bottom: 70px; }
+  .sobre__legenda { font-size: 13px; text-align: center; }
+  .sobre__texto .titulo-grande { margin-bottom: 22px; }
+  .sobre__prosa p { font-size: 15px; }
+  .sobre__assinatura { margin-top: 28px; }
+  .sobre__assinatura span:first-child { font-size: 24px; }
+
+  .serv__inner { padding: 48px 24px; }
+  .serv__trilho { margin-right: -24px; padding-right: 24px; grid-auto-columns: min(82%, 300px); column-gap: 14px; }
+  .serv__lead { font-size: 16px; }
+  .serv-card { padding: 22px; }
+  .serv-card__titulo { font-size: 24px; }
 
   /* Aquarismo: tópicos em lista, ícone ao lado do texto */
   .aqua__inner { padding: 40px 24px; gap: 28px; }
@@ -725,15 +918,47 @@ h1, h2, h3, p { margin: 0; }
   .zap-flutuante svg { width: 26px; height: 26px; }
 }
 
-/* "Onde atendo" em lista: ícone à esquerda, título e texto à direita */
-@media (max-width: 600px) {
-  .onde__grade { grid-template-columns: 1fr; margin-top: 12px; }
-  .onde__grade .onde__item {
-    display: grid; grid-template-columns: 32px 1fr; align-items: start; gap: 2px 16px;
-    padding: 14px 0; border-right: 0; border-bottom: 1px solid #e3ddce;
-  }
-  .onde__grade .onde__item:last-child { border-bottom: 0; }
-  .onde__item > svg { grid-row: span 2; }
-  .onde__item h3 { white-space: normal; }
-  .onde__endereco { grid-column: 2; }
+/* ---------- Ajustes para cada seção caber em uma tela ---------- */
+/* Telas baixas (notebooks): menos respiro para cada seção caber em uma tela */
+@media (min-width: 901px) and (max-height: 860px) {
+  .hero__conteudo { padding: 32px 0 24px; gap: 20px; }
+  .sobre__grade { padding: 40px 64px; }
+  .sobre__foto { max-width: min(340px, 52vh); }
+  .sobre__texto .titulo-grande { margin-bottom: 20px; }
+  .sobre__prosa { gap: .8em; }
+  .sobre__prosa p { font-size: 16px; line-height: 1.6; }
+  .sobre__assinatura { margin-top: 24px; }
+  .titulo-grande { font-size: clamp(30px, 3vw, 44px); }
+  .serv-card { aspect-ratio: 3 / 4.6; }
+  .onde__inner { padding-top: 32px; padding-bottom: 16px; gap: 24px; }
+  .onde__cabeca .titulo-grande { max-width: 22ch; }
+  .ponto__foto { aspect-ratio: 2 / 1; }
+  .ponto__corpo { padding: 12px 16px 16px; gap: 4px; }
 }
+
+
+/* Tablet: Sobre mim volta a ter foto ao lado do texto, e o início fica mais baixo, para cada um caber em uma tela */
+@media (min-width: 721px) and (max-width: 900px) {
+  .sobre__grade { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: center; }
+  .sobre__prosa p { font-size: 15.5px; }
+  .hero__retrato { height: clamp(280px, 38svh, 420px); }
+  .hero__texto { padding-bottom: 28px; }
+}
+
+/* Celular: foto do Sobre mim em formato paisagem e Serviços mais compacto */
+@media (max-width: 720px) {
+  .sobre__grade { gap: 24px; }
+  .sobre__foto { max-width: none; }
+  .sobre__retrato { padding-bottom: 62%; }
+  .sobre__retrato img { object-position: 0% 18%; }
+  .sobre__pata, .sobre__legenda { display: none; }
+  .hero__retrato { height: 290px; }
+  .hero__conteudo { padding-bottom: 16px; }
+  .serv__inner { padding-top: 36px; padding-bottom: 36px; }
+  .serv__cabeca { gap: 14px; }
+  .serv__controles { margin-top: 18px; }
+  .serv-card { aspect-ratio: 3 / 4.1; }
+  .sobre__retrato { padding-bottom: 54%; }
+  .sobre__prosa p { font-size: 14.5px; line-height: 1.6; }
+}
+

@@ -1,9 +1,11 @@
 import Aquarismo from "./components/Aquarismo";
 import Avaliacoes from "./components/Avaliacoes";
 import Footer from "./components/Footer";
+import Galeria from "./components/Galeria";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import OndeAtendo from "./components/OndeAtendo";
+import Servicos from "./components/Servicos";
 import Sobre from "./components/Sobre";
 import { WhatsApp } from "./components/icons";
 import { site } from "./config";
@@ -15,8 +17,10 @@ export default function Home() {
       <main>
         <Hero />
         <Sobre />
+        <Servicos />
         <OndeAtendo />
         <Aquarismo />
+        <Galeria />
         <Avaliacoes />
       </main>
       <Footer />

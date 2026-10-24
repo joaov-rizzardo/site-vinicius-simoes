@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
             { protocol: 'https', hostname: 'images.pexels.com' },
         ],
     },
+    experimental: {
+        agentUpgrade: 'security',
+    },
 };
 
 export default nextConfig;

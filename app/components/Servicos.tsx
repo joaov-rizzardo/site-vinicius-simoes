@@ -4,7 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
-import { Seta } from "./icons";
+import { site } from "../config";
+import { Calendario, Seta } from "./icons";
 
 // Fotos do Unsplash (uso livre), escolhidas com a cabeça do animal no alto, longe do texto do card
 const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=720&q=70`;
@@ -88,6 +89,21 @@ export default function Servicos() {
           <motion.p className="serv__lead" {...revelar("cima", 1)}>
             Cada atendimento é pensado para o seu animal e para a sua rotina. Estes são os serviços que presto.
           </motion.p>
+          <motion.div className="serv__cta" {...revelar("cima", 2)}>
+            <a
+              className="cta botao-hero botao-hero--verde"
+              href={`${site.whatsapp}?text=${encodeURIComponent("Olá! Gostaria de marcar uma consulta para o meu pet.")}`}
+              target="_blank"
+              rel="noopener"
+            >
+              <Calendario />
+              <span className="botao-hero__textos">
+                Marcar consulta
+                <small>Pelo WhatsApp</small>
+              </span>
+              <Seta />
+            </a>
+          </motion.div>
         </div>
 
         <motion.div className="serv__carrossel" {...revelar("direita", 2)}>

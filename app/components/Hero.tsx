@@ -5,7 +5,7 @@ import { entrada } from "../lib/animacoes";
 import { Calendario, Peixe, Seta } from "./icons";
 
 // Frase manuscrita sobre o retrato, revelada linha a linha
-const linhasFrase = ["Cuidado", "  também é", "    prevenção."];
+const linhasFrase = ["Prevenção", "  também é", "    amor."];
 
 // Abre o WhatsApp já com a mensagem escrita
 const linkWhatsApp = (mensagem: string) => `${site.whatsapp}?text=${encodeURIComponent(mensagem)}`;
@@ -30,12 +30,11 @@ export default function Hero() {
             <motion.p className="hero__desc" {...entrada(0.38)}>
               <span className="hero__desc-longa">
                 Sou médico veterinário com anos de experiência, especializado no atendimento de cães e gatos. Atendo
-                principalmente em domicílio, em todo o Vale do Paraíba e região, para que seu pet seja cuidado com tranquilidade no próprio
-                ambiente. Também atendo em clínicas de Cachoeira Paulista e Cruzeiro e ofereço consultoria
+                principalmente em domicílio, em todo o Vale do Paraíba e região. Também atendo em clínicas de Cachoeira Paulista e Cruzeiro e ofereço consultoria
                 especializada em aquarismo, presencial ou virtual.
               </span>
               <span className="hero__desc-curta">
-                Atendimento de cães e gatos em domicílio no Vale do Paraíba e região, com a tranquilidade do próprio lar, e
+                Atendimento de cães e gatos em domicílio no Vale do Paraíba e região e
                 em clínicas de Cachoeira Paulista e Cruzeiro. Consultoria de aquarismo presencial ou online.
               </span>
             </motion.p>

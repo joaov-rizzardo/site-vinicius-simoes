@@ -2,25 +2,26 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import * as motion from "motion/react-client";
+import { AnimatePresence, motion } from "motion/react";
 import { site } from "../config";
 import { revelar } from "../lib/animacoes";
-import { CIDADES, PONTOS, VALE_ALTURA, VALE_CONTORNO, VALE_LARGURA, VALE_MUNICIPIOS } from "../lib/mapaVale";
-import { PinoMapa, WhatsApp } from "./icons";
+import { WhatsApp } from "./icons";
 
 const maps = (busca: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busca)}`;
-const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=640&q=70`;
-// Pexels: fotos de uso livre, sem necessidade de crédito
-const pexels = (id: number) => `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&w=640`;
+// Mapa incorporado do Google Maps (não precisa de chave de API)
+const mapaEmbed = (busca: string) => `https://www.google.com/maps?q=${encodeURIComponent(busca)}&z=16&output=embed`;
+const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=70`;
 
 type Local = {
   id: "casa" | "cachoeira" | "cruzeiro" | "aquario";
-  tag: string;
   titulo: string;
-  texto?: string;
-  endereco?: string;
-  foto: string;
+  subtitulo: string;
+  detalhe: string;
+  pilulas: string[];
+  foto?: string;
   alt: string;
+  // endereço da clínica: no lugar da foto aparece o mapa do Google com a localização
+  mapa?: string;
   // ponto de foco do recorte (object-position), para fotos que não são horizontais
   foco?: string;
   link: { rotulo: string; href: string; zap?: boolean };
@@ -29,146 +30,161 @@ type Local = {
 const locais: Local[] = [
   {
     id: "casa",
-    tag: "Em domicílio",
-    titulo: "Atendimento residencial",
-    texto: "Em todo o Vale do Paraíba e região. Levo o cuidado até você.",
+    titulo: "Residencial",
+    subtitulo: "Atendimento em domicílio",
+    detalhe:
+      "Para muitos animais, ir à clínica é motivo de estresse. Pensando no bem-estar deles, atendo principalmente em domicílio, por todo o Vale do Paraíba e região: exame clínico completo na sua casa, com o animal calmo e sem o estresse do transporte.",
+    pilulas: ["Vale do Paraíba e região", "Cães e gatos", "Sem estresse do transporte"],
     foto: unsplash("photo-1668036268050-ca69ef2f0ca0"),
+    foco: "72% center",
     alt: "Cachorro sentado tranquilo na sala de casa",
     link: { rotulo: "Ver região no Maps", href: maps("Vale do Paraíba, SP") },
   },
   {
     id: "cachoeira",
-    tag: "Clínica parceira",
     titulo: "Cachoeira Paulista",
-    endereco: "Rua Orris Benedito Barbosa, 318.",
-    foto: pexels(27083736),
-    foco: "center 62%",
-    alt: "Fachada da antiga Estação Ferroviária de Cachoeira Paulista com um ipê amarelo",
+    subtitulo: "Clínica parceira",
+    detalhe:
+      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cachoeira Paulista, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
+    pilulas: ["Rua Orris Benedito Barbosa, 318", "Cachoeira Paulista – SP", "Mais estrutura"],
+    mapa: "Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP",
+    alt: "Mapa com a localização da clínica parceira em Cachoeira Paulista",
     link: { rotulo: "Ver no Maps", href: maps("Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP") },
   },
   {
     id: "cruzeiro",
-    tag: "Clínica parceira",
     titulo: "Cruzeiro",
-    endereco: "Rua Dom Bôsco, Centro, 343.",
-    foto: pexels(35641806),
-    foco: "center 88%",
-    alt: "Cruzeiro, com a torre da igreja e a Serra da Mantiqueira ao fundo",
+    subtitulo: "Clínica parceira",
+    detalhe:
+      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cruzeiro, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
+    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP", "Mais estrutura"],
+    mapa: "Rua Dom Bosco, 343, Centro, Cruzeiro - SP",
+    alt: "Mapa com a localização da clínica parceira em Cruzeiro",
     link: { rotulo: "Ver no Maps", href: maps("Rua Dom Bosco, 343, Centro, Cruzeiro - SP") },
   },
   {
     id: "aquario",
-    tag: "Presencial ou virtual",
-    titulo: "Consultoria de aquarismo",
-    texto: "Para aquários de água doce, presencial ou virtual.",
+    titulo: "Aquarismo",
+    subtitulo: "Consultoria presencial ou virtual",
+    detalhe:
+      "A consultoria de aquarismo, exclusiva para aquários de água doce, é feita de forma virtual ou presencial, com orientações personalizadas para o seu tipo de aquário, peixes e rotina.",
+    pilulas: ["Montagem e manutenção", "Qualidade da água", "Peixes e plantas", "Problemas comuns"],
     foto: "/img/aquario-fundo.jpg",
     alt: "Aquário plantado de água doce com cardumes de peixes",
     link: { rotulo: "Agendar consultoria", href: site.whatsapp, zap: true },
   },
 ];
 
-// Pino verde que surge (cresce de baixo para cima) quando `visivel` é verdadeiro
-function Pino({ x, y, visivel, atraso = 0, grande, nome, lado = "dir" }: { x: number; y: number; visivel: boolean; atraso?: number; grande?: boolean; nome?: string; lado?: "esq" | "dir" }) {
-  return (
-    <g transform={`translate(${x} ${y})${grande ? "" : " scale(.62)"}`}>
-      <g className={visivel ? "vale__pino vale__pino--visivel" : "vale__pino"} style={{ transitionDelay: visivel ? `${atraso}ms` : "0ms" }}>
-        <path className="vale__gota" d="M0 0c-12-14-18-22-18-31a18 18 0 0 1 36 0c0 9-6 17-18 31z" />
-        <circle className="vale__miolo" cy="-31" r="6.5" />
-        {nome && (
-          <text className="vale__nome" x={lado === "dir" ? 26 : -26} y="-26" textAnchor={lado === "dir" ? "start" : "end"}>
-            {nome}
-          </text>
-        )}
-      </g>
-    </g>
-  );
-}
+const suave = [0.2, 0.7, 0.2, 1] as const;
 
-// Silhueta do Vale do Paraíba em bege. Sem pinos por padrão: ao passar o mouse num card,
-// surgem os pinos dos lugares que ele atende (todas as cidades, ou só a clínica)
-function MapaVale({ ativo }: { ativo: Local["id"] | null }) {
-  const todasCidades = ativo === "casa" || ativo === "aquario";
-  // as cidades aparecem em onda, da esquerda para a direita
-  const ordem = [...CIDADES].sort((a, b) => a.x - b.x).map((c) => c.nome);
-
-  return (
-    <svg className="vale" viewBox={`0 0 ${VALE_LARGURA} ${VALE_ALTURA}`} preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <path className="vale__terra" d={VALE_CONTORNO} />
-      <path className="vale__divisas" d={VALE_MUNICIPIOS} />
-      {CIDADES.map((c) => (
-        <Pino key={c.nome} x={c.x} y={c.y} visivel={todasCidades} atraso={ordem.indexOf(c.nome) * 18} />
-      ))}
-      <Pino grande nome="Cachoeira Paulista" lado="esq" {...PONTOS.cachoeiraPaulista} visivel={ativo === "cachoeira"} />
-      <Pino grande nome="Cruzeiro" {...PONTOS.cruzeiro} visivel={ativo === "cruzeiro"} />
-    </svg>
-  );
-}
-
-// Frase abaixo do título que descreve o que o mapa mostra; muda conforme o card com o mouse
-function legendaDoMapa(ativo: Local["id"] | null) {
-  if (ativo === "cachoeira") return { texto: "Atendimento em clínica parceira em", lugar: "Cachoeira Paulista" };
-  if (ativo === "cruzeiro") return { texto: "Atendimento em clínica parceira em", lugar: "Cruzeiro" };
-  if (ativo === "casa" || ativo === "aquario") return { texto: "Atendimento domiciliar em todo o", lugar: "Vale do Paraíba" };
-  return { texto: "Atendo em todo o", lugar: "Vale do Paraíba e região" };
-}
-
+// Acordeão: começa com a residencial aberta e todas podem ser fechadas; a foto à esquerda mostra o último local aberto
 export default function OndeAtendo() {
-  const [ativo, setAtivo] = useState<Local["id"] | null>(null);
-  const legenda = legendaDoMapa(ativo);
+  const [aberta, setAberta] = useState<Local["id"] | null>("casa");
+  const [ativo, setAtivo] = useState<Local["id"]>("casa");
+  // Clicar na aba aberta fecha; clicar em outra abre e troca a foto
+  const alternar = (id: Local["id"]) => {
+    if (aberta === id) return setAberta(null);
+    setAberta(id);
+    setAtivo(id);
+  };
 
   return (
     <section id="onde-atendo" className="onde" aria-labelledby="onde-titulo">
-      <div className="onde__mapa">
-        <MapaVale ativo={ativo} />
-      </div>
-
       <div className="onde__inner">
-        <motion.div className="onde__cabeca" {...revelar("cima")}>
-          <p className="kicker">Onde atendo</p>
-          <h2 id="onde-titulo" className="titulo-grande">
-            Atendimento completo, <em>com flexibilidade e comodidade.</em>
-          </h2>
-        </motion.div>
-
-        {/* No computador fica no canto vazio acima do mapa; em telas menores, logo abaixo do título */}
-        <p className="onde__legenda">
-          <PinoMapa />
-          <span key={legenda.texto + legenda.lugar}>
-            {legenda.texto} <strong>{legenda.lugar}</strong>
-          </span>
-        </p>
-
-        <ul className="onde__cards">
-          {locais.map((l, i) => (
-            <motion.li
-              key={l.id}
-              className="ponto"
-              onMouseEnter={() => setAtivo(l.id)}
-              onMouseLeave={() => setAtivo(null)}
-              onFocus={() => setAtivo(l.id)}
-              onBlur={() => setAtivo(null)}
-              {...revelar("cima", i + 1)}
-            >
-              <div className="ponto__foto">
-                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 720px) 78vw, 300px" style={l.foco ? { objectPosition: l.foco } : undefined} />
-              </div>
-              <div className="ponto__corpo">
-                <p className="ponto__tag">{l.tag}</p>
-                <h3 className="ponto__titulo">{l.titulo}</h3>
-                {l.texto && <p className="ponto__texto">{l.texto}</p>}
-                {l.endereco && (
-                  <address className="ponto__texto">
-                    <strong>Endereço:</strong> {l.endereco}
-                  </address>
+        <div className="onde__esquerda">
+          <motion.div {...revelar("cima")}>
+            <p className="kicker">Onde atendo</p>
+            <h2 id="onde-titulo" className="titulo-grande">
+              Atendimento completo, <em>com flexibilidade.</em>
+            </h2>
+          </motion.div>
+          {/* As fotos e mapas ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
+          <motion.div className="onde__foto" {...revelar("cima", 1)}>
+            {locais.map((l) => (
+              <motion.div
+                key={l.id}
+                className="onde__foto-camada"
+                initial={false}
+                animate={l.id === ativo ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
+                transition={{ duration: 0.6, ease: suave }}
+                aria-hidden={l.id !== ativo}
+                // camada escondida não pode capturar cliques/arraste destinados ao mapa visível
+                style={{ pointerEvents: l.id === ativo ? "auto" : "none" }}
+              >
+                {l.mapa ? (
+                  <iframe
+                    src={mapaEmbed(l.mapa)}
+                    title={l.alt}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    tabIndex={l.id === ativo ? 0 : -1}
+                  />
+                ) : (
+                  l.foto && <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
                 )}
-                <a className={l.link.zap ? "ponto__botao ponto__botao--contorno" : "ponto__botao"} href={l.link.href} target="_blank" rel="noopener">
-                  {l.link.zap && <WhatsApp size={15} />}
-                  {l.link.rotulo}
-                </a>
-              </div>
-            </motion.li>
-          ))}
-        </ul>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="onde__direita">
+          <ul className="onde__abas">
+            {locais.map((l, i) => {
+              const aberto = l.id === aberta;
+              return (
+                <motion.li key={l.id} className={aberto ? "aba aba--aberta" : "aba"} {...revelar("cima", i + 2)}>
+                  <h3>
+                    <button
+                      type="button"
+                      className="aba__cabeca"
+                      aria-expanded={aberto}
+                      aria-controls={`aba-${l.id}`}
+                      onClick={() => alternar(l.id)}
+                    >
+                      <span className="aba__titulo">{l.titulo}</span>
+                      <span className="aba__subtitulo">{l.subtitulo}</span>
+                      <span className="aba__icone" aria-hidden="true" />
+                    </button>
+                  </h3>
+                  <AnimatePresence initial={false}>
+                    {aberto && (
+                      <motion.div
+                        id={`aba-${l.id}`}
+                        className="aba__corpo"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.45, ease: suave }}
+                      >
+                        <div className="aba__conteudo">
+                          <p className="aba__detalhe">{l.detalhe}</p>
+                          <ul className="aba__pilulas">
+                            {l.pilulas.map((p) => (
+                              <li key={p}>{p}</li>
+                            ))}
+                          </ul>
+                          <div className="aba__acoes">
+                            <a className="aba__link" href={l.link.href} target="_blank" rel="noopener">
+                              {l.link.zap && <WhatsApp size={14} />}
+                              {l.link.rotulo}
+                              <span aria-hidden="true">→</span>
+                            </a>
+                            {!l.link.zap && (
+                              <a className="aba__link" href={site.whatsapp} target="_blank" rel="noopener">
+                                <WhatsApp size={14} />
+                                Agendar pelo WhatsApp
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   );

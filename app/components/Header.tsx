@@ -10,7 +10,7 @@ const links = [
   { id: "servicos", label: "Serviços" },
   { id: "onde-atendo", label: "Onde Atendo" },
   { id: "aquarismo", label: "Aquarismo" },
-  { id: "galeria", label: "Pacientes" },
+  { id: "galeria", label: "Galeria" },
   { id: "avaliacoes", label: "Avaliações" },
 ];
 

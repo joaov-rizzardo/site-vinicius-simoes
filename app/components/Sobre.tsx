@@ -17,9 +17,7 @@ export default function Sobre() {
               sizes="(max-width: 900px) 80vw, 36vw"
             />
           </div>
-          <Pata className="sobre__pata" />
-          <figcaption className="sobre__legenda">Vinicius Vicente Simões · Médico Veterinário</figcaption>
-        </motion.figure>
+          <Pata className="sobre__pata" />        </motion.figure>
 
         <div className="sobre__texto">
           <motion.div {...revelar("cima")}>

@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Bolhas from "./Bolhas";
-import { Engrenagem, Folha, Gota, Peixe, PeixeVerde } from "./icons";
+import { Engrenagem, Folha, Gota, Peixe, PeixeVerde, Seta } from "./icons";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
+import { site } from "../config";
 
 const topicos = [
   { icone: <Folha />, texto: "Orientação sobre montagem e manutenção" },
@@ -49,6 +50,21 @@ export default function Aquarismo() {
               </motion.div>
             ))}
           </div>
+          {/* Botão de vidro em tom de água, já com a mensagem da consultoria escrita no WhatsApp */}
+          <motion.div className="aqua__cta" {...revelar("cima", topicos.length + 3)}>
+            <a
+              className="cta aqua__botao"
+              href={`${site.whatsapp}?text=${encodeURIComponent("Olá! Gostaria de marcar uma consultoria de aquarismo.")}`}
+              target="_blank"
+              rel="noopener"
+            >
+              <span className="aqua__botao-textos">
+                Marcar consultoria
+                <small>Presencial ou virtual</small>
+              </span>
+              <Seta />
+            </a>
+          </motion.div>
         </div>
       </div>
     </section>

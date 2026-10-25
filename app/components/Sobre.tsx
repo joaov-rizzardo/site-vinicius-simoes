@@ -43,7 +43,6 @@ export default function Sobre() {
             </p>
           </motion.div>
           <motion.div className="sobre__assinatura" {...revelar("cima", 2)}>
-            <span>Vinicius Vicente Simões</span>
             <span className="sobre__crmv">{site.crmv}</span>
           </motion.div>
         </div>

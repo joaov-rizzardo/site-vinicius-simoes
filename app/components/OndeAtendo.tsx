@@ -10,7 +10,6 @@ import { WhatsApp } from "./icons";
 const maps = (busca: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busca)}`;
 // Mapa incorporado do Google Maps (não precisa de chave de API)
 const mapaEmbed = (busca: string) => `https://www.google.com/maps?q=${encodeURIComponent(busca)}&z=16&output=embed`;
-const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=70`;
 
 type Local = {
   id: "casa" | "cachoeira" | "cruzeiro" | "aquario";
@@ -33,20 +32,24 @@ const locais: Local[] = [
     titulo: "Residencial",
     subtitulo: "Atendimento em domicílio",
     detalhe:
-      "Para muitos animais, ir à clínica é motivo de estresse. Pensando no bem-estar deles, atendo principalmente em domicílio, por todo o Vale do Paraíba e região: exame clínico completo na sua casa, com o animal calmo e sem o estresse do transporte.",
-    pilulas: ["Vale do Paraíba e região", "Cães e gatos", "Sem estresse do transporte"],
-    foto: unsplash("photo-1668036268050-ca69ef2f0ca0"),
-    foco: "72% center",
-    alt: "Cachorro sentado tranquilo na sala de casa",
-    link: { rotulo: "Ver região no Maps", href: maps("Vale do Paraíba, SP") },
+      "Para cuidar do seu pet, ele não precisa sair de casa. Realizo consultas veterinárias em domicílio, por todo o Vale do Paraíba e região, proporcionando um exame clínico completo em um ambiente familiar, com mais conforto, tranquilidade e menos estresse para o seu companheiro.",
+    pilulas: ["Atendimento em todo o Vale do Paraíba e região", "Consultas para cães e gatos", "Mais conforto, sem o estresse do transporte"],
+    foto: "/img/residencial-cao-sofa.jpg",
+    foco: "center 40%",
+    alt: "Cachorro caramelo feliz deitado no sofá de casa",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
     id: "cachoeira",
     titulo: "Cachoeira Paulista",
     subtitulo: "Clínica parceira",
     detalhe:
-      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cachoeira Paulista, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
-    pilulas: ["Rua Orris Benedito Barbosa, 318", "Cachoeira Paulista – SP", "Mais estrutura"],
+      "Quando o seu pet precisa de uma estrutura mais completa, o atendimento acontece na clínica parceira em Cachoeira Paulista, com a mesma atenção e cuidado de sempre. Você recebe orientações claras, com cada etapa do tratamento explicada com tranquilidade.",
+    pilulas: [
+      "Endereço: Rua Orris Benedito Barbosa, 318",
+      "Localização: Cachoeira Paulista – SP",
+      "Diferencial: Mais estrutura para cuidar melhor.",
+    ],
     mapa: "Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP",
     alt: "Mapa com a localização da clínica parceira em Cachoeira Paulista",
     link: { rotulo: "Ver no Maps", href: maps("Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP") },
@@ -56,8 +59,8 @@ const locais: Local[] = [
     titulo: "Cruzeiro",
     subtitulo: "Clínica parceira",
     detalhe:
-      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cruzeiro, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
-    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP", "Mais estrutura"],
+      "Em Cruzeiro, o atendimento conta com uma estrutura clínica de apoio para ampliar as possibilidades de cuidado, sempre com atenção individualizada e orientações claras para você acompanhar cada decisão.",
+    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP", "Cuidado que vai além da consulta."],
     mapa: "Rua Dom Bosco, 343, Centro, Cruzeiro - SP",
     alt: "Mapa com a localização da clínica parceira em Cruzeiro",
     link: { rotulo: "Ver no Maps", href: maps("Rua Dom Bosco, 343, Centro, Cruzeiro - SP") },
@@ -67,10 +70,11 @@ const locais: Local[] = [
     titulo: "Aquarismo",
     subtitulo: "Consultoria presencial ou virtual",
     detalhe:
-      "A consultoria de aquarismo, exclusiva para aquários de água doce, é feita de forma virtual ou presencial, com orientações personalizadas para o seu tipo de aquário, peixes e rotina.",
-    pilulas: ["Montagem e manutenção", "Qualidade da água", "Peixes e plantas", "Problemas comuns"],
-    foto: "/img/aquario-fundo.jpg",
-    alt: "Aquário plantado de água doce com cardumes de peixes",
+      "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
+    pilulas: ["Montagem e manutenção", "Qualidade e equilíbrio da água", "Peixes e plantas", "Diagnóstico de problemas comuns"],
+    foto: "/img/onde-aquario.jpg",
+    foco: "center 45%",
+    alt: "Aquário plantado de água doce com neons, barbos e acará-bandeira",
     link: { rotulo: "Agendar consultoria", href: site.whatsapp, zap: true },
   },
 ];
@@ -164,13 +168,13 @@ export default function OndeAtendo() {
                             ))}
                           </ul>
                           <div className="aba__acoes">
-                            <a className="aba__link" href={l.link.href} target="_blank" rel="noopener">
+                            <a className={l.link.zap ? "aba__link aba__link--zap" : "aba__link"} href={l.link.href} target="_blank" rel="noopener">
                               {l.link.zap && <WhatsApp size={14} />}
                               {l.link.rotulo}
                               <span aria-hidden="true">→</span>
                             </a>
                             {!l.link.zap && (
-                              <a className="aba__link" href={site.whatsapp} target="_blank" rel="noopener">
+                              <a className="aba__link aba__link--zap" href={site.whatsapp} target="_blank" rel="noopener">
                                 <WhatsApp size={14} />
                                 Agendar pelo WhatsApp
                               </a>

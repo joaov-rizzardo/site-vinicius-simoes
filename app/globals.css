@@ -238,7 +238,6 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .sobre__prosa p { font-size: 17px; line-height: 1.7; color: var(--texto-2); }
 /* Assinatura à esquerda e CRMV no canto direito, com um fio antes */
 .sobre__assinatura { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 40px; max-width: 62ch; }
-.sobre__assinatura span:first-child { font-family: var(--font-script); font-size: 30px; color: var(--dourado-escuro); }
 .sobre__crmv {
   display: flex; align-items: center; gap: 12px;
   font-family: var(--font-nav); font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: var(--verde);
@@ -260,7 +259,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 }
 .serv__cabeca { display: grid; gap: 24px; }
 .serv__lead { font-size: 18px; line-height: 1.6; color: #c9d3cd; max-width: 36ch; }
-.serv__cta { display: flex; }
+.serv__cta { display: flex; margin-top: 20px; }
 .serv__trilho {
   /* Sangra até a borda direita da tela para mostrar que há mais cards */
   margin: 0 calc(-64px - max(0px, (100vw - 1360px) / 2)) 0 0; padding: 4px 64px 4px 0; list-style: none;
@@ -321,7 +320,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .onde__esquerda { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
 .onde__esquerda .titulo-grande { max-width: 18ch; font-size: clamp(28px, 2.6vw, 40px); }
 .onde__foto {
-  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 16px; background: var(--verde-escuro);
+  position: relative; width: 100%; max-width: 420px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 16px; background: var(--verde-escuro); margin-top: 15px;
   box-shadow: 0 22px 50px -18px rgba(12,23,18,.35);
 }
 .onde__foto-camada { position: absolute; inset: 0; }
@@ -359,15 +358,20 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .aba__corpo { overflow: hidden; }
 .aba__conteudo { display: flex; flex-direction: column; gap: 16px; padding: 0 52px 20px 0; }
 .aba__detalhe { font-size: 14px; line-height: 1.65; color: var(--texto-2); }
-.aba__pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.aba__pilulas li { padding: 6px 12px; border-radius: 999px; background: #ece7db; font-size: 11.5px; color: var(--texto-2); }
-.aba__acoes { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.aba__pilulas { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.aba__pilulas li { position: relative; padding-left: 16px; font-size: 13px; color: var(--texto-2); }
+.aba__pilulas li::before { content: ""; position: absolute; left: 2px; top: .6em; width: 5px; height: 5px; border-radius: 50%; background: var(--verde); }
+.aba__acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
 .aba__link {
-  display: inline-flex; align-items: center; gap: 8px; color: var(--verde); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 10px 18px; border-radius: 999px;
+  color: var(--verde); background: transparent; border: 1.5px solid var(--verde); text-decoration: none;
   font-family: var(--font-nav); font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
 }
 .aba__link svg path { fill: currentColor; }
-.aba__link:hover { color: var(--verde-escuro); text-decoration: underline; text-underline-offset: 4px; }
+.aba__link:hover { color: #fff; background: var(--verde); transform: translateY(-1px); }
+.aba__link--zap { color: #fff; background: var(--verde); border-color: var(--verde-borda); }
+.aba__link--zap:hover { color: #fff; background: var(--verde-escuro); }
 .aba__link:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -908,7 +912,6 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .sobre__texto .titulo-grande { margin-bottom: 22px; }
   .sobre__prosa p { font-size: 15px; }
   .sobre__assinatura { margin-top: 28px; }
-  .sobre__assinatura span:first-child { font-size: 24px; }
 
   .serv__inner { padding: 48px 24px; }
   .serv__trilho { margin-right: -24px; padding-right: 24px; grid-auto-columns: min(82%, 300px); column-gap: 14px; }

@@ -34,7 +34,7 @@ const servicos = [
   {
     titulo: "Consultoria de aquarismo",
     texto: "Para aquários de água doce, presencial ou virtual: montagem, qualidade da água, escolha de peixes e plantas.",
-    imagem: unsplash("photo-1785694822755-f2b5bfee8fc3"), // gato cinza olhando para cima
+    imagem: unsplash("photo-1706479981052-bebbfc32d2fe"), // aquário plantado claro, com barbo-cereja e peixe rosa
   },
 ];
 
@@ -87,7 +87,7 @@ export default function Servicos() {
             </h2>
           </motion.div>
           <motion.p className="serv__lead" {...revelar("cima", 1)}>
-            Cada atendimento é pensado para o seu animal e para a sua rotina. Estes são os serviços que presto.
+            Cada serviço é pensado para atender às necessidades do seu pet, com cuidado personalizado e atenção ao que realmente importa para a saúde dele.
           </motion.p>
           <motion.div className="serv__cta" {...revelar("cima", 2)}>
             <a

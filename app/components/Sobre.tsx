@@ -11,8 +11,8 @@ export default function Sobre() {
         <motion.figure className="sobre__foto" {...revelar("esquerda")}>
           <div className="sobre__retrato">
             <Image
-              src="/img/sobre-vinicius.jpg"
-              alt="Vinicius sorrindo e fazendo carinho em um cachorro"
+              src="/img/sobre-vinicius.webp"
+              alt="Vinicius sorrindo, de braços cruzados e com estetoscópio no pescoço"
               fill
               sizes="(max-width: 900px) 80vw, 36vw"
             />

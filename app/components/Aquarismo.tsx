@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Bolhas from "./Bolhas";
-import { Engrenagem, Folha, Gota, Peixe, PeixeVerde, Seta } from "./icons";
+import { Engrenagem, Folha, Gota, PeixeVerde, Seta } from "./icons";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
 import { site } from "../config";
@@ -28,10 +28,9 @@ export default function Aquarismo() {
       <Bolhas />
       <div className="aqua__inner">
         <div className="aqua__texto">
-          <motion.div className="aqua__titulo" {...revelar("cima")}>
-            <Peixe width={46} height={30} stroke="#d4ad5c" />
-            <h2>AQUARISMO</h2>
-          </motion.div>
+          <motion.h2 className="kicker" {...revelar("cima")}>
+            Aquarismo
+          </motion.h2>
           <motion.p className="aqua__frase" {...revelar("cima", 1)}>
             Mais do que um hobby,
             <br />

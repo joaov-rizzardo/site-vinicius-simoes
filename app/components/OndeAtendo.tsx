@@ -48,7 +48,6 @@ const locais: Local[] = [
     pilulas: [
       "Endereço: Rua Orris Benedito Barbosa, 318",
       "Localização: Cachoeira Paulista – SP",
-      "Diferencial: Mais estrutura para cuidar melhor.",
     ],
     mapa: "Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP",
     alt: "Mapa com a localização da clínica parceira em Cachoeira Paulista",
@@ -60,7 +59,7 @@ const locais: Local[] = [
     subtitulo: "Clínica parceira",
     detalhe:
       "Em Cruzeiro, o atendimento conta com uma estrutura clínica de apoio para ampliar as possibilidades de cuidado, sempre com atenção individualizada e orientações claras para você acompanhar cada decisão.",
-    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP", "Cuidado que vai além da consulta."],
+    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP"],
     mapa: "Rua Dom Bosco, 343, Centro, Cruzeiro - SP",
     alt: "Mapa com a localização da clínica parceira em Cruzeiro",
     link: { rotulo: "Ver no Maps", href: maps("Rua Dom Bosco, 343, Centro, Cruzeiro - SP") },

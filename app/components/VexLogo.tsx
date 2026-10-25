@@ -29,7 +29,10 @@ export default function VexLogo() {
     Promise.all([
       document.fonts.load(`800 ${FONTE_VEX}px ${familia}`),
       document.fonts.load(`600 ${FONTE_SOFTWARE}px ${familia}`),
-    ]).finally(() => {
+    ])
+      // Se a fonte falhar (o Safari do iPhone rejeita com NetworkError), desenha com a fonte que houver
+      .catch(() => {})
+      .then(() => {
       if (!ativo) return;
       preparar(familia);
       desenhar(-1);

@@ -17,8 +17,8 @@ const fotos = [
   { src: unsplash("photo-1536589961747-e239b2abbec2"), legenda: "Mia · check-up anual", alt: "Gato branco e laranja olhando para a câmera", proporcao: "4 / 5", foco: "center 30%" },
   { src: "/img/onde-atendo.jpg", legenda: "Pipoca & Paçoca · primeira consulta", alt: "Vinicius segurando dois filhotes de cachorro", proporcao: "4 / 5", foco: "center 25%" },
   { src: unsplash("photo-1610968755695-d7fcb5fd4b92"), legenda: "Max · acompanhamento", alt: "Pastor alemão olhando para a câmera", proporcao: "1 / 1", foco: "center 30%" },
-  { src: "/img/avaliacao-labrador.jpg", legenda: "Thor · vacinas em dia", alt: "Labrador preto", proporcao: "1 / 1", foco: "center 35%" },
-  { src: "/img/avaliacao-gato.jpg", legenda: "Frajola · atendimento sem estresse", alt: "Gato deitado tranquilo", proporcao: "4 / 5", foco: "center 40%" },
+  { src: unsplash("photo-1520301255226-bf5f144451c1"), legenda: "Aquário plantado · montagem e manutenção", alt: "Aquário plantado de água doce com peixe dourado", proporcao: "1 / 1", foco: "center" },
+  { src: unsplash("photo-1514888286974-6c03e2ca1dba"), legenda: "Frajola · atendimento sem estresse", alt: "Gato preto e branco olhando para a câmera", proporcao: "4 / 5", foco: "center 40%" },
   { src: "/img/aquario-fundo.jpg", legenda: "Cardume · consultoria de aquarismo", alt: "Aquário plantado de água doce", proporcao: "1 / 1", foco: "center" },
 ];
 
@@ -80,11 +80,12 @@ export default function Galeria() {
           <motion.div {...revelar("cima")}>
             <p className="kicker">Pacientes</p>
             <h2 id="galeria-titulo" className="galeria__titulo">
-              Quem já passou <em>por aqui.</em>
+              Seu pet também merece <em>esse cuidado</em>
             </h2>
           </motion.div>
           <motion.p className="galeria__lead" {...revelar("cima", 1)}>
-            Alguns dos pacientes atendidos, em casa e nas clínicas parceiras. Cada um com o seu jeito, o seu tempo e o mesmo cuidado.
+            Conheça alguns dos cães e gatos que já atendi em domicílio e nas clínicas parceiras. Cada encontro é único, e todos merecem
+            atenção, respeito e cuidado individualizado.
           </motion.p>
         </div>
 

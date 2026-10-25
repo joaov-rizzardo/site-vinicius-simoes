@@ -118,18 +118,21 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, 540px);
 }
 .hero__texto { display: flex; flex-direction: column; min-width: 0; padding: 0 48px 0 96px; position: relative; z-index: 2; }
-.hero__conteudo { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 56px 0 40px; }
+/* Texto encostado no alto da seção, no espaço preto acima dos animais */
+.hero__conteudo { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; gap: 28px; padding: 40px 0 1.5cm; }
 .hero__kicker { display: flex; align-items: center; gap: 14px; color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
 .hero__kicker::before { content: ""; flex: none; width: 40px; height: 1px; background: var(--dourado); }
 .hero h1 {
   font-family: var(--font-serif); font-weight: 400;
-  font-size: clamp(40px, 4.4vw, 62px); line-height: 1.1; letter-spacing: -0.015em;
+  font-size: clamp(50.6px, 5.5vw, 83.6px); line-height: 1.06; letter-spacing: -0.015em;
+}
+/* Computador: título 15% maior, em duas linhas */
+@media (min-width: 901px) {
+  .hero h1 { font-size: clamp(58.2px, 6.325vw, 96.1px); white-space: nowrap; }
 }
 .hero h1 em { color: var(--verde-claro); }
-.hero__desc { font-size: 18px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
-/* Detalhe discreto: fino e em dourado translúcido */
-.hero__tags { color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
-.hero__desc-curta, .hero__quebra { display: none; }
+.hero__desc { font-size: 17px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
+.hero__quebra { display: none; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
 .botao-hero {
@@ -141,10 +144,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .botao-hero__textos { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left; }
 .botao-hero__textos small { font-size: 11px; font-weight: 400; letter-spacing: 0.12em; }
 .botao-hero--verde small { color: #cfe6d8; }
-.botao-hero--contorno small { color: #e6d6b0; }
 .botao-hero--verde, .botao-hero--verde:hover { background: var(--verde); border: 1px solid var(--verde-borda); color: #fff; }
-.botao-hero--contorno { border: 1px solid var(--dourado); color: #f1e6cc; }
-.botao-hero--contorno:hover { color: #fff; background: rgba(201,160,78,.08); }
 /* Botões: seta desliza e um brilho passa pelo botão no hover */
 .botao-hero::after {
   content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
@@ -156,44 +156,30 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .botao-hero:hover > svg:last-child { transform: translateX(5px); }
 
 
-/* Retrato recortado direto sobre o fundo, com luz suave atrás e base que se dissolve no escuro */
-/* Sem overflow no desktop: a luz se espalha além da coluna e a base da foto é cortada pelo próprio .hero */
-.hero__retrato { position: relative; min-height: 480px; }
-.hero__luz {
-  position: absolute; width: 760px; height: 760px; left: 50%; top: -120px; margin-left: -380px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(108,196,138,.16) 0%, rgba(20,87,58,.12) 34%, rgba(12,23,18,0) 68%);
-  pointer-events: none;
+/* Cão, gato e peixe sobre fundo preto, de ponta a ponta da seção; o fundo do hero é preto puro
+   para a foto não ter borda onde o corte do "cover" sobrar */
+.hero { background: #000; }
+.hero__retrato { min-height: 480px; }
+/* Foto larga inteira, de ponta a ponta e apoiada embaixo: nada é cortado, e o espaço que sobra
+   em cima é completado pelo preto do fundo (o topo da foto também é preto puro, então não há emenda) */
+.hero__foto { position: absolute; inset: 0; z-index: 1; }
+/* Lado esquerdo escurece para o texto continuar legível sobre o peixe e as plantas */
+.hero__foto::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.3) 34%, rgba(0,0,0,0) 50%);
 }
-.hero__fio { position: absolute; left: 0; top: 96px; width: 1px; height: 380px; background: rgba(201,160,78,.35); transform-origin: top; }
-.hero__foto { position: absolute; left: 0; right: 0; top: 96px; bottom: -40px; }
+/* Botão do hero em vidro verde escuro: discreto sobre a foto, com borda fina e um brilho suave
+   que acende no hover para continuar chamando atenção */
+.hero .botao-hero--verde {
+  background: rgba(20,87,58,.45); border: 1px solid rgba(108,196,138,.55); box-shadow: 0 0 18px rgba(108,196,138,.12);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: background-color .3s ease, border-color .3s ease, box-shadow .3s ease;
+}
+.hero .botao-hero--verde:hover { background: rgba(20,87,58,.75); border-color: var(--verde-claro); box-shadow: 0 0 24px rgba(108,196,138,.28); }
+/* Botões do hero compactos: espaçamento interno pela metade e texto no menor tamanho ainda legível */
 .hero__foto img { object-fit: contain; object-position: 50% 100%; }
-.hero__retrato::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 260px; z-index: 1; pointer-events: none;
-  background: linear-gradient(180deg, rgba(12,23,18,0) 0%, rgba(12,23,18,.85) 60%, var(--noite) 100%);
-}
-.hero__frase { position: absolute; top: 56px; right: 40px; z-index: 2; transform: rotate(-10deg); pointer-events: none; }
-.hero__frase p {
-  font-family: var(--font-script); font-size: 34px; line-height: 1.15; color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.45); white-space: pre;
-}
-.hero__frase p span { display: block; width: fit-content; }
-.hero__frase div { height: 3px; width: 110px; background: var(--dourado-claro); margin: 8px 0 0 44px; border-radius: 3px; }
-/* Acima do botão flutuante do WhatsApp, que fica no canto inferior direito */
-.hero__assinatura {
-  position: absolute; right: 56px; bottom: 112px; z-index: 2;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 8px; text-align: right;
-}
-.hero__assinatura::before { content: ""; width: 48px; height: 2px; background: var(--dourado); }
-.hero__assinatura strong { font-family: var(--font-serif); font-weight: 400; font-size: 22px; }
-.hero__assinatura > span { font-size: 11px; letter-spacing: 0.18em; color: #b9c7bf; }
-.hero__assinatura .hero__crmv {
-  margin-top: 2px; font-size: 9.5px; letter-spacing: 0.2em;
-  color: var(--dourado-claro);
-}
-
 @media (max-width: 1140px) {
   .hero__texto { padding: 0 32px 36px 40px; }
-  .hero__assinatura { right: 32px; }
 }
 
 /* ---------- Sobre ---------- */
@@ -227,10 +213,11 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .sobre__foto { position: relative; margin: 0; width: 100%; max-width: 420px; justify-self: center; }
 /* Proporção 4:5 pelo padding (funciona também em celulares antigos sem suporte a aspect-ratio) */
 .sobre__retrato {
-  position: relative; height: 0; padding-bottom: 125%; border-radius: 16px; background: #e4ddcd;
+  position: relative; height: 0; padding-bottom: 125%; border-radius: 16px; background: #fff;
   overflow: hidden; box-shadow: 0 22px 50px -18px rgba(12,23,18,0.35);
 }
-.sobre__retrato img { object-fit: cover; object-position: 0% 0%; transform: scale(1.12); transform-origin: 0 0; }
+/* Foto recortada sobre fundo branco: inteira no card (as sobras laterais somem no branco), sem cortar a cabeça */
+.sobre__retrato img { object-fit: contain; object-position: 50% 100%; transform-origin: 50% 100%; }
 .sobre__pata { position: absolute; right: -30px; bottom: 80px; transform: rotate(18deg); }
 .sobre__texto { min-width: 0; display: flex; flex-direction: column; }
 .sobre__texto .titulo-grande { max-width: 16ch; margin-bottom: 32px; }
@@ -296,7 +283,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .serv-card:hover .serv-card__titulo { color: var(--dourado-claro); }
 .serv-card__texto { font-size: 15px; line-height: 1.55; color: rgba(255,255,255,.82); }
 .serv__controles { display: flex; align-items: center; gap: 20px; margin-top: 28px; }
-.serv__contador { font-size: 14px; letter-spacing: 0.08em; color: rgba(255,255,255,.6); font-variant-numeric: tabular-nums; }
+.serv__contador { font-size: 14px; font-weight: 600; letter-spacing: 0.08em; color: rgba(255,255,255,.6); font-variant-numeric: tabular-nums; }
 .serv__contador strong { color: var(--dourado-claro); }
 .serv__progresso { flex: 1; height: 2px; background: rgba(255,255,255,.14); overflow: hidden; }
 .serv__progresso span { display: block; height: 100%; background: var(--dourado); transform-origin: left; transition: transform .4s cubic-bezier(.2,.7,.2,1); }
@@ -399,14 +386,13 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
   align-items: center; gap: 40px; padding: 64px;
 }
 .aqua__texto { flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 22px; }
-.aqua__titulo { display: flex; align-items: center; gap: 14px; }
-.aqua__titulo h2 { font-size: 18px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; }
+.aqua .kicker { color: var(--dourado-claro); margin-bottom: 0; }
 .aqua__frase { font-family: var(--font-serif); font-size: clamp(30px, 3.4vw, 42px); line-height: 1.15; }
 .aqua__frase span { color: var(--verde-claro); }
 .aqua__desc { font-size: 17px; line-height: 1.65; color: #e7ece9; max-width: 560px; }
 .aqua__desc strong { color: #fff; }
 .aqua__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 0; margin-top: 16px; }
-.aqua__cta { display: flex; margin-top: 12px; }
+.aqua__cta { display: flex; margin-top: 36px; }
 /* Botão de vidro em tom de água; no hover o texto continua branco e só um brilho em gradiente passa por cima */
 .aqua__botao {
   position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 16px; min-height: 64px; padding: 8px 26px 8px 30px; border-radius: 999px;
@@ -492,7 +478,8 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   position: sticky; top: var(--barra); height: calc(100svh - var(--barra)); padding: 32px 0 40px;
   display: flex; flex-direction: column; justify-content: center;
 }
-.galeria .kicker { color: var(--dourado-claro); }
+/* Desce 10px sem mover o título: o espaço sai da margem de baixo */
+.galeria .kicker { color: var(--dourado-claro); margin-top: 10px; margin-bottom: 8px; }
 .galeria__cabeca {
   width: 100%; max-width: 1360px; margin: 0 auto clamp(32px, 5vw, 56px); padding: 0 64px;
   display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start;
@@ -513,7 +500,11 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .galeria__foto { position: relative; overflow: hidden; border-radius: 18px; background: #111a15; }
 .galeria__foto img { object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
 .galeria__item:hover .galeria__foto img { transform: scale(1.04); }
-.galeria__item figcaption { margin-top: 12px; font-size: 14px; color: rgba(255,255,255,.65); }
+/* Legendas no estilo do kicker (dourado, caixa alta, espaçado), no tamanho de legenda */
+.galeria__item figcaption, .galeria__mais-legenda {
+  margin-top: 12px; font-family: var(--font-nav); font-size: 9.8px; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--dourado-claro);
+}
 
 /* Card final do Instagram, no mesmo tamanho das fotos quadradas */
 .galeria__mais, .galeria__mais:hover { display: block; color: #fff; text-decoration: none; }
@@ -538,7 +529,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 }
 .galeria__mais-seta svg { stroke: var(--noite); }
 .galeria__mais:hover .galeria__mais-seta { transform: translateX(4px) rotate(-45deg); }
-.galeria__mais-legenda { display: block; margin-top: 12px; font-size: 14px; color: rgba(255,255,255,.65); }
+.galeria__mais-legenda { display: block; }
 .galeria__mais:focus-visible { outline: none; }
 .galeria__mais:focus-visible .galeria__mais-card { outline: 3px solid var(--dourado); outline-offset: 3px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
@@ -815,7 +806,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 
 /* Sobre: foto aproxima e a patinha balança */
 .sobre__retrato img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
-.sobre__foto:hover .sobre__retrato img { transform: scale(1.17); }
+.sobre__foto:hover .sobre__retrato img { transform: scale(1.04); }
 .sobre__pata { transition: rotate .4s cubic-bezier(.3,1.6,.5,1); }
 .sobre__foto:hover .sobre__pata { rotate: 16deg; }
 
@@ -853,12 +844,17 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 /* Hero empilhado (retrato no topo, dissolvendo no texto) a partir do tablet */
 @media (max-width: 900px) {
   .hero__inner { display: flex; flex-direction: column; }
-  .hero__retrato { order: -1; flex: none; min-height: 0; height: clamp(300px, 46svh, 440px); overflow: hidden; }
-  .hero__luz { width: 520px; height: 520px; top: -90px; margin-left: -260px; }
-  .hero__fio, .hero__assinatura::before { display: none; }
-  .hero__foto { top: 16px; bottom: -30px; }
-  .hero__retrato::after { height: 170px; }
-  .hero__assinatura { left: 40px; right: 40px; bottom: 12px; align-items: flex-start; gap: 6px; text-align: left; }
+  /* Foto no topo, recortada mais alta para os animais não ficarem pequenos; mostra peixe, cão e gato
+     e a base dissolve no texto */
+  /* Faixa quase na proporção da foto (2,67:1): zoom mínimo, cortando só um pouco de cada lado */
+  .hero__retrato { position: relative; order: -1; flex: none; min-height: 0; aspect-ratio: 2.4 / 1; overflow: hidden; }
+  .hero__foto { inset: 0; width: 100%; height: 100%; }
+  .hero__foto img { object-fit: cover; object-position: 50% 0%; }
+  .hero__foto::after { display: none; }
+  .hero__retrato::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 40px; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 100%);
+  }
   .hero__texto { padding: 24px 40px 40px; }
   .hero__conteudo { padding: 0; }
 
@@ -881,28 +877,20 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .nav { padding: 4px 24px 12px; font-size: 15px; }
   .titulo-secao { font-size: 18px; }
 
-  /* Hero: retrato no topo, dissolvendo no texto; registro vai para a assinatura sobre a foto */
-  .hero__assinatura { left: 24px; right: 24px; }
-  .hero__assinatura strong { font-size: 19px; }
-  .hero__assinatura > span { font-size: 10.5px; letter-spacing: 0.14em; }
+  /* Hero: animais no topo, dissolvendo no texto */
   .hero__texto { padding: 20px 24px 32px; }
   .hero__conteudo { padding: 0 0 28px; gap: 18px; }
-  .hero__kicker { font-size: 11.5px; letter-spacing: 0.18em; gap: 12px; }
-  .hero__kicker::before { width: 28px; }
-  .hero__desc-longa, .hero__tags { display: none; }
-  .hero__desc-curta { display: inline; }
+  .hero__kicker { font-size: 10px; letter-spacing: 0.16em; gap: 10px; }
+  /* Palavras do texto do hero que saem no celular para economizar espaço */
+  .hero__so-desktop { display: none; }
+  .hero__kicker::before { width: 24px; }
   .hero__quebra { display: inline; }
-  .hero__frase { top: 20px; right: 16px; }
-  .hero__frase p { font-size: 21px; }
-  .hero__frase div { width: 70px; height: 2px; margin: 6px 0 0 28px; }
-  .hero h1 { font-size: 32px; line-height: 1.14; }
-  .hero__desc { font-size: 16px; line-height: 1.6; }
+  .hero h1 { font-size: 35.2px; line-height: 1.14; }
+  .hero__desc { font-size: 15px; line-height: 1.6; }
   .hero__ctas { flex-direction: column; gap: 12px; margin-top: 6px; }
-  .botao-hero { min-height: 56px; padding: 10px 20px; font-size: 13px; letter-spacing: 0.06em; gap: 10px; }
-  /* Altura fixa: não depende do tamanho da tela de cada celular */
-  .hero__retrato { height: 380px; }
 
   .kicker { font-size: 11.5px; letter-spacing: 0.18em; gap: 12px; margin-bottom: 14px; }
+  .galeria .kicker { margin-bottom: 4px; }
   .kicker::before { width: 28px; }
   .titulo-grande { font-size: 30px; }
 
@@ -924,14 +912,11 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .aqua__inner { padding: 40px 24px; gap: 28px; }
   .aqua__texto { gap: 16px; }
   .aqua__texto { flex-basis: 100%; }
-  .aqua__titulo h2 { font-size: 15px; }
-  .aqua__titulo svg { width: 36px; height: 24px; }
   .aqua__frase { font-size: 26px; }
   .aqua__desc { font-size: 15px; }
   .aqua__grade { grid-template-columns: 1fr; gap: 0; margin-top: 0; }
-  .aqua__cta { margin-top: 6px; }
-  .aqua__cta .aqua__botao { flex: 1; min-height: 58px; padding: 8px 20px 8px 24px; }
-  .aqua__botao-textos { font-size: 13px; letter-spacing: .06em; }
+  .aqua__cta { margin-top: 20px; }
+  .aqua__cta .aqua__botao { flex: 1; }
   .aqua__item, .aqua__item:first-child, .aqua__item:last-child {
     flex-direction: row; align-items: center; gap: 14px; padding: 11px 0;
     border-right: 0; border-bottom: 1px solid var(--linha-escura);
@@ -953,7 +938,6 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .aval__rotulo span { font-size: 13px; }
   .aval__titulo { font-size: 30px; }
   .aval__frase { font-size: 15px; }
-  .aval__botao { padding: 11px 22px; font-size: 14px; }
 
   /* Rodapé: espaço no fim para o botão flutuante não cobrir o conteúdo */
   .rodape__inner { padding: 28px 24px 96px; gap: 18px; }
@@ -970,7 +954,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 /* ---------- Ajustes para cada seção caber em uma tela ---------- */
 /* Telas baixas (notebooks): menos respiro para cada seção caber em uma tela */
 @media (min-width: 901px) and (max-height: 860px) {
-  .hero__conteudo { padding: 32px 0 24px; gap: 20px; }
+  .hero__conteudo { padding: 24px 0 1.5cm; gap: 20px; }
   .sobre__grade { padding: 40px 64px; }
   .sobre__foto { max-width: min(340px, 52vh); }
   .sobre__texto .titulo-grande { margin-bottom: 20px; }
@@ -986,27 +970,44 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 @media (min-width: 721px) and (max-width: 900px) {
   .sobre__grade { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px; align-items: center; }
   .sobre__prosa p { font-size: 15.5px; }
-  .hero__retrato { height: clamp(280px, 38svh, 420px); }
   .hero__texto { padding-bottom: 28px; }
 }
 
-/* Celular: foto do Sobre mim em formato paisagem e Serviços mais compacto */
+/* Celular: foto do Sobre mim inteira e Serviços mais compacto */
 @media (max-width: 720px) {
   .sobre__grade { gap: 24px; }
-  .sobre__foto { max-width: none; }
-  .sobre__retrato { padding-bottom: 62%; }
-  .sobre__retrato img { object-position: 0% 18%; }
+  /* Card na proporção da foto (2:3), com ela inteira; largura limitada a 1/3 da altura da tela,
+     então o card ocupa no máximo metade da tela (altura = 1,5 × largura) */
+  .sobre__foto { max-width: min(280px, 33svh); }
+  .sobre__retrato { padding-bottom: 150%; }
   .sobre__pata { display: none; }
-  .hero__retrato { height: 290px; }
   .hero__conteudo { padding-bottom: 16px; }
   .serv__inner { padding-top: 36px; padding-bottom: 36px; }
   .serv__cabeca { gap: 14px; }
   .serv__controles { margin-top: 18px; }
   .serv-card { aspect-ratio: 3 / 4.1; }
-  .sobre__retrato { padding-bottom: 54%; }
   .sobre__prosa p { font-size: 14.5px; line-height: 1.6; }
 }
 
 
 /* Bodoni nos títulos: desenho óptico de texto (traços finos mais encorpados) e peso médio, para os traços finos não sumirem */
-.titulo-grande, .hero h1, .aqua__frase, .galeria__titulo, .aba__titulo, .galeria__mais-rotulo { font-variation-settings: "opsz" 18; font-weight: 600; }
+.titulo-grande, .hero h1, .aqua__frase, .galeria__titulo, .aba__titulo, .galeria__mais-rotulo, .aval__media strong { font-variation-settings: "opsz" 18; font-weight: 600; }
+
+/* ---------- Botões de ação: todos no tamanho dos botões do hero (exceto os de Onde atendo) ---------- */
+/* No fim do arquivo para valer sobre os estilos de cada seção */
+.botao-hero, .aqua__botao, .aval__botao {
+  min-width: 250px; min-height: 48px; padding: 9.2px 18.4px; gap: 9.2px;
+  font-size: 12.65px; letter-spacing: 0.08em; justify-content: center;
+}
+.botao-hero svg, .aqua__botao svg, .aval__botao svg { width: 16px; height: 16px; }
+.botao-hero > svg:last-child, .aqua__botao > svg:last-child { width: 14px; height: 14px; }
+.botao-hero__textos, .aqua__botao-textos { gap: 1px; font-size: 12.65px; letter-spacing: 0.08em; }
+.botao-hero__textos small, .aqua__botao-textos small { font-size: 10.35px; }
+@media (max-width: 720px) {
+  .botao-hero, .aqua__botao, .aval__botao { min-height: 50px; padding: 7px 18.4px; }
+  .aval__botao { align-self: stretch; }
+}
+/* Botão do hero: texto interno menor, para o botão ficar menos carregado */
+.hero .botao-hero__textos { font-size: 11.5px; justify-content: center; }
+/* Nota média: tamanho óptico mínimo da Bodoni, que engrossa os traços finos dos números */
+.aval__media strong { font-variation-settings: "opsz" 6; font-weight: 700; }

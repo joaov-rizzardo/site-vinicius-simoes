@@ -7,20 +7,15 @@ import { site } from "../config";
 import { revelar } from "../lib/animacoes";
 import { WhatsApp } from "./icons";
 
-const maps = (busca: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busca)}`;
-// Mapa incorporado do Google Maps (não precisa de chave de API)
-const mapaEmbed = (busca: string) => `https://www.google.com/maps?q=${encodeURIComponent(busca)}&z=16&output=embed`;
-
 type Local = {
-  id: "casa" | "cachoeira" | "cruzeiro" | "aquario";
+  id: "casa" | "clinicas" | "aquario";
   titulo: string;
   subtitulo: string;
-  detalhe: string;
+  // um texto ou uma lista de parágrafos
+  detalhe: string | string[];
   pilulas: string[];
-  foto?: string;
+  foto: string;
   alt: string;
-  // endereço da clínica: no lugar da foto aparece o mapa do Google com a localização
-  mapa?: string;
   // ponto de foco do recorte (object-position), para fotos que não são horizontais
   foco?: string;
   link: { rotulo: string; href: string; zap?: boolean };
@@ -40,29 +35,18 @@ const locais: Local[] = [
     link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
-    id: "cachoeira",
-    titulo: "Cachoeira Paulista",
-    subtitulo: "Clínica parceira",
-    detalhe:
-      "Quando o seu pet precisa de uma estrutura mais completa, o atendimento acontece na clínica parceira em Cachoeira Paulista, com a mesma atenção e cuidado de sempre. Você recebe orientações claras, com cada etapa do tratamento explicada com tranquilidade.",
-    pilulas: [
-      "Endereço: Rua Orris Benedito Barbosa, 318",
-      "Localização: Cachoeira Paulista – SP",
+    id: "clinicas",
+    titulo: "Clínicas parceiras",
+    subtitulo: "Cachoeira Paulista e Cruzeiro",
+    detalhe: [
+      "Quando seu pet precisa de procedimentos ou de cirurgias que exijam uma estrutura mais completa para o atendimento, também estou disponível em clínicas parceiras nas cidades de Cachoeira Paulista e Cruzeiro, oferecendo o mesmo cuidado, atenção e dedicação de sempre.",
+      "Para agendar uma consulta em uma dessas unidades, entre em contato pelo WhatsApp e escolha a melhor opção para você e seu pet.",
     ],
-    mapa: "Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP",
-    alt: "Mapa com a localização da clínica parceira em Cachoeira Paulista",
-    link: { rotulo: "Ver no Maps", href: maps("Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP") },
-  },
-  {
-    id: "cruzeiro",
-    titulo: "Cruzeiro",
-    subtitulo: "Clínica parceira",
-    detalhe:
-      "Em Cruzeiro, o atendimento conta com uma estrutura clínica de apoio para ampliar as possibilidades de cuidado, sempre com atenção individualizada e orientações claras para você acompanhar cada decisão.",
-    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP"],
-    mapa: "Rua Dom Bosco, 343, Centro, Cruzeiro - SP",
-    alt: "Mapa com a localização da clínica parceira em Cruzeiro",
-    link: { rotulo: "Ver no Maps", href: maps("Rua Dom Bosco, 343, Centro, Cruzeiro - SP") },
+    pilulas: ["Cachoeira Paulista – SP", "Cruzeiro – SP", "Estrutura adequada para cirurgias e procedimentos veterinários."],
+    foto: "/img/clinicas-parceiras.webp",
+    foco: "center 40%",
+    alt: "Veterinário examinando um golden retriever com estetoscópio na clínica",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
     id: "aquario",
@@ -101,7 +85,7 @@ export default function OndeAtendo() {
               Atendimento completo, <em>com flexibilidade.</em>
             </h2>
           </motion.div>
-          {/* As fotos e mapas ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
+          {/* As fotos ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
           <motion.div className="onde__foto" {...revelar("cima", 1)}>
             {locais.map((l) => (
               <motion.div
@@ -111,20 +95,8 @@ export default function OndeAtendo() {
                 animate={l.id === ativo ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.6, ease: suave }}
                 aria-hidden={l.id !== ativo}
-                // camada escondida não pode capturar cliques/arraste destinados ao mapa visível
-                style={{ pointerEvents: l.id === ativo ? "auto" : "none" }}
               >
-                {l.mapa ? (
-                  <iframe
-                    src={mapaEmbed(l.mapa)}
-                    title={l.alt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    tabIndex={l.id === ativo ? 0 : -1}
-                  />
-                ) : (
-                  l.foto && <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
-                )}
+                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
               </motion.div>
             ))}
           </motion.div>
@@ -160,7 +132,9 @@ export default function OndeAtendo() {
                         transition={{ duration: 0.45, ease: suave }}
                       >
                         <div className="aba__conteudo">
-                          <p className="aba__detalhe">{l.detalhe}</p>
+                          {[l.detalhe].flat().map((d) => (
+                            <p key={d} className="aba__detalhe">{d}</p>
+                          ))}
                           <ul className="aba__pilulas">
                             {l.pilulas.map((p) => (
                               <li key={p}>{p}</li>

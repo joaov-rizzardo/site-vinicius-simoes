@@ -7,27 +7,26 @@ import { revelar } from "../lib/animacoes";
 import { site } from "../config";
 import { Instagram, Seta } from "./icons";
 
-// Fotos de exemplo: trocar pelas fotos reais dos pacientes (com autorização dos tutores).
-// Fotos locais ficam em /public/img; as de banco de imagens vêm do Unsplash (uso livre).
-const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=800&q=75`;
+// Fotos reais dos atendimentos, guardadas em /public/img
 
 // Proporções alternadas (quadrada e retrato) para a fileira não ficar monótona
 const fotos = [
-  { src: unsplash("photo-1558788353-f76d92427f16"), legenda: "Mel · consulta em casa", alt: "Golden retriever sorrindo", proporcao: "1 / 1", foco: "center 35%" },
-  { src: unsplash("photo-1536589961747-e239b2abbec2"), legenda: "Mia · check-up anual", alt: "Gato branco e laranja olhando para a câmera", proporcao: "4 / 5", foco: "center 30%" },
-  { src: "/img/onde-atendo.jpg", legenda: "Pipoca & Paçoca · primeira consulta", alt: "Vinicius segurando dois filhotes de cachorro", proporcao: "4 / 5", foco: "center 25%" },
-  { src: unsplash("photo-1610968755695-d7fcb5fd4b92"), legenda: "Max · acompanhamento", alt: "Pastor alemão olhando para a câmera", proporcao: "1 / 1", foco: "center 30%" },
-  { src: unsplash("photo-1520301255226-bf5f144451c1"), legenda: "Aquário plantado · montagem e manutenção", alt: "Aquário plantado de água doce com peixe dourado", proporcao: "1 / 1", foco: "center" },
-  { src: unsplash("photo-1514888286974-6c03e2ca1dba"), legenda: "Frajola · atendimento sem estresse", alt: "Gato preto e branco olhando para a câmera", proporcao: "4 / 5", foco: "center 40%" },
-  { src: "/img/aquario-fundo.jpg", legenda: "Cardume · consultoria de aquarismo", alt: "Aquário plantado de água doce", proporcao: "1 / 1", foco: "center" },
+  { src: "/img/galeria-filhotes-sofa.webp", legenda: "Hopper e Cooper · vacinação residencial", alt: "Vinicius sentado no sofá segurando dois filhotes de cachorro", proporcao: "4 / 5", foco: "center top" },
+  { src: "/img/galeria-vinicius-gato.webp", legenda: "Mia · check-up anual em clínica parceira", alt: "Vinicius sorrindo e segurando no colo um gato laranja e branco de olhos verdes", proporcao: "4 / 5", foco: "center 30%" },
+  { src: "/img/galeria-apaiaris.jpg", legenda: "Apaiaris · consultoria de aquarismo", alt: "Dois peixes apaiari (oscar), um branco e laranja e um escuro com manchas laranja, nadando no aquário", proporcao: "1 / 1", foco: "center 55%" },
+  { src: "/img/galeria-vinicius-pitbull.jpg", legenda: "Thor · consulta em clínica parceira", alt: "Vinicius sorrindo e fazendo carinho em um pitbull marrom e branco feliz, de boca aberta", proporcao: "1 / 1", foco: "center 25%" },
+  { src: "/img/galeria-vinicius-cao.jpg", legenda: "Dilma · paciente especial, de longa data", alt: "Vinicius de jaleco sorrindo para uma cachorra caramelo de bandana sentada sobre um caixote branco", proporcao: "1 / 1", foco: "center" },
+  { src: "/img/galeria-vinicius-caramelo.webp", legenda: "Vitório · coleta de exames residencial", alt: "Vinicius de jaleco agachado ao lado de um cachorro caramelo sorridente, em frente a uma parede de tijolos", proporcao: "4 / 5", foco: "center" },
+  { src: "/img/galeria-cardume.jpg", legenda: "Cardume · manutenção do aquário", alt: "Cardume de barbos-tigre e neons nadando entre plantas e um tronco no aquário", proporcao: "1 / 1", foco: "center 45%" },
 ];
 
 // @ do perfil, tirado do link do Instagram
 const arroba = "@" + site.instagram.replace(/\/+$/, "").split("/").pop();
 
-// Em telas largas a seção fica presa enquanto a rolagem da página move a fileira de fotos para o lado;
-// em telas menores (ou com movimento reduzido) a fileira rola com o dedo, com encaixe em cada foto
-const CONSULTA_FIXA = "(min-width: 960px) and (prefers-reduced-motion: no-preference)";
+// Com mouse/touchpad (computadores e notebooks, inclusive com zoom do Windows em 125–150%) a seção fica presa
+// enquanto a rolagem da página move a fileira de fotos para o lado; no celular e no tablet a fileira rola com o dedo.
+// Não depende de "movimento reduzido": a fileira só anda quando a própria pessoa rola, e sem isso o mouse não a alcançava.
+const CONSULTA_FIXA = "(min-width: 700px) and (hover: hover) and (pointer: fine)";
 
 export default function Galeria() {
   const secao = useRef<HTMLElement>(null);
@@ -55,6 +54,35 @@ export default function Galeria() {
       obs.disconnect();
     };
   }, []);
+
+  // Fora do modo preso (janela estreita), o mouse também arrasta a fileira, como o dedo no celular
+  const arraste = useRef<{ x: number; inicio: number; moveu: boolean } | null>(null);
+  const pegar = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (fixa || e.pointerType !== "mouse" || e.button !== 0) return;
+    arraste.current = { x: e.clientX, inicio: e.currentTarget.scrollLeft, moveu: false };
+  };
+  const arrastar = (e: React.PointerEvent<HTMLDivElement>) => {
+    const a = arraste.current;
+    if (!a) return;
+    const dx = e.clientX - a.x;
+    if (!a.moveu && Math.abs(dx) < 5) return;
+    if (!a.moveu) {
+      a.moveu = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
+      e.currentTarget.classList.add("galeria__janela--arrastando");
+    }
+    e.currentTarget.scrollLeft = a.inicio - dx;
+  };
+  const soltar = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!arraste.current) return;
+    e.currentTarget.classList.remove("galeria__janela--arrastando");
+    // deixa o clique logo depois saber se foi arraste, para não abrir o Instagram sem querer
+    setTimeout(() => (arraste.current = null));
+  };
+  // Clique que terminou um arraste não abre o link
+  const cliqueAposArraste = (e: React.MouseEvent) => {
+    if (arraste.current?.moveu) e.preventDefault();
+  };
 
   // A posição da seção é lida a cada rolagem: as seções de cima podem mudar de altura depois do carregamento
   const { scrollY } = useScroll();
@@ -89,7 +117,15 @@ export default function Galeria() {
           </motion.p>
         </div>
 
-        <div className="galeria__janela">
+        <div
+          className="galeria__janela"
+          onPointerDown={pegar}
+          onPointerMove={arrastar}
+          onPointerUp={soltar}
+          onPointerCancel={soltar}
+          onClickCapture={cliqueAposArraste}
+          onDragStart={(e) => e.preventDefault()}
+        >
           <motion.div ref={trilho} className="galeria__trilho" style={{ x }}>
             {fotos.map((f) => (
               <figure className="galeria__item" key={f.legenda}>

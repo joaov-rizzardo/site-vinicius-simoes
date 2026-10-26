@@ -216,8 +216,8 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
   position: relative; height: 0; padding-bottom: 125%; border-radius: 16px; background: #fff;
   overflow: hidden; box-shadow: 0 22px 50px -18px rgba(12,23,18,0.35);
 }
-/* Foto recortada sobre fundo branco: inteira no card (as sobras laterais somem no branco), sem cortar a cabeça */
-.sobre__retrato img { object-fit: contain; object-position: 50% 100%; transform-origin: 50% 100%; }
+/* Foto com fundo: preenche o card, com o recorte puxado para cima para não cortar a cabeça */
+.sobre__retrato img { object-fit: cover; object-position: 50% 25%; transform-origin: 50% 50%; }
 .sobre__pata { position: absolute; right: -30px; bottom: 80px; transform: rotate(18deg); }
 .sobre__texto { min-width: 0; display: flex; flex-direction: column; }
 .sobre__texto .titulo-grande { max-width: 16ch; margin-bottom: 32px; }
@@ -312,7 +312,6 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 }
 .onde__foto-camada { position: absolute; inset: 0; }
 .onde__foto img { object-fit: cover; }
-.onde__foto iframe { width: 100%; height: 100%; border: 0; display: block; }
 .onde__direita { display: flex; flex-direction: column; justify-content: center; gap: 22px; min-width: 0; }
 
 .onde__abas { margin: 0; padding: 0; list-style: none; border-top: 1px solid #e3ddce; }
@@ -491,6 +490,9 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .galeria__janela { overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
 .galeria__janela::-webkit-scrollbar { display: none; }
 .galeria--fixa .galeria__janela { overflow: visible; }
+/* Arrastando com o mouse: o encaixe espera soltar, senão a fileira briga com o cursor */
+@media (pointer: fine) { .galeria:not(.galeria--fixa) .galeria__janela { cursor: grab; } }
+.galeria__janela--arrastando { cursor: grabbing !important; scroll-snap-type: none; user-select: none; }
 .galeria__trilho {
   display: flex; align-items: flex-start; gap: clamp(14px, 2vw, 28px); width: max-content;
   padding-inline: max(64px, calc((100vw - 1360px) / 2 + 64px));
@@ -534,11 +536,9 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .galeria__mais:focus-visible .galeria__mais-card { outline: 3px solid var(--dourado); outline-offset: 3px; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* Telas largas: fotos do tamanho da tela e desencontradas na altura */
-@media (min-width: 960px) {
-  .galeria__item { width: clamp(220px, min(24vw, 40svh), 380px); }
-  .galeria__item:nth-child(even) { margin-top: 56px; }
-}
+/* Seção presa (computador): fotos do tamanho da tela e desencontradas na altura */
+.galeria--fixa .galeria__item { width: clamp(220px, min(24vw, 40svh), 380px); }
+.galeria--fixa .galeria__item:nth-child(even) { margin-top: 56px; }
 @media (max-width: 959px) {
   .galeria__cabeca { padding: 0 40px; }
   .galeria__trilho { padding-inline: 40px; }

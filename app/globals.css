@@ -491,7 +491,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .galeria__janela::-webkit-scrollbar { display: none; }
 .galeria--fixa .galeria__janela { overflow: visible; }
 /* Arrastando com o mouse: o encaixe espera soltar, senão a fileira briga com o cursor */
-@media (pointer: fine) { .galeria:not(.galeria--fixa) .galeria__janela { cursor: grab; } }
+@media (any-pointer: fine) { .galeria__janela { cursor: grab; } }
 .galeria__janela--arrastando { cursor: grabbing !important; scroll-snap-type: none; user-select: none; }
 .galeria__trilho {
   display: flex; align-items: flex-start; gap: clamp(14px, 2vw, 28px); width: max-content;
@@ -887,7 +887,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .hero__quebra { display: inline; }
   .hero h1 { font-size: 35.2px; line-height: 1.14; }
   .hero__desc { font-size: 15px; line-height: 1.6; }
-  .hero__ctas { flex-direction: column; gap: 12px; margin-top: 6px; }
+  .hero__ctas { flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 6px; }
 
   .kicker { font-size: 11.5px; letter-spacing: 0.18em; gap: 12px; margin-bottom: 14px; }
   .galeria .kicker { margin-bottom: 4px; }
@@ -904,7 +904,6 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .serv__inner { padding: 48px 24px; }
   .serv__trilho { margin-right: -24px; padding-right: 24px; grid-auto-columns: min(82%, 300px); column-gap: 14px; }
   .serv__lead { font-size: 16px; }
-  .serv__cta .botao-hero { flex: 1; }
   .serv-card { padding: 22px; }
   .serv-card__titulo { font-size: 24px; }
 
@@ -916,7 +915,6 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .aqua__desc { font-size: 15px; }
   .aqua__grade { grid-template-columns: 1fr; gap: 0; margin-top: 0; }
   .aqua__cta { margin-top: 20px; }
-  .aqua__cta .aqua__botao { flex: 1; }
   .aqua__item, .aqua__item:first-child, .aqua__item:last-child {
     flex-direction: row; align-items: center; gap: 14px; padding: 11px 0;
     border-right: 0; border-bottom: 1px solid var(--linha-escura);
@@ -1005,7 +1003,6 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .botao-hero__textos small, .aqua__botao-textos small { font-size: 10.35px; }
 @media (max-width: 720px) {
   .botao-hero, .aqua__botao, .aval__botao { min-height: 50px; padding: 7px 18.4px; }
-  .aval__botao { align-self: stretch; }
 }
 /* Botão do hero: texto interno menor, para o botão ficar menos carregado */
 .hero .botao-hero__textos { font-size: 11.5px; justify-content: center; }

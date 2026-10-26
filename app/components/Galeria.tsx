@@ -26,7 +26,10 @@ const arroba = "@" + site.instagram.replace(/\/+$/, "").split("/").pop();
 // Com mouse/touchpad (computadores e notebooks, inclusive com zoom do Windows em 125–150%) a seção fica presa
 // enquanto a rolagem da página move a fileira de fotos para o lado; no celular e no tablet a fileira rola com o dedo.
 // Não depende de "movimento reduzido": a fileira só anda quando a própria pessoa rola, e sem isso o mouse não a alcançava.
-const CONSULTA_FIXA = "(min-width: 700px) and (hover: hover) and (pointer: fine)";
+// "any-pointer" e não "pointer"/"hover": notebooks com tela sensível ao toque (ou caneta) dizem que o ponteiro principal
+// é o dedo, mesmo usados com mouse, e a seção deixava de ficar presa neles.
+const CONSULTA_FIXA = "(min-width: 700px) and (any-pointer: fine)";
+const LARGURA_FIXA = 700;
 
 export default function Galeria() {
   const secao = useRef<HTMLElement>(null);
@@ -38,28 +41,48 @@ export default function Galeria() {
   useEffect(() => {
     const mq = window.matchMedia(CONSULTA_FIXA);
     const el = trilho.current!;
+    // Roda do mouse ou touchpad prova que há mouse, mesmo se o navegador não disser
+    let viuRoda = false;
     const medir = () => {
-      setFixa(mq.matches);
+      setFixa(mq.matches || (viuRoda && window.innerWidth >= LARGURA_FIXA));
       setDistancia(Math.max(0, el.scrollWidth - window.innerWidth));
+    };
+    const aoRodar = () => {
+      // Só prende enquanto a galeria ainda está abaixo, para a página não pular com a seção crescendo acima
+      if (viuRoda || mq.matches || window.innerWidth < LARGURA_FIXA) return;
+      if (secao.current!.getBoundingClientRect().top <= 0) return;
+      viuRoda = true;
+      medir();
     };
     medir();
     mq.addEventListener("change", medir);
     window.addEventListener("resize", medir);
+    window.addEventListener("wheel", aoRodar, { passive: true });
     // A largura da fileira muda quando as fotos e a fonte terminam de carregar
     const obs = new ResizeObserver(medir);
     obs.observe(el);
     return () => {
       mq.removeEventListener("change", medir);
       window.removeEventListener("resize", medir);
+      window.removeEventListener("wheel", aoRodar);
       obs.disconnect();
     };
   }, []);
 
-  // Fora do modo preso (janela estreita), o mouse também arrasta a fileira, como o dedo no celular
-  const arraste = useRef<{ x: number; inicio: number; moveu: boolean } | null>(null);
+  // O mouse também arrasta a fileira, como o dedo no celular. Com a seção presa, arrastar rola a página,
+  // que é o que move a fileira, sem passar do começo nem do fim da galeria.
+  const arraste = useRef<{ x: number; inicio: number; min: number; max: number; moveu: boolean } | null>(null);
   const pegar = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (fixa || e.pointerType !== "mouse" || e.button !== 0) return;
-    arraste.current = { x: e.clientX, inicio: e.currentTarget.scrollLeft, moveu: false };
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    if (!fixa) {
+      const inicio = e.currentTarget.scrollLeft;
+      arraste.current = { x: e.clientX, inicio, min: -Infinity, max: Infinity, moveu: false };
+      return;
+    }
+    const barra = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--barra")) || 0;
+    const inicio = window.scrollY;
+    const comeco = inicio + secao.current!.getBoundingClientRect().top - barra;
+    arraste.current = { x: e.clientX, inicio, min: Math.min(inicio, comeco), max: Math.max(inicio, comeco + distancia), moveu: false };
   };
   const arrastar = (e: React.PointerEvent<HTMLDivElement>) => {
     const a = arraste.current;
@@ -71,7 +94,8 @@ export default function Galeria() {
       e.currentTarget.setPointerCapture(e.pointerId);
       e.currentTarget.classList.add("galeria__janela--arrastando");
     }
-    e.currentTarget.scrollLeft = a.inicio - dx;
+    if (fixa) window.scrollTo({ top: Math.min(a.max, Math.max(a.min, a.inicio - dx)), behavior: "instant" });
+    else e.currentTarget.scrollLeft = a.inicio - dx;
   };
   const soltar = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!arraste.current) return;

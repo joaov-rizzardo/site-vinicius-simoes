@@ -34,7 +34,7 @@ const servicos = [
   {
     titulo: "Consultoria de aquarismo",
     texto: "Para aquários de água doce, presencial ou virtual: montagem, qualidade da água, escolha de peixes e plantas.",
-    imagem: unsplash("photo-1706479981052-bebbfc32d2fe"), // aquário plantado claro, com barbo-cereja e peixe rosa
+    imagem: unsplash("photo-1789110002638-22374c1a51cb"), // acarás-bandeira entre plantas, fundo azul
   },
 ];
 

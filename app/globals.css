@@ -762,14 +762,27 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .rodape__redes { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .rodape__redes > span { font-size: 12px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; }
 .rodape__redes > div { display: flex; gap: 14px; }
+/* Copyright à esquerda e crédito à direita; no celular, um embaixo do outro e centralizados */
 .rodape__credito {
-  display: flex; align-items: center; justify-content: center; gap: 18px; padding-top: 16px;
-  border-top: 1px solid var(--linha-escura); font-size: 13px; letter-spacing: 0.06em; color: #c8d1cc;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px;
+  padding-top: 16px; border-top: 1px solid var(--linha-escura);
+  font-size: 14px; letter-spacing: 0.02em; color: #c8d1cc;
 }
-/* margem negativa compensa a folga do canvas reservada para os pixels se espalharem */
-.vex { display: block; line-height: 0; margin: -10px; border-radius: 4px; }
-.vex canvas { display: block; }
-.vex:focus-visible { outline: 2px solid var(--dourado); outline-offset: -4px; }
+/* Até o rodapé atingir a largura máxima, o botão flutuante do WhatsApp cai sobre o crédito à direita */
+@media (min-width: 721px) and (max-width: 1540px) {
+  .rodape__credito { padding-right: 80px; }
+}
+@media (max-width: 720px) {
+  .rodape__credito { flex-direction: column; align-items: stretch; gap: 0; text-align: center; font-size: 13px; }
+  /* Fio igual ao de cima separando o copyright do crédito */
+  .rodape__credito p:first-child { padding-bottom: 14px; border-bottom: 1px solid var(--linha-escura); }
+  .rodape__credito p:last-child { padding-top: 14px; }
+  /* Copyright sempre em uma linha: fonte proporcional à largura útil da tela (o texto mede ~28,4em) */
+  .rodape__credito p:first-child { white-space: nowrap; font-size: min(12.5px, calc((100vw - 48px) / 29.5)); }
+}
+/* Nome da Vex em destaque: mesma fonte do site, em negrito e branco */
+.rodape__credito a { color: #fff; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+.rodape__credito a:hover { color: var(--dourado-claro); }
 .botao-redondo {
   width: 52px; height: 52px; border-radius: 50%; background: var(--verde); border: 1.5px solid var(--verde-borda);
   display: inline-flex; align-items: center; justify-content: center;

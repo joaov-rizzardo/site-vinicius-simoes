@@ -126,9 +126,13 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
   font-family: var(--font-serif); font-weight: 400;
   font-size: clamp(50.6px, 5.5vw, 83.6px); line-height: 1.06; letter-spacing: -0.015em;
 }
-/* Computador: título 15% maior, em duas linhas */
+/* Computador: título em duas linhas que cresce com a largura da tela, ocupando o preto à direita
+   (limitado pela altura em telas baixas, para o texto não descer sobre os animais) */
 @media (min-width: 901px) {
-  .hero h1 { font-size: clamp(58.2px, 6.325vw, 96.1px); white-space: nowrap; }
+  .hero h1 { font-size: clamp(58.2px, min(7.5vw, 12vh), 116px); white-space: nowrap; }
+  /* A foto fica atrás da seção inteira, então o texto pode usar as duas colunas */
+  .hero__texto, .hero__retrato { grid-column: 1 / -1; grid-row: 1; }
+  .hero__desc { max-width: clamp(420px, 46vw, 640px); }
 }
 .hero h1 em { color: var(--verde-claro); }
 .hero__desc { font-size: 17px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
@@ -843,7 +847,8 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 
 /* Hero empilhado (retrato no topo, dissolvendo no texto) a partir do tablet */
 @media (max-width: 900px) {
-  .hero__inner { display: flex; flex-direction: column; }
+  /* Em telas altas sobra altura: foto e texto ficam centralizados, dividindo o preto entre cima e baixo */
+  .hero__inner { display: flex; flex-direction: column; justify-content: center; }
   /* Foto no topo, recortada mais alta para os animais não ficarem pequenos; mostra peixe, cão e gato
      e a base dissolve no texto */
   /* Faixa quase na proporção da foto (2,67:1): zoom mínimo, cortando só um pouco de cada lado */
@@ -863,6 +868,23 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .sobre__grade { padding: 56px 40px; }
   .serv__inner { padding: 56px 40px; gap: 40px; }
   .serv__trilho { margin-right: -40px; padding-right: 40px; }
+}
+
+/* Tablets largos em pé (ex.: Surface, iPad Pro): hero empilhado como no celular, porque lado a lado
+   os animais ficavam pequenos no pé da tela e sobrava um vazio preto */
+@media (min-width: 901px) and (max-width: 1366px) and (orientation: portrait) {
+  .hero__inner { display: flex; flex-direction: column; justify-content: center; }
+  .hero__retrato { position: relative; order: -1; flex: none; min-height: 0; aspect-ratio: 2 / 1; overflow: hidden; }
+  .hero__foto { inset: 0; width: 100%; height: 100%; }
+  .hero__foto img { object-fit: cover; object-position: 50% 0%; }
+  .hero__foto::after { display: none; }
+  .hero__retrato::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 60px; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000 100%);
+  }
+  .hero__texto { padding: 32px 56px 48px; }
+  .hero__conteudo { padding: 0; }
+  .hero__desc { max-width: 640px; }
 }
 
 /* ---------- Telas pequenas ---------- */
@@ -1008,3 +1030,21 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .hero .botao-hero__textos { font-size: 11.5px; justify-content: center; }
 /* Nota média: tamanho óptico mínimo da Bodoni, que engrossa os traços finos dos números */
 .aval__media strong { font-variation-settings: "opsz" 6; font-weight: 700; }
+
+/* ---------- Hero em celulares altos ---------- */
+/* Telas longas (ex.: iPhone 16, Pro Max): foto, textos, espaços e botão crescem com a altura da tela,
+   para o hero ficar preenchido em vez de sobrar preto embaixo. No fim do arquivo para valer sobre os
+   tamanhos fixos do celular */
+@media (max-width: 720px) and (min-height: 760px) {
+  .hero__retrato { aspect-ratio: auto; height: clamp(calc(100vw / 2.4), 23svh, calc(100vw / 1.9)); }
+  /* Foto 15px para a esquerda (a parte cortada pelo "cover" cobre o deslocamento, sem borda) */
+  .hero__foto img { object-position: calc(50% - 15px) 0%; }
+  .hero__texto { padding: 28px 24px 36px; }
+  .hero__conteudo { gap: clamp(18px, 2.8svh, 26px); }
+  .hero__kicker { font-size: 11px; }
+  .hero h1 { font-size: clamp(35.2px, min(4.8svh, 10.4vw), 44px); }
+  .hero__desc { font-size: clamp(15px, 1.95svh, 16.5px); }
+  .hero__ctas { margin-top: 10px; }
+  .hero .botao-hero { min-width: 270px; min-height: 56px; }
+  .hero .botao-hero__textos { font-size: 12.5px; }
+}

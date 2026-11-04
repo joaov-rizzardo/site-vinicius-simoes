@@ -13,8 +13,6 @@ const nextConfig: NextConfig = {
     },
     experimental: {
         agentUpgrade: 'security',
-        // Embute o CSS no HTML: some a requisição que bloqueia a primeira pintura
-        inlineCss: true,
     },
 };
 

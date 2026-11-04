@@ -63,12 +63,14 @@
 
 /* Painel de médias: nota geral à esquerda, uma barra por tópico à direita */
 .adm-medias {
+  /* Anula o min-height de tela cheia de "main > section" (globals.css), feito para as seções do site */
+  min-height: 0;
   margin-top: 24px; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 8px 32px; align-items: center;
   background: #fff; border: 1px solid #e6e0d2; border-radius: 18px; padding: 22px 26px;
 }
 .adm-medias__geral { display: flex; flex-direction: column; gap: 2px; padding-right: 28px; border-right: 1px solid #eee8db; }
 .adm-medias__geral h2 { font-size: 12px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--dourado-escuro); }
-.adm-medias__geral strong { font-family: var(--font-serif); font-weight: 400; font-size: 56px; line-height: 1; font-variant-numeric: tabular-nums; }
+.adm-medias__geral strong { font-family: var(--font-nav); font-weight: 600; font-size: 44px; line-height: 1.1; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .adm-medias__geral small { font-size: 13px; color: var(--texto-3); }
 .adm-medias__topicos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 32px; }
 .adm-medias__topicos li { display: grid; grid-template-columns: minmax(0, 1fr) 34px; grid-template-areas: "nome nota" "barra barra"; gap: 6px 10px; align-items: baseline; }

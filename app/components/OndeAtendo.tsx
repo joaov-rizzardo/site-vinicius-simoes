@@ -7,21 +7,15 @@ import { site } from "../config";
 import { revelar } from "../lib/animacoes";
 import { WhatsApp } from "./icons";
 
-const maps = (busca: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(busca)}`;
-// Mapa incorporado do Google Maps (não precisa de chave de API)
-const mapaEmbed = (busca: string) => `https://www.google.com/maps?q=${encodeURIComponent(busca)}&z=16&output=embed`;
-const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1100&q=70`;
-
 type Local = {
-  id: "casa" | "cachoeira" | "cruzeiro" | "aquario";
+  id: "casa" | "clinicas" | "aquario";
   titulo: string;
   subtitulo: string;
-  detalhe: string;
+  // um texto ou uma lista de parágrafos
+  detalhe: string | string[];
   pilulas: string[];
-  foto?: string;
+  foto: string;
   alt: string;
-  // endereço da clínica: no lugar da foto aparece o mapa do Google com a localização
-  mapa?: string;
   // ponto de foco do recorte (object-position), para fotos que não são horizontais
   foco?: string;
   link: { rotulo: string; href: string; zap?: boolean };
@@ -33,44 +27,37 @@ const locais: Local[] = [
     titulo: "Residencial",
     subtitulo: "Atendimento em domicílio",
     detalhe:
-      "Para muitos animais, ir à clínica é motivo de estresse. Pensando no bem-estar deles, atendo principalmente em domicílio, por todo o Vale do Paraíba e região: exame clínico completo na sua casa, com o animal calmo e sem o estresse do transporte.",
-    pilulas: ["Vale do Paraíba e região", "Cães e gatos", "Sem estresse do transporte"],
-    foto: unsplash("photo-1668036268050-ca69ef2f0ca0"),
-    foco: "72% center",
-    alt: "Cachorro sentado tranquilo na sala de casa",
-    link: { rotulo: "Ver região no Maps", href: maps("Vale do Paraíba, SP") },
+      "Para cuidar do seu pet, ele não precisa sair de casa. Realizo consultas veterinárias em domicílio, por todo o Vale do Paraíba e região, proporcionando um exame clínico completo em um ambiente familiar, com mais conforto, tranquilidade e menos estresse para o seu companheiro.",
+    pilulas: ["Atendimento em todo o Vale do Paraíba e região", "Consultas para cães e gatos", "Mais conforto, sem o estresse do transporte"],
+    foto: "/img/residencial-cao-sofa.jpg",
+    foco: "center 40%",
+    alt: "Cachorro caramelo feliz deitado no sofá de casa",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
-    id: "cachoeira",
-    titulo: "Cachoeira Paulista",
-    subtitulo: "Clínica parceira",
-    detalhe:
-      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cachoeira Paulista, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
-    pilulas: ["Rua Orris Benedito Barbosa, 318", "Cachoeira Paulista – SP", "Mais estrutura"],
-    mapa: "Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP",
-    alt: "Mapa com a localização da clínica parceira em Cachoeira Paulista",
-    link: { rotulo: "Ver no Maps", href: maps("Rua Orris Benedito Barbosa, 318, Cachoeira Paulista - SP") },
-  },
-  {
-    id: "cruzeiro",
-    titulo: "Cruzeiro",
-    subtitulo: "Clínica parceira",
-    detalhe:
-      "Quando o caso pede mais estrutura, o atendimento é feito na clínica parceira de Cruzeiro, com o mesmo cuidado de sempre: ouvir com calma e explicar cada etapa do tratamento.",
-    pilulas: ["Rua Dom Bôsco, 343 – Centro", "Cruzeiro – SP", "Mais estrutura"],
-    mapa: "Rua Dom Bosco, 343, Centro, Cruzeiro - SP",
-    alt: "Mapa com a localização da clínica parceira em Cruzeiro",
-    link: { rotulo: "Ver no Maps", href: maps("Rua Dom Bosco, 343, Centro, Cruzeiro - SP") },
+    id: "clinicas",
+    titulo: "Clínicas parceiras",
+    subtitulo: "Cachoeira Paulista e Cruzeiro",
+    detalhe: [
+      "Quando seu pet precisa de procedimentos ou de cirurgias que exijam uma estrutura mais completa para o atendimento, também estou disponível em clínicas parceiras nas cidades de Cachoeira Paulista e Cruzeiro, oferecendo o mesmo cuidado, atenção e dedicação de sempre.",
+      "Para agendar uma consulta em uma dessas unidades, entre em contato pelo WhatsApp e escolha a melhor opção para você e seu pet.",
+    ],
+    pilulas: ["Cachoeira Paulista – SP", "Cruzeiro – SP", "Estrutura adequada para cirurgias e procedimentos veterinários."],
+    foto: "/img/clinicas-parceiras.webp",
+    foco: "center 40%",
+    alt: "Veterinário examinando um golden retriever com estetoscópio na clínica",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
     id: "aquario",
     titulo: "Aquarismo",
     subtitulo: "Consultoria presencial ou virtual",
     detalhe:
-      "A consultoria de aquarismo, exclusiva para aquários de água doce, é feita de forma virtual ou presencial, com orientações personalizadas para o seu tipo de aquário, peixes e rotina.",
-    pilulas: ["Montagem e manutenção", "Qualidade da água", "Peixes e plantas", "Problemas comuns"],
-    foto: "/img/aquario-fundo.jpg",
-    alt: "Aquário plantado de água doce com cardumes de peixes",
+      "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
+    pilulas: ["Montagem e manutenção", "Qualidade e equilíbrio da água", "Peixes e plantas", "Diagnóstico de problemas comuns"],
+    foto: "/img/onde-aquario.jpg",
+    foco: "center 45%",
+    alt: "Aquário plantado de água doce com neons, barbos e acará-bandeira",
     link: { rotulo: "Agendar consultoria", href: site.whatsapp, zap: true },
   },
 ];
@@ -98,7 +85,7 @@ export default function OndeAtendo() {
               Atendimento completo, <em>com flexibilidade.</em>
             </h2>
           </motion.div>
-          {/* As fotos e mapas ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
+          {/* As fotos ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
           <motion.div className="onde__foto" {...revelar("cima", 1)}>
             {locais.map((l) => (
               <motion.div
@@ -108,20 +95,8 @@ export default function OndeAtendo() {
                 animate={l.id === ativo ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
                 transition={{ duration: 0.6, ease: suave }}
                 aria-hidden={l.id !== ativo}
-                // camada escondida não pode capturar cliques/arraste destinados ao mapa visível
-                style={{ pointerEvents: l.id === ativo ? "auto" : "none" }}
               >
-                {l.mapa ? (
-                  <iframe
-                    src={mapaEmbed(l.mapa)}
-                    title={l.alt}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    tabIndex={l.id === ativo ? 0 : -1}
-                  />
-                ) : (
-                  l.foto && <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
-                )}
+                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
               </motion.div>
             ))}
           </motion.div>
@@ -157,20 +132,22 @@ export default function OndeAtendo() {
                         transition={{ duration: 0.45, ease: suave }}
                       >
                         <div className="aba__conteudo">
-                          <p className="aba__detalhe">{l.detalhe}</p>
+                          {[l.detalhe].flat().map((d) => (
+                            <p key={d} className="aba__detalhe">{d}</p>
+                          ))}
                           <ul className="aba__pilulas">
                             {l.pilulas.map((p) => (
                               <li key={p}>{p}</li>
                             ))}
                           </ul>
                           <div className="aba__acoes">
-                            <a className="aba__link" href={l.link.href} target="_blank" rel="noopener">
+                            <a className={l.link.zap ? "aba__link aba__link--zap" : "aba__link"} href={l.link.href} target="_blank" rel="noopener">
                               {l.link.zap && <WhatsApp size={14} />}
                               {l.link.rotulo}
                               <span aria-hidden="true">→</span>
                             </a>
                             {!l.link.zap && (
-                              <a className="aba__link" href={site.whatsapp} target="_blank" rel="noopener">
+                              <a className="aba__link aba__link--zap" href={site.whatsapp} target="_blank" rel="noopener">
                                 <WhatsApp size={14} />
                                 Agendar pelo WhatsApp
                               </a>

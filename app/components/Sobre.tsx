@@ -11,8 +11,8 @@ export default function Sobre() {
         <motion.figure className="sobre__foto" {...revelar("esquerda")}>
           <div className="sobre__retrato">
             <Image
-              src="/img/sobre-vinicius.jpg"
-              alt="Vinicius sorrindo e fazendo carinho em um cachorro"
+              src="/img/sobre-vinicius-perfil.webp"
+              alt="Vinicius sorrindo no consultório, de braços cruzados e com estetoscópio no pescoço"
               fill
               sizes="(max-width: 900px) 80vw, 36vw"
             />
@@ -43,7 +43,6 @@ export default function Sobre() {
             </p>
           </motion.div>
           <motion.div className="sobre__assinatura" {...revelar("cima", 2)}>
-            <span>Vinicius Vicente Simões</span>
             <span className="sobre__crmv">{site.crmv}</span>
           </motion.div>
         </div>

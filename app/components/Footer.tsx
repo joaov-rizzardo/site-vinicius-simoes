@@ -3,7 +3,6 @@ import { site } from "../config";
 import { Instagram, WhatsApp } from "./icons";
 import * as motion from "motion/react-client";
 import { revelar } from "../lib/animacoes";
-import VexLogo from "./VexLogo";
 
 export default function Footer() {
   return (
@@ -35,8 +34,15 @@ export default function Footer() {
           </div>
         </motion.div>
         <div className="rodape__credito">
-          <span>Desenvolvido por</span>
-          <VexLogo />
+          <p>
+            © {new Date().getFullYear()} Vinicius Vicente Simões. Todos os direitos reservados.
+          </p>
+          <p>
+            Desenvolvido por{" "}
+            <a href="https://vexsoftware.com.br" target="_blank" rel="noopener">
+              VEX Software
+            </a>
+          </p>
         </div>
       </div>
     </footer>

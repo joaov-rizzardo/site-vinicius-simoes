@@ -9,15 +9,19 @@ import { Instagram, Seta } from "./icons";
 
 // Fotos reais dos atendimentos, guardadas em /public/img
 
-// Proporções alternadas (quadrada e retrato) para a fileira não ficar monótona
+// Proporções alternadas (quadrada e retrato) para a fileira não ficar monótona.
+// Pets e aquários se intercalam, e fotos do mesmo aquário ficam afastadas uma da outra.
 const fotos = [
   { src: "/img/galeria-filhotes-sofa.webp", legenda: "Hopper e Cooper · vacinação residencial", alt: "Vinicius sentado no sofá segurando dois filhotes de cachorro", proporcao: "4 / 5", foco: "center top" },
-  { src: "/img/galeria-vinicius-gato.webp", legenda: "Mia · check-up anual em clínica parceira", alt: "Vinicius sorrindo e segurando no colo um gato laranja e branco de olhos verdes", proporcao: "4 / 5", foco: "center 30%" },
   { src: "/img/galeria-apaiaris.jpg", legenda: "Apaiaris · consultoria de aquarismo", alt: "Dois peixes apaiari (oscar), um branco e laranja e um escuro com manchas laranja, nadando no aquário", proporcao: "1 / 1", foco: "center 55%" },
+  { src: "/img/galeria-vinicius-gato.webp", legenda: "Mia · check-up anual em clínica parceira", alt: "Vinicius sorrindo e segurando no colo um gato laranja e branco de olhos verdes", proporcao: "4 / 5", foco: "center 30%" },
+  { src: "/img/galeria-acaras-desova.jpg", legenda: "Acarás-bandeira · acompanhamento da desova", alt: "Dois acarás-bandeira cuidando de ovos e larvas grudados em uma folha dentro do aquário", proporcao: "4 / 5", foco: "center 55%" },
   { src: "/img/galeria-vinicius-pitbull.jpg", legenda: "Thor · consulta em clínica parceira", alt: "Vinicius sorrindo e fazendo carinho em um pitbull marrom e branco feliz, de boca aberta", proporcao: "1 / 1", foco: "center 25%" },
+  { src: "/img/galeria-aquario-comunitario.jpg", legenda: "Aquário de água doce · manutenção de rotina", alt: "Aquário com um grande tronco atravessado sobre areia branca, plantas e cardumes de barbos-tigre e neons", proporcao: "1 / 1", foco: "center 60%" },
   { src: "/img/galeria-vinicius-cao.jpg", legenda: "Dilma · paciente especial, de longa data", alt: "Vinicius de jaleco sorrindo para uma cachorra caramelo de bandana sentada sobre um caixote branco", proporcao: "1 / 1", foco: "center" },
-  { src: "/img/galeria-vinicius-caramelo.webp", legenda: "Vitório · coleta de exames residencial", alt: "Vinicius de jaleco agachado ao lado de um cachorro caramelo sorridente, em frente a uma parede de tijolos", proporcao: "4 / 5", foco: "center" },
   { src: "/img/galeria-cardume.jpg", legenda: "Cardume · manutenção do aquário", alt: "Cardume de barbos-tigre e neons nadando entre plantas e um tronco no aquário", proporcao: "1 / 1", foco: "center 45%" },
+  { src: "/img/galeria-vinicius-caramelo.webp", legenda: "Vitório · coleta de exames residencial", alt: "Vinicius de jaleco agachado ao lado de um cachorro caramelo sorridente, em frente a uma parede de tijolos", proporcao: "4 / 5", foco: "center" },
+  { src: "/img/galeria-aquario-acaras.jpg", legenda: "Aquário dos acarás · consultoria de aquarismo", alt: "Aquário amplo com samambaias, folhagens, troncos e areia branca sob luz azulada", proporcao: "1 / 1", foco: "center 55%" },
 ];
 
 // @ do perfil, tirado do link do Instagram

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
 import { revelar } from "../lib/animacoes";
 import { site } from "../config";
 import { Instagram, Seta } from "./icons";
@@ -19,7 +19,7 @@ const fotos = [
   { src: "/img/galeria-vinicius-pitbull.jpg", legenda: "Thor · consulta em clínica parceira", alt: "Vinicius sorrindo e fazendo carinho em um pitbull marrom e branco feliz, de boca aberta", proporcao: "1 / 1", foco: "center 25%" },
   { src: "/img/galeria-aquario-comunitario.jpg", legenda: "Aquário de água doce · manutenção de rotina", alt: "Aquário com um grande tronco atravessado sobre areia branca, plantas e cardumes de barbos-tigre e neons", proporcao: "1 / 1", foco: "center 60%" },
   { src: "/img/galeria-vinicius-cao.jpg", legenda: "Dilma · paciente especial, de longa data", alt: "Vinicius de jaleco sorrindo para uma cachorra caramelo de bandana sentada sobre um caixote branco", proporcao: "1 / 1", foco: "center" },
-  { src: "/img/galeria-cardume.jpg", legenda: "Cardume · manutenção do aquário", alt: "Cardume de barbos-tigre e neons nadando entre plantas e um tronco no aquário", proporcao: "1 / 1", foco: "center 45%" },
+  { src: "/img/galeria-cardume.jpg", legenda: "Cardume · manutenção do aquário", alt: "Cardume de barbos-tigre e neons nadando entre plantas e um tronco no aquário", proporcao: "1 / 1", foco: "center 45%", qualidade: 60 },
   { src: "/img/galeria-vinicius-caramelo.webp", legenda: "Vitório · coleta de exames residencial", alt: "Vinicius de jaleco agachado ao lado de um cachorro caramelo sorridente, em frente a uma parede de tijolos", proporcao: "4 / 5", foco: "center" },
   { src: "/img/galeria-aquario-acaras.jpg", legenda: "Aquário dos acarás · consultoria de aquarismo", alt: "Aquário amplo com samambaias, folhagens, troncos e areia branca sob luz azulada", proporcao: "1 / 1", foco: "center 55%" },
 ];
@@ -38,6 +38,9 @@ const LARGURA_FIXA = 700;
 export default function Galeria() {
   const secao = useRef<HTMLElement>(null);
   const trilho = useRef<HTMLDivElement>(null);
+  // As fotos só passam a "eager" quando a seção chega perto da tela: assim não disputam banda
+  // com a foto do hero no carregamento, mas já estão prontas quando a fileira for arrastada
+  const perto = useInView(secao, { once: true, margin: "800px 0px" });
   const [fixa, setFixa] = useState(false);
   // Quanto a fileira precisa andar para o último card chegar à tela
   const [distancia, setDistancia] = useState(0);
@@ -158,7 +161,7 @@ export default function Galeria() {
             {fotos.map((f) => (
               <figure className="galeria__item" key={f.legenda}>
                 <div className="galeria__foto" style={{ aspectRatio: f.proporcao }}>
-                  <Image src={f.src} alt={f.alt} fill sizes="(max-width: 960px) 64vw, 26vw" loading="eager" style={{ objectPosition: f.foco }} />
+                  <Image src={f.src} alt={f.alt} fill sizes="(max-width: 960px) 64vw, 26vw" loading={perto ? "eager" : "lazy"} quality={"qualidade" in f ? f.qualidade : undefined} style={{ objectPosition: f.foco }} />
                 </div>
                 <figcaption>{f.legenda}</figcaption>
               </figure>

@@ -22,7 +22,7 @@ export default function Aquarismo() {
           animate={{ scale: 1.08, x: "-1.5%" }}
           transition={{ duration: 26, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
         >
-          <Image src="/img/aquario-fundo.jpg" alt="" fill sizes="(max-width: 720px) 100vw, 70vw" />
+          <Image src="/img/aquario-fundo.webp" alt="" fill sizes="(max-width: 720px) 100vw, 70vw" quality={60} />
         </motion.div>
       </div>
       <Bolhas />

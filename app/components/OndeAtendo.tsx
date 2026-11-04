@@ -15,6 +15,7 @@ type Local = {
   detalhe: string | string[];
   pilulas: string[];
   foto: string;
+  qualidade?: number;
   alt: string;
   // ponto de foco do recorte (object-position), para fotos que não são horizontais
   foco?: string;
@@ -55,7 +56,9 @@ const locais: Local[] = [
     detalhe:
       "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
     pilulas: ["Montagem e manutenção", "Qualidade e equilíbrio da água", "Peixes e plantas", "Diagnóstico de problemas comuns"],
-    foto: "/img/onde-aquario.jpg",
+    foto: "/img/onde-aquario.webp",
+    // Foto cheia de detalhes (plantas e peixes): com qualidade menor fica bem mais leve sem diferença visível
+    qualidade: 60,
     foco: "center 45%",
     alt: "Aquário plantado de água doce com neons, barbos e acará-bandeira",
     link: { rotulo: "Agendar consultoria", href: site.whatsapp, zap: true },
@@ -96,7 +99,7 @@ export default function OndeAtendo() {
                 transition={{ duration: 0.6, ease: suave }}
                 aria-hidden={l.id !== ativo}
               >
-                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
+                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 720px) 260px, (max-width: 900px) 100vw, 420px" quality={l.qualidade} style={l.foco ? { objectPosition: l.foco } : undefined} />
               </motion.div>
             ))}
           </motion.div>

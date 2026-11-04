@@ -19,7 +19,6 @@
   --font-body: var(--font-lato), system-ui, sans-serif;
   --font-serif: var(--font-serifa), Georgia, serif;
   --font-nav: var(--font-montserrat), sans-serif;
-  --font-script: var(--font-satisfy), cursive;
 }
 
 * { box-sizing: border-box; }

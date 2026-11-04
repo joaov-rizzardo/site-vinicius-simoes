@@ -1,4 +1,4 @@
-import PainelAdmin from "./PainelAdmin";
+import { PainelAdmin } from "./cliente";
 
 // O painel roda no navegador: o login é do Firebase Auth e as leituras passam pelas regras do Firestore
 export default async function Admin({ searchParams }: { searchParams: Promise<{ status?: string }> }) {

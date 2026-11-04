@@ -1,18 +1,8 @@
 // Avaliações guardadas no Firestore, coleção `avaliacoes` (um documento por avaliação, id = Avaliacao.id).
 // Sem login, as regras só deixam ler as aprovadas e criar novas como "pendente"; o resto exige um admin.
+// Aqui ficam só os tipos e os cálculos, sem o SDK do Firebase, para servir aos dois lados:
+// o acesso ao banco está em avaliacoes-servidor.ts (Firestore Lite) e avaliacoes-admin.ts (Firestore completo).
 
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-  where,
-  type QuerySnapshot,
-} from "firebase/firestore";
-import { db } from "./firebase";
 import { mediaDasNotas, TOPICOS, type Notas, type TopicoId } from "./topicos";
 
 // Toda avaliação nova entra como "pendente" e só aparece no site depois de aprovada na área admin
@@ -28,18 +18,12 @@ export type Avaliacao = {
   criadaEm: string; // ISO
 };
 
-export const colecaoAvaliacoes = collection(db, "avaliacoes");
-
 // Mais recentes primeiro. A ordenação é feita aqui para não exigir índice composto (status + criadaEm).
-export function lerAvaliacoes(snap: QuerySnapshot): Avaliacao[] {
+// Aceita o snapshot das duas versões do SDK (Lite no servidor, completo no admin)
+export function lerAvaliacoes(snap: { docs: { id: string; data(): unknown }[] }): Avaliacao[] {
   return snap.docs
     .map((d) => ({ ...(d.data() as Omit<Avaliacao, "id">), id: d.id }))
     .sort((a, b) => b.criadaEm.localeCompare(a.criadaEm));
-}
-
-// Leitura pública (sem login): as regras só liberam consultas filtradas por "aprovada"
-export async function listarAprovadas(): Promise<Avaliacao[]> {
-  return lerAvaliacoes(await getDocs(query(colecaoAvaliacoes, where("status", "==", "aprovada"))));
 }
 
 export function contarPorStatus(avaliacoes: Avaliacao[]): Record<StatusAvaliacao, number> {
@@ -57,18 +41,4 @@ export function calcularMedias(avaliacoes: Avaliacao[]): Medias | null {
     TOPICOS.map((t) => [t.id, avaliacoes.reduce((soma, a) => soma + a.notas[t.id], 0) / avaliacoes.length]),
   ) as Record<TopicoId, number>;
   return { total: avaliacoes.length, geral: mediaDasNotas(porTopico), porTopico };
-}
-
-export async function adicionarAvaliacao(dados: Pick<Avaliacao, "nome" | "notas" | "comentario">): Promise<void> {
-  const nova: Omit<Avaliacao, "id"> = { ...dados, status: "pendente", criadaEm: new Date().toISOString() };
-  await addDoc(colecaoAvaliacoes, nova);
-}
-
-// Moderação: só funciona no navegador, com um admin logado no Firebase Auth
-export async function alterarStatus(id: string, status: StatusAvaliacao): Promise<void> {
-  await updateDoc(doc(colecaoAvaliacoes, id), { status });
-}
-
-export async function excluirAvaliacao(id: string): Promise<void> {
-  await deleteDoc(doc(colecaoAvaliacoes, id));
 }

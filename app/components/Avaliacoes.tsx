@@ -1,5 +1,6 @@
 import { connection } from "next/server";
-import { calcularMedias, listarAprovadas } from "../lib/avaliacoes";
+import { calcularMedias } from "../lib/avaliacoes";
+import { listarAprovadas } from "../lib/avaliacoes-servidor";
 import { formatarNota, TOPICOS } from "../lib/topicos";
 import AvaliarModal from "./AvaliarModal";
 import Carrossel from "./Carrossel";

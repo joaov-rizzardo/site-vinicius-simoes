@@ -1,7 +1,9 @@
-// SDK web do Firebase: a mesma instância serve o servidor (leituras públicas e envio de avaliações)
-// e o navegador (área admin logada). Quem protege os dados são as regras em firestore.rules.
+// App do Firebase, compartilhado pelo servidor e pelo navegador. Quem protege os dados são as regras em firestore.rules.
+// O Firestore fica em módulos separados, porque cada lado usa uma versão diferente do SDK:
+// - servidor (Cloudflare Workers): `firebase/firestore/lite`, via REST/fetch (lib/avaliacoes-servidor.ts).
+//   O SDK completo, no servidor, usa gRPC + protobufjs, que gera código com `new Function` — o Workers bloqueia.
+// - navegador (área admin): `firebase/firestore` completo, que tem tempo real (lib/avaliacoes-admin.ts).
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,4 +14,3 @@ const config = {
 
 // getApps() evita inicializar de novo a cada hot reload do `next dev`
 export const app = getApps().length ? getApp() : initializeApp(config);
-export const db = getFirestore(app);

@@ -7,16 +7,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  alterarStatus,
   calcularMedias,
-  colecaoAvaliacoes,
   contarPorStatus,
-  excluirAvaliacao,
   lerAvaliacoes,
   type Avaliacao,
   type Medias,
   type StatusAvaliacao,
 } from "../lib/avaliacoes";
+import { alterarStatus, colecaoAvaliacoes, excluirAvaliacao } from "../lib/avaliacoes-admin";
 import { formatarNota, mediaDasNotas, TOPICOS } from "../lib/topicos";
 import { auth, useSessao } from "./auth";
 

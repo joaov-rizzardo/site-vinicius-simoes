@@ -3,7 +3,8 @@
 import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { app, db } from "../lib/firebase";
+import { db } from "../lib/avaliacoes-admin";
+import { app } from "../lib/firebase";
 
 export const auth = getAuth(app);
 

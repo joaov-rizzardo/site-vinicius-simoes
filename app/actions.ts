@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { adicionarAvaliacao } from "./lib/avaliacoes";
+import { adicionarAvaliacao } from "./lib/avaliacoes-servidor";
 import { COMENTARIO_MAX, COMENTARIO_MIN, NOME_MAX, NOME_MIN } from "./lib/limites";
 import { TOPICOS, type Notas } from "./lib/topicos";
 

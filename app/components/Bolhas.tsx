@@ -24,14 +24,15 @@ function gerarBolhas(): Bolha[] {
       wobDelay: (-rnd() * 2).toFixed(2) + "s",
     });
   };
-  // fileiras de microbolhas, como saindo de um oxigenador
-  [8, 31, 57, 79, 93].forEach((x) => {
-    for (let k = 0; k < 7; k++) make(x + (rnd() - 0.5) * 1.2, 3 + rnd() * 4, k * 0.55 + rnd() * 0.3);
-  });
-  // bolhas soltas de tamanhos variados
-  for (let i = 0; i < 16; i++) {
-    const s = rnd() < 0.7 ? 6 + rnd() * 9 : 16 + rnd() * 14;
-    make(rnd() * 100, s, rnd() * 8);
+  // Bolhas já de bom tamanho; entram aos poucos (atraso crescente), então começam
+  // poucas e vão aumentando até a seção ficar cheia
+  const colunas = [8, 31, 57, 79, 93];
+  const total = 30;
+  for (let i = 0; i < total; i++) {
+    // metade sai das "fileiras" do oxigenador, metade fica solta pela seção
+    const x = i % 2 === 0 ? colunas[(i / 2) % colunas.length] + (rnd() - 0.5) * 2 : rnd() * 100;
+    const s = rnd() < 0.65 ? 10 + rnd() * 10 : 20 + rnd() * 16;
+    make(x, s, i * 0.55 + rnd() * 0.4);
   }
   return lista;
 }

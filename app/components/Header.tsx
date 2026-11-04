@@ -7,8 +7,10 @@ import { site } from "../config";
 const links = [
   { id: "inicio", label: "Início" },
   { id: "sobre", label: "Sobre Mim" },
+  { id: "servicos", label: "Serviços" },
   { id: "onde-atendo", label: "Onde Atendo" },
   { id: "aquarismo", label: "Aquarismo" },
+  { id: "galeria", label: "Pacientes" },
   { id: "avaliacoes", label: "Avaliações" },
 ];
 

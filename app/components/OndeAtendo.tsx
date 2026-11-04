@@ -1,79 +1,167 @@
-import Image from "next/image";
-import { Casa, Clinica, Hospital, Monitor, Pata, PinoMapa } from "./icons";
-import * as motion from "motion/react-client";
-import { flutuar, revelar } from "../lib/animacoes";
+"use client";
 
-// Clínicas mostram o endereço no lugar do texto
-const locais: { icone: React.ReactNode; titulo: string; texto?: string; endereco?: string }[] = [
-  { icone: <Casa />, titulo: "ATENDIMENTO\nRESIDENCIAL", texto: "Em todo o Vale do Paraíba e região. Levo o cuidado até você." },
+import Image from "next/image";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { site } from "../config";
+import { revelar } from "../lib/animacoes";
+import { WhatsApp } from "./icons";
+
+type Local = {
+  id: "casa" | "clinicas" | "aquario";
+  titulo: string;
+  subtitulo: string;
+  // um texto ou uma lista de parágrafos
+  detalhe: string | string[];
+  pilulas: string[];
+  foto: string;
+  alt: string;
+  // ponto de foco do recorte (object-position), para fotos que não são horizontais
+  foco?: string;
+  link: { rotulo: string; href: string; zap?: boolean };
+};
+
+const locais: Local[] = [
   {
-    icone: <Clinica />,
-    titulo: "CLÍNICA PARCEIRA EM\nCACHOEIRA PAULISTA",
-    endereco: "Rua Orris Benedito Barbosa, 318.",
+    id: "casa",
+    titulo: "Residencial",
+    subtitulo: "Atendimento em domicílio",
+    detalhe:
+      "Para cuidar do seu pet, ele não precisa sair de casa. Realizo consultas veterinárias em domicílio, por todo o Vale do Paraíba e região, proporcionando um exame clínico completo em um ambiente familiar, com mais conforto, tranquilidade e menos estresse para o seu companheiro.",
+    pilulas: ["Atendimento em todo o Vale do Paraíba e região", "Consultas para cães e gatos", "Mais conforto, sem o estresse do transporte"],
+    foto: "/img/residencial-cao-sofa.jpg",
+    foco: "center 40%",
+    alt: "Cachorro caramelo feliz deitado no sofá de casa",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
-    icone: <Hospital />,
-    titulo: "CLÍNICA PARCEIRA EM\nCRUZEIRO",
-    endereco: "Rua Dom Bôsco, Centro, 343.",
+    id: "clinicas",
+    titulo: "Clínicas parceiras",
+    subtitulo: "Cachoeira Paulista e Cruzeiro",
+    detalhe: [
+      "Quando seu pet precisa de procedimentos ou de cirurgias que exijam uma estrutura mais completa para o atendimento, também estou disponível em clínicas parceiras nas cidades de Cachoeira Paulista e Cruzeiro, oferecendo o mesmo cuidado, atenção e dedicação de sempre.",
+      "Para agendar uma consulta em uma dessas unidades, entre em contato pelo WhatsApp e escolha a melhor opção para você e seu pet.",
+    ],
+    pilulas: ["Cachoeira Paulista – SP", "Cruzeiro – SP", "Estrutura adequada para cirurgias e procedimentos veterinários."],
+    foto: "/img/clinicas-parceiras.webp",
+    foco: "center 40%",
+    alt: "Veterinário examinando um golden retriever com estetoscópio na clínica",
+    link: { rotulo: "Agendar pelo WhatsApp", href: site.whatsapp, zap: true },
   },
   {
-    icone: <Monitor />,
-    titulo: "CONSULTORIA DE\nAQUARISMO",
-    texto: "Para aquários de água doce, presencial ou virtual.",
+    id: "aquario",
+    titulo: "Aquarismo",
+    subtitulo: "Consultoria presencial ou virtual",
+    detalhe:
+      "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
+    pilulas: ["Montagem e manutenção", "Qualidade e equilíbrio da água", "Peixes e plantas", "Diagnóstico de problemas comuns"],
+    foto: "/img/onde-aquario.jpg",
+    foco: "center 45%",
+    alt: "Aquário plantado de água doce com neons, barbos e acará-bandeira",
+    link: { rotulo: "Agendar consultoria", href: site.whatsapp, zap: true },
   },
 ];
 
+const suave = [0.2, 0.7, 0.2, 1] as const;
+
+// Acordeão: começa com a residencial aberta e todas podem ser fechadas; a foto à esquerda mostra o último local aberto
 export default function OndeAtendo() {
+  const [aberta, setAberta] = useState<Local["id"] | null>("casa");
+  const [ativo, setAtivo] = useState<Local["id"]>("casa");
+  // Clicar na aba aberta fecha; clicar em outra abre e troca a foto
+  const alternar = (id: Local["id"]) => {
+    if (aberta === id) return setAberta(null);
+    setAberta(id);
+    setAtivo(id);
+  };
+
   return (
-    <section id="onde-atendo" className="onde">
+    <section id="onde-atendo" className="onde" aria-labelledby="onde-titulo">
       <div className="onde__inner">
-        <div className="onde__texto">
-          <motion.div className="onde__titulo" {...revelar("cima")}>
-            <PinoMapa />
-            <h2 className="titulo-secao">ONDE ATENDO</h2>
+        <div className="onde__esquerda">
+          <motion.div {...revelar("cima")}>
+            <p className="kicker">Onde atendo</p>
+            <h2 id="onde-titulo" className="titulo-grande">
+              Atendimento completo, <em>com flexibilidade.</em>
+            </h2>
           </motion.div>
-          <motion.p className="onde__sub" {...revelar("cima", 1)}>
-            Atendimento completo, com flexibilidade e comodidade.
-          </motion.p>
-          <div className="onde__grade">
-            {locais.map((l, i) => (
+          {/* As fotos ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}
+          <motion.div className="onde__foto" {...revelar("cima", 1)}>
+            {locais.map((l) => (
               <motion.div
-                key={l.titulo}
-                className="onde__item"
-                {...revelar("cima", i + 2)}
+                key={l.id}
+                className="onde__foto-camada"
+                initial={false}
+                animate={l.id === ativo ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
+                transition={{ duration: 0.6, ease: suave }}
+                aria-hidden={l.id !== ativo}
               >
-                {l.icone}
-                <h3>{l.titulo}</h3>
-                {l.texto && <p>{l.texto}</p>}
-                {l.endereco && (
-                  <address className="onde__endereco">
-                    <strong>Endereço:</strong> {l.endereco}
-                  </address>
-                )}
+                <Image src={l.foto} alt={l.alt} fill sizes="(max-width: 900px) 100vw, 640px" loading="eager" style={l.foco ? { objectPosition: l.foco } : undefined} />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-        <motion.div className="onde__foto" {...revelar("direita", 1)}>
-          <div className="onde__quadro">
-            <div className="onde__arco">
-              <div className="onde__arco-img">
-                <Image
-                  src="/img/onde-atendo.jpg"
-                  alt="Médico veterinário sorrindo, segurando dois filhotes de cachorro"
-                  fill
-                  sizes="(max-width: 720px) 300px, 380px"
-                />
-              </div>
-            </div>
-            <motion.div className="onde__pata1" {...flutuar(6, 2.2)}>
-              <Pata width={78} height={78} />
-            </motion.div>
-            <motion.div className="onde__pata2" style={{ rotate: 18 }} {...flutuar(6, 2.8, 1)}>
-              <Pata width={56} height={56} />
-            </motion.div>
-          </div>
-        </motion.div>
+
+        <div className="onde__direita">
+          <ul className="onde__abas">
+            {locais.map((l, i) => {
+              const aberto = l.id === aberta;
+              return (
+                <motion.li key={l.id} className={aberto ? "aba aba--aberta" : "aba"} {...revelar("cima", i + 2)}>
+                  <h3>
+                    <button
+                      type="button"
+                      className="aba__cabeca"
+                      aria-expanded={aberto}
+                      aria-controls={`aba-${l.id}`}
+                      onClick={() => alternar(l.id)}
+                    >
+                      <span className="aba__titulo">{l.titulo}</span>
+                      <span className="aba__subtitulo">{l.subtitulo}</span>
+                      <span className="aba__icone" aria-hidden="true" />
+                    </button>
+                  </h3>
+                  <AnimatePresence initial={false}>
+                    {aberto && (
+                      <motion.div
+                        id={`aba-${l.id}`}
+                        className="aba__corpo"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.45, ease: suave }}
+                      >
+                        <div className="aba__conteudo">
+                          {[l.detalhe].flat().map((d) => (
+                            <p key={d} className="aba__detalhe">{d}</p>
+                          ))}
+                          <ul className="aba__pilulas">
+                            {l.pilulas.map((p) => (
+                              <li key={p}>{p}</li>
+                            ))}
+                          </ul>
+                          <div className="aba__acoes">
+                            <a className={l.link.zap ? "aba__link aba__link--zap" : "aba__link"} href={l.link.href} target="_blank" rel="noopener">
+                              {l.link.zap && <WhatsApp size={14} />}
+                              {l.link.rotulo}
+                              <span aria-hidden="true">→</span>
+                            </a>
+                            {!l.link.zap && (
+                              <a className="aba__link aba__link--zap" href={site.whatsapp} target="_blank" rel="noopener">
+                                <WhatsApp size={14} />
+                                Agendar pelo WhatsApp
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   );

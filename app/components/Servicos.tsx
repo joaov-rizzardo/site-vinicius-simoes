@@ -38,15 +38,13 @@ const servicos = [
   },
 ];
 
-const doisDigitos = (n: number) => String(n).padStart(2, "0");
-
 export default function Servicos() {
   const trilho = useRef<HTMLUListElement>(null);
   const [atual, setAtual] = useState(0);
   const [noInicio, setNoInicio] = useState(true);
   const [noFim, setNoFim] = useState(false);
 
-  // Largura de um card + espaço entre eles, usada para contar e para as setas
+  // Largura de um card + espaço entre eles, usada na barra de progresso e nas setas
   const passo = (el: HTMLElement) => {
     const card = el.firstElementChild as HTMLElement | null;
     return card ? card.offsetWidth + parseFloat(getComputedStyle(el).columnGap || "0") : 1;
@@ -56,7 +54,7 @@ export default function Servicos() {
     const el = trilho.current!;
     const atualizar = () => {
       const fim = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
-      // No fim da rolagem o último card já está visível, então o contador mostra o total
+      // No fim da rolagem o último card já está visível, então a barra fica cheia
       setAtual(fim ? servicos.length - 1 : Math.min(servicos.length - 1, Math.round(el.scrollLeft / passo(el))));
       setNoInicio(el.scrollLeft < 4);
       setNoFim(fim);
@@ -111,9 +109,6 @@ export default function Servicos() {
             {servicos.map((s, i) => (
               <li key={s.titulo} className="serv-card" aria-label={`${i + 1} de ${servicos.length}: ${s.titulo}`}>
                 <Image src={s.imagem} alt="" fill className="serv-card__fundo" sizes="(max-width: 720px) 82vw, 300px" />
-                <span className="serv-card__num" aria-hidden="true">
-                  {doisDigitos(i + 1)}
-                </span>
                 <div className="serv-card__corpo">
                   <h3 className="serv-card__titulo">{s.titulo}</h3>
                   <p className="serv-card__texto">{s.texto}</p>
@@ -123,9 +118,6 @@ export default function Servicos() {
           </ul>
 
           <div className="serv__controles">
-            <p className="serv__contador" aria-hidden="true">
-              <strong>{doisDigitos(atual + 1)}</strong> / {doisDigitos(servicos.length)}
-            </p>
             <div className="serv__progresso" aria-hidden="true">
               <span style={{ transform: `scaleX(${(atual + 1) / servicos.length})` }} />
             </div>

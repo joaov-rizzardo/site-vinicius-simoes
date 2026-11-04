@@ -23,13 +23,11 @@ export function revelar(direcao: Direcao = "cima", ordem = 0) {
   };
 }
 
-// Entrada ao carregar a página (hero), com atraso em segundos
+// Entrada ao carregar a página (hero), com atraso em segundos. Usada com a classe `entrada`:
+// é animação CSS, e não da Motion, para começar já no primeiro desenho da página, sem esperar
+// o JavaScript carregar (senão a hero fica invisível e o LCP piora bastante no celular)
 export function entrada(atraso = 0, y = 26) {
-  return {
-    initial: { opacity: 0, y },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay: atraso, ease: suave },
-  };
+  return { "--atraso": `${atraso}s`, "--y": `${y}px` } as React.CSSProperties;
 }
 
 // Movimento contínuo de vaivém no eixo Y (flutuar)

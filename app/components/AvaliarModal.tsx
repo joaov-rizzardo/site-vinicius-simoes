@@ -140,6 +140,12 @@ function Formulario({ onCancelar, onConcluido }: { onCancelar: () => void; onCon
         {estado.erros?.comentario && <p className="modal__erro">{estado.erros.comentario}</p>}
       </label>
 
+      {estado.erros?.envio && (
+        <p className="modal__erro" role="alert">
+          {estado.erros.envio}
+        </p>
+      )}
+
       <div className="modal__acoes">
         <button type="button" className="modal__cancelar" onClick={onCancelar}>
           Cancelar

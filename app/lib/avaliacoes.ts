@@ -1,6 +1,18 @@
-// Armazenamento em memória (protótipo): os dados somem ao reiniciar o servidor.
-// Para persistir, basta reimplementar estas funções com um banco de dados.
+// Avaliações guardadas no Firestore, coleção `avaliacoes` (um documento por avaliação, id = Avaliacao.id).
+// Sem login, as regras só deixam ler as aprovadas e criar novas como "pendente"; o resto exige um admin.
 
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+  type QuerySnapshot,
+} from "firebase/firestore";
+import { db } from "./firebase";
 import { mediaDasNotas, TOPICOS, type Notas, type TopicoId } from "./topicos";
 
 // Toda avaliação nova entra como "pendente" e só aparece no site depois de aprovada na área admin
@@ -16,93 +28,23 @@ export type Avaliacao = {
   criadaEm: string; // ISO
 };
 
-const dia = 24 * 60 * 60 * 1000;
+export const colecaoAvaliacoes = collection(db, "avaliacoes");
 
-// Notas na ordem de TOPICOS, só para deixar os exemplos legíveis
-const n = (...valores: number[]) => Object.fromEntries(TOPICOS.map((t, i) => [t.id, valores[i]])) as Notas;
-
-const iniciais: Avaliacao[] = [
-  {
-    id: "seed-1",
-    nome: "Mariana S.",
-    notas: n(5, 5),
-    comentario: "Atendimento atencioso, explica tudo com calma e seu cuidado faz toda a diferença. Meu dog ama!",
-    status: "aprovada",
-    criadaEm: new Date(Date.now() - 40 * dia).toISOString(),
-  },
-  {
-    id: "seed-2",
-    nome: "Rafael T.",
-    notas: n(5, 5),
-    comentario:
-      "Excelente profissional! Cuidou muito bem da minha gata e me deixou super tranquila durante todo o atendimento.",
-    status: "aprovada",
-    criadaEm: new Date(Date.now() - 18 * dia).toISOString(),
-  },
-  {
-    id: "seed-3",
-    nome: "Juliana M.",
-    notas: n(5, 5),
-    comentario: "A consultoria de aquarismo foi perfeita! Meu aquário nunca esteve tão equilibrado.",
-    status: "aprovada",
-    criadaEm: new Date(Date.now() - 5 * dia).toISOString(),
-  },
-  {
-    id: "seed-7",
-    nome: "Patrícia R.",
-    notas: n(5, 4),
-    comentario:
-      "Explicou o tratamento da minha calopsita com paciência e respondeu todas as dúvidas pelo WhatsApp depois.",
-    status: "aprovada",
-    criadaEm: new Date(Date.now() - 27 * dia).toISOString(),
-  },
-  {
-    id: "seed-8",
-    nome: "Diego F.",
-    notas: n(5, 4),
-    comentario: "Muito cuidadoso com o Thor, que é bem medroso. Atrasou uns minutinhos, mas valeu cada um.",
-    status: "aprovada",
-    criadaEm: new Date(Date.now() - 11 * dia).toISOString(),
-  },
-  // Exemplos para a demonstração da área admin
-  {
-    id: "seed-4",
-    nome: "Carlos A.",
-    notas: n(4, 5),
-    comentario: "Veio em casa atender meu cachorro idoso, com muita paciência. Recomendo demais!",
-    status: "pendente",
-    criadaEm: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-  },
-  {
-    id: "seed-5",
-    nome: "Fernanda L.",
-    notas: n(4, 4),
-    comentario: "Ótimo atendimento na clínica de Cruzeiro. Só demorou um pouco para conseguir horário.",
-    status: "pendente",
-    criadaEm: new Date(Date.now() - 1 * dia).toISOString(),
-  },
-  {
-    id: "seed-6",
-    nome: "promo123",
-    notas: n(1, 1),
-    comentario: "Compre seguidores baratos no meu perfil!!! Acesse o link na bio.",
-    status: "recusada",
-    criadaEm: new Date(Date.now() - 3 * dia).toISOString(),
-  },
-];
-
-// globalThis evita que o hot reload do `next dev` zere a lista a cada edição
-const g = globalThis as typeof globalThis & { __avaliacoesStoreV5?: Avaliacao[] };
-const store = (g.__avaliacoesStoreV5 ??= [...iniciais]);
-
-// Mais recentes primeiro; sem filtro, devolve todas
-export function listarAvaliacoes(status?: StatusAvaliacao): Avaliacao[] {
-  return store.filter((a) => !status || a.status === status).sort((a, b) => b.criadaEm.localeCompare(a.criadaEm));
+// Mais recentes primeiro. A ordenação é feita aqui para não exigir índice composto (status + criadaEm).
+export function lerAvaliacoes(snap: QuerySnapshot): Avaliacao[] {
+  return snap.docs
+    .map((d) => ({ ...(d.data() as Omit<Avaliacao, "id">), id: d.id }))
+    .sort((a, b) => b.criadaEm.localeCompare(a.criadaEm));
 }
 
-export function contarPorStatus(): Record<StatusAvaliacao, number> {
+// Leitura pública (sem login): as regras só liberam consultas filtradas por "aprovada"
+export async function listarAprovadas(): Promise<Avaliacao[]> {
+  return lerAvaliacoes(await getDocs(query(colecaoAvaliacoes, where("status", "==", "aprovada"))));
+}
+
+export function contarPorStatus(avaliacoes: Avaliacao[]): Record<StatusAvaliacao, number> {
   const total = { pendente: 0, aprovada: 0, recusada: 0 };
-  for (const a of store) total[a.status]++;
+  for (const a of avaliacoes) total[a.status]++;
   return total;
 }
 
@@ -117,18 +59,16 @@ export function calcularMedias(avaliacoes: Avaliacao[]): Medias | null {
   return { total: avaliacoes.length, geral: mediaDasNotas(porTopico), porTopico };
 }
 
-export function adicionarAvaliacao(dados: Pick<Avaliacao, "nome" | "notas" | "comentario">): Avaliacao {
-  const nova: Avaliacao = { ...dados, id: crypto.randomUUID(), status: "pendente", criadaEm: new Date().toISOString() };
-  store.push(nova);
-  return nova;
+export async function adicionarAvaliacao(dados: Pick<Avaliacao, "nome" | "notas" | "comentario">): Promise<void> {
+  const nova: Omit<Avaliacao, "id"> = { ...dados, status: "pendente", criadaEm: new Date().toISOString() };
+  await addDoc(colecaoAvaliacoes, nova);
 }
 
-export function alterarStatus(id: string, status: StatusAvaliacao) {
-  const avaliacao = store.find((a) => a.id === id);
-  if (avaliacao) avaliacao.status = status;
+// Moderação: só funciona no navegador, com um admin logado no Firebase Auth
+export async function alterarStatus(id: string, status: StatusAvaliacao): Promise<void> {
+  await updateDoc(doc(colecaoAvaliacoes, id), { status });
 }
 
-export function excluirAvaliacao(id: string) {
-  const i = store.findIndex((a) => a.id === id);
-  if (i >= 0) store.splice(i, 1);
+export async function excluirAvaliacao(id: string): Promise<void> {
+  await deleteDoc(doc(colecaoAvaliacoes, id));
 }

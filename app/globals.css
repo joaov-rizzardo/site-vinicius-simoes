@@ -610,6 +610,9 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   transition: width .2s ease, background .2s ease;
 }
 .carrossel__pontos button.ativo { width: 26px; background: var(--dourado); }
+.carrossel__pontos button.borda:not(.ativo) { transform: scale(.6); }
+.carrossel__pontos button { flex-shrink: 0; transition: width .2s ease, background .2s ease, transform .2s ease; }
+.carrossel__seta { flex-shrink: 0; }
 .carrossel button:focus-visible { outline: 3px solid var(--dourado); outline-offset: 3px; }
 @media (max-width: 1100px) { .carrossel { --por-pagina: 2; } }
 @media (max-width: 600px) { .carrossel { --por-pagina: 1; } }

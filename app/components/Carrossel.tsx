@@ -3,6 +3,9 @@
 import { Children, isValidElement, useCallback, useEffect, useRef, useState } from "react";
 import { Seta } from "./icons";
 
+// Quantos pontos de paginação aparecem ao mesmo tempo
+const MAX_PONTOS = 5;
+
 // Trilho com scroll-snap: arrastar/deslizar funciona nativamente; setas e pontos navegam por página
 export default function Carrossel({ children, rotulo }: { children: React.ReactNode; rotulo: string }) {
   const trilho = useRef<HTMLDivElement>(null);
@@ -82,16 +85,25 @@ export default function Carrossel({ children, rotulo }: { children: React.ReactN
             <Seta />
           </button>
           <div className="carrossel__pontos">
-            {Array.from({ length: paginas }, (_, p) => (
+            {Array.from({ length: Math.min(paginas, MAX_PONTOS) }, (_, i) => {
+              // Janela de pontos que acompanha a página atual: com muitas avaliações
+              // os pontos não crescem sem limite e não quebram o layout no celular
+              const inicio = Math.min(Math.max(0, pagina - Math.floor(MAX_PONTOS / 2)), Math.max(0, paginas - MAX_PONTOS));
+              const p = inicio + i;
+              // Pontos da borda ficam menores quando há mais páginas além deles
+              const borda = (i === 0 && p > 0) || (i === MAX_PONTOS - 1 && p < paginas - 1);
+              const classes = [p === pagina && "ativo", borda && "borda"].filter(Boolean).join(" ");
+              return (
               <button
                 key={p}
                 type="button"
-                className={p === pagina ? "ativo" : undefined}
+                className={classes || undefined}
                 onClick={() => irPara(p)}
                 aria-label={`Página ${p + 1} de ${paginas}`}
                 aria-current={p === pagina}
               />
-            ))}
+              );
+            })}
           </div>
           <button
             type="button"

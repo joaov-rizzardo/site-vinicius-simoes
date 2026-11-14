@@ -33,9 +33,22 @@ export default function Footer() {
             </div>
           </div>
         </motion.div>
+        {/* Dados de contato (nome, telefone e cidades) iguais aos do perfil no Google e da ficha de dados estruturados */}
+        <address className="rodape__info">
+          <div>
+            <span className="rodape__rotulo">Atendimento</span>
+            <p>Veterinário a domicílio em Cachoeira Paulista, Cruzeiro e região</p>
+          </div>
+          <div>
+            <span className="rodape__rotulo">Telefone e WhatsApp</span>
+            <p>
+              <a href={`tel:${site.telefone.replace(/[^+\d]/g, "")}`}>{site.telefoneVisivel}</a>
+            </p>
+          </div>
+        </address>
         <div className="rodape__credito">
           <p>
-            © {new Date().getFullYear()} Vinicius Vicente Simões. Todos os direitos reservados.
+            © {new Date().getFullYear()} Vinicius Vicente Simões – Médico Veterinário · {site.crmv}
           </p>
           <p>
             Desenvolvido por{" "}

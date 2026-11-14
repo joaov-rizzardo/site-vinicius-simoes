@@ -12,21 +12,18 @@ export default function Hero() {
       <div className="hero__inner">
         <div className="hero__texto">
           <div className="hero__conteudo">
-            <p className="hero__kicker entrada" style={entrada(0.1)}>
-              <span>
-                CUIDADO, SAÚDE E BEM-ESTAR <br className="hero__quebra" />
-                PARA SEU PET
-              </span>
-            </p>
-            <h1 className="entrada" style={entrada(0.22)}>
+            {/* H1 da página (principal sinal de SEO); o tamanho pequeno é só visual */}
+            <h1 className="hero__kicker entrada" style={entrada(0.1)}>
+              <span>Veterinário a domicílio em Cachoeira Paulista, Cruzeiro e região</span>
+            </h1>
+            <p className="hero__titulo entrada" style={entrada(0.22)}>
               Seu melhor amigo
               <br />
               <em>em boas mãos.</em>
-            </h1>
+            </p>
             <p className="hero__desc entrada" style={entrada(0.38)}>
-              Sou Dr. Vinicius Vicente Simões, médico veterinário dedicado ao bem-estar de cães e gatos. Atendo{" "}
-              <span className="hero__so-desktop">principalmente </span>em domicílio, em todo o Vale do Paraíba e região, além de clínicas parceiras em Cachoeira
-              Paulista e Cruzeiro. Também ofereço consultoria em aquarismo de água doce, presencial ou virtual.
+              Sou Dr. Vinicius Vicente Simões, médico veterinário dedicado ao bem-estar de cães e gatos. Atendo a domicílio e em clínicas parceiras em
+              Cachoeira Paulista, Cruzeiro e região. Também ofereço consultoria em aquarismo de água doce, presencial ou virtual.
             </p>
             {/* Um único botão para consulta ou consultoria; a seção Aquarismo tem o próprio botão de consultoria */}
             <div className="hero__ctas entrada" style={entrada(0.5)}>

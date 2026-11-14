@@ -119,23 +119,26 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .hero__texto { display: flex; flex-direction: column; min-width: 0; padding: 0 48px 0 96px; position: relative; z-index: 2; }
 /* Texto encostado no alto da seção, no espaço preto acima dos animais */
 .hero__conteudo { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; gap: 28px; padding: 40px 0 1.5cm; }
-.hero__kicker { display: flex; align-items: center; gap: 14px; color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
+.hero__kicker { display: flex; text-transform: uppercase; align-items: center; gap: 14px; color: var(--dourado-claro); font-size: 13px; letter-spacing: 0.2em; font-weight: 700; }
 .hero__kicker::before { content: ""; flex: none; width: 40px; height: 1px; background: var(--dourado); }
-.hero h1 {
+/* Tablet em pé: H1 numa linha só, com a fonte reduzida o necessário para caber ao lado do traço (~48,6em) */
+@media (min-width: 721px) and (max-width: 900px) {
+  .hero__kicker { white-space: nowrap; font-size: min(13px, calc((100vw - 160px) / 48.6)); }
+}
+.hero__titulo {
   font-family: var(--font-serif); font-weight: 400;
   font-size: clamp(50.6px, 5.5vw, 83.6px); line-height: 1.06; letter-spacing: -0.015em;
 }
 /* Computador: título em duas linhas que cresce com a largura da tela, ocupando o preto à direita
    (limitado pela altura em telas baixas, para o texto não descer sobre os animais) */
 @media (min-width: 901px) {
-  .hero h1 { font-size: clamp(58.2px, min(7.5vw, 12vh), 116px); white-space: nowrap; }
+  .hero__titulo { font-size: clamp(58.2px, min(7.5vw, 12vh), 116px); white-space: nowrap; }
   /* A foto fica atrás da seção inteira, então o texto pode usar as duas colunas */
   .hero__texto, .hero__retrato { grid-column: 1 / -1; grid-row: 1; }
   .hero__desc { max-width: clamp(420px, 46vw, 640px); }
 }
-.hero h1 em { color: var(--verde-claro); }
+.hero__titulo em { color: var(--verde-claro); }
 .hero__desc { font-size: 17px; line-height: 1.65; color: #c9d3cd; max-width: 560px; }
-.hero__quebra { display: none; }
 .hero__ctas { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
 
 .botao-hero {
@@ -249,6 +252,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 }
 .serv__cabeca { display: grid; gap: 24px; }
 .serv__lead { font-size: 18px; line-height: 1.6; color: #c9d3cd; max-width: 36ch; }
+.serv__lead-titulo { display: inline; font: inherit; color: inherit; letter-spacing: inherit; }
 .serv__cta { display: flex; margin-top: 20px; }
 .serv__trilho {
   /* Sangra até a borda direita da tela para mostrar que há mais cards */
@@ -305,7 +309,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; align-items: stretch;
 }
 .onde__esquerda { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-.onde__esquerda .titulo-grande { max-width: 18ch; font-size: clamp(28px, 2.6vw, 40px); }
+.onde__esquerda .titulo-grande { max-width: 26ch; font-size: clamp(24px, 2vw, 32px); }
 .onde__foto {
   position: relative; width: 100%; max-width: 420px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 16px; background: var(--verde-escuro); margin-top: 15px;
   box-shadow: 0 22px 50px -18px rgba(12,23,18,.35);
@@ -390,6 +394,7 @@ main > section { min-height: calc(100vh - var(--barra)); min-height: calc(100svh
 .aqua__frase span { color: var(--verde-claro); }
 .aqua__desc { font-size: 17px; line-height: 1.65; color: #e7ece9; max-width: 560px; }
 .aqua__desc strong { color: #fff; }
+.aqua__desc-titulo { display: inline; font: inherit; color: inherit; letter-spacing: inherit; }
 .aqua__grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 0; margin-top: 16px; }
 .aqua__cta { display: flex; margin-top: 36px; }
 /* Botão de vidro em tom de água; no hover o texto continua branco e só um brilho em gradiente passa por cima */
@@ -761,6 +766,13 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 .rodape__redes { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
 .rodape__redes > span { font-size: 12px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; }
 .rodape__redes > div { display: flex; gap: 14px; }
+/* Dados de contato: atendimento e telefone lado a lado, empilhados no celular */
+.rodape__info { display: flex; flex-wrap: wrap; gap: 16px 56px; font-style: normal; padding-top: 18px; border-top: 1px solid var(--linha-escura); }
+.rodape__info > div { display: flex; flex-direction: column; gap: 6px; }
+.rodape__rotulo { font-size: 12px; letter-spacing: 0.22em; color: var(--dourado-claro); font-weight: 700; text-transform: uppercase; }
+.rodape__info p { font-size: 15px; line-height: 1.5; color: #e7ece9; }
+.rodape__info a { color: #fff; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+.rodape__info a:hover { color: var(--dourado-claro); }
 /* Copyright à esquerda e crédito à direita; no celular, um embaixo do outro e centralizados */
 .rodape__credito {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px;
@@ -776,8 +788,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   /* Fio igual ao de cima separando o copyright do crédito */
   .rodape__credito p:first-child { padding-bottom: 14px; border-bottom: 1px solid var(--linha-escura); }
   .rodape__credito p:last-child { padding-top: 14px; }
-  /* Copyright sempre em uma linha: fonte proporcional à largura útil da tela (o texto mede ~28,4em) */
-  .rodape__credito p:first-child { white-space: nowrap; font-size: min(12.5px, calc((100vw - 48px) / 29.5)); }
+  .rodape__credito p:first-child { font-size: 12.5px; line-height: 1.6; text-wrap: balance; }
 }
 /* Nome da Vex em destaque: mesma fonte do site, em negrito e branco */
 .rodape__credito a { color: #fff; font-weight: 700; text-decoration: none; transition: color .2s ease; }
@@ -935,12 +946,10 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   /* Hero: animais no topo, dissolvendo no texto */
   .hero__texto { padding: 20px 24px 32px; }
   .hero__conteudo { padding: 0 0 28px; gap: 18px; }
-  .hero__kicker { font-size: 10px; letter-spacing: 0.16em; gap: 10px; }
-  /* Palavras do texto do hero que saem no celular para economizar espaço */
-  .hero__so-desktop { display: none; }
-  .hero__kicker::before { width: 24px; }
-  .hero__quebra { display: inline; }
-  .hero h1 { font-size: 35.2px; line-height: 1.14; }
+  /* H1 numa linha só, sem o traço: a fonte acompanha a largura útil da tela (a frase mede ~42,3em) */
+  .hero__kicker { white-space: nowrap; letter-spacing: 0.1em; font-size: min(11px, calc((100vw - 48px) / 42.5)); }
+  .hero__kicker::before { display: none; }
+  .hero__titulo { font-size: 35.2px; line-height: 1.14; }
   .hero__desc { font-size: 15px; line-height: 1.6; }
   .hero__ctas { flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 6px; }
 
@@ -1044,7 +1053,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
 
 
 /* Bodoni nos títulos: desenho óptico de texto (traços finos mais encorpados) e peso médio, para os traços finos não sumirem */
-.titulo-grande, .hero h1, .aqua__frase, .galeria__titulo, .aba__titulo, .galeria__mais-rotulo, .aval__media strong { font-variation-settings: "opsz" 18; font-weight: 600; }
+.titulo-grande, .hero__titulo, .aqua__frase, .galeria__titulo, .aba__titulo, .galeria__mais-rotulo, .aval__media strong { font-variation-settings: "opsz" 18; font-weight: 600; }
 
 /* ---------- Botões de ação: todos no tamanho dos botões do hero (exceto os de Onde atendo) ---------- */
 /* No fim do arquivo para valer sobre os estilos de cada seção */
@@ -1074,8 +1083,7 @@ main > section.galeria--fixa { display: block; justify-content: initial; }
   .hero__foto img { object-position: calc(50% - 15px) 0%; }
   .hero__texto { padding: 28px 24px 36px; }
   .hero__conteudo { gap: clamp(18px, 2.8svh, 26px); }
-  .hero__kicker { font-size: 11px; }
-  .hero h1 { font-size: clamp(35.2px, min(4.8svh, 10.4vw), 44px); }
+  .hero__titulo { font-size: clamp(35.2px, min(4.8svh, 10.4vw), 44px); }
   .hero__desc { font-size: clamp(15px, 1.95svh, 16.5px); }
   .hero__ctas { margin-top: 10px; }
   .hero .botao-hero { min-width: 270px; min-height: 56px; }

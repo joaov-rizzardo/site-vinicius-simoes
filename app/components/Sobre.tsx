@@ -33,9 +33,9 @@ export default function Sobre() {
               calma, explicar cada etapa do tratamento e não ter pressa.
             </p>
             <p>
-              Para muitos animais, ir à clínica é motivo de estresse, então pensando no bem-estar deles, atendo
-              principalmente em domicílio, por todo o Vale do Paraíba e região. Mas quando o caso pede mais estrutura,
-              atendo também em clínicas de Cachoeira Paulista e Cruzeiro.
+              Para muitos animais, ir à clínica é motivo de estresse. Por isso, pensando no bem-estar deles, atendo
+              principalmente a domicílio, em Cachoeira Paulista, Cruzeiro e região. Quando o caso pede mais estrutura,
+              o atendimento é feito em clínicas veterinárias parceiras.
             </p>
             <p>
               O mesmo cuidado se estende aos aquários: apaixonado por aquarismo, ofereço consultoria presencial ou

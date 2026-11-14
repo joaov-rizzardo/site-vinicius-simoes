@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-    allowedDevOrigins: ['192.168.1.17', '192.168.1.9', '192.168.1.10'],
+    allowedDevOrigins: ['192.168.1.17', '192.168.1.9', '192.168.1.10', '192.168.1.8'],
     // Fotos remotas de bancos de imagens de uso livre, sem necessidade de crédito (Unsplash e Pexels)
     images: {
         // Qualidades permitidas: 75 é o padrão; 60 nas fotos de aquário, muito detalhadas e pesadas

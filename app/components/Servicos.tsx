@@ -12,8 +12,8 @@ const unsplash = (id: string) => `https://images.unsplash.com/${id}?auto=format&
 
 const servicos = [
   {
-    titulo: "Consulta domiciliar",
-    texto: "Exame clínico completo na sua casa, com o animal calmo e sem o estresse do transporte. Em todo o Vale do Paraíba e região.",
+    titulo: "Consulta veterinária a domicílio",
+    texto: "Exame clínico completo na sua casa, com o animal calmo e sem o estresse do transporte.",
     imagem: unsplash("photo-1544378062-0b74cc8b4713"), // weimaraner em fundo cinza
   },
   {
@@ -79,14 +79,18 @@ export default function Servicos() {
       <div className="serv__inner">
         <div className="serv__cabeca">
           <motion.div {...revelar("cima")}>
-            <p className="kicker">Serviços</p>
-            <h2 id="servicos-titulo" className="titulo-grande titulo-grande--claro">
-              O cuidado que <em>eu levo até você</em>
-            </h2>
+            <p className="kicker">Serviços veterinários</p>
+            <p className="titulo-grande titulo-grande--claro">
+              O cuidado que <em>eu levo a domicílio</em>
+            </p>
           </motion.div>
-          <motion.p className="serv__lead" {...revelar("cima", 1)}>
-            Cada serviço é pensado para atender às necessidades do seu pet, com cuidado personalizado e atenção ao que realmente importa para a saúde dele.
-          </motion.p>
+          {/* O H2 da seção (sinal de SEO) fica no início do parágrafo, com a mesma aparência do texto */}
+          <motion.div className="serv__lead" {...revelar("cima", 1)}>
+            <h2 id="servicos-titulo" className="serv__lead-titulo">
+              Consultas veterinárias a domicílio para cães e gatos em Cachoeira Paulista, Cruzeiro, Lorena e Canas
+            </h2>
+            , com cuidado personalizado e atenção ao que realmente importa para a saúde do seu pet.
+          </motion.div>
           <motion.div className="serv__cta" {...revelar("cima", 2)}>
             <a
               className="cta botao-hero botao-hero--verde"

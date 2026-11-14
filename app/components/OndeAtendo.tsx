@@ -28,8 +28,8 @@ const locais: Local[] = [
     titulo: "Residencial",
     subtitulo: "Atendimento em domicílio",
     detalhe:
-      "Para cuidar do seu pet, ele não precisa sair de casa. Realizo consultas veterinárias em domicílio, por todo o Vale do Paraíba e região, proporcionando um exame clínico completo em um ambiente familiar, com mais conforto, tranquilidade e menos estresse para o seu companheiro.",
-    pilulas: ["Atendimento em todo o Vale do Paraíba e região", "Consultas para cães e gatos", "Mais conforto, sem o estresse do transporte"],
+      "Para cuidar do seu pet, ele não precisa sair de casa. Realizo consultas veterinárias a domicílio, por Cachoeira Paulista, Cruzeiro e região, proporcionando um exame clínico completo em um ambiente familiar, com mais conforto, tranquilidade e menos estresse para o seu companheiro.",
+    pilulas: ["Atendimento em Cachoeira Paulista, Cruzeiro e região", "Consultas a domicílio para cães e gatos", "Mais conforto, sem o estresse do transporte"],
     foto: "/img/residencial-cao-sofa.jpg",
     foco: "center 40%",
     alt: "Cachorro caramelo feliz deitado no sofá de casa",
@@ -40,10 +40,10 @@ const locais: Local[] = [
     titulo: "Clínicas parceiras",
     subtitulo: "Cachoeira Paulista e Cruzeiro",
     detalhe: [
-      "Quando seu pet precisa de procedimentos ou de cirurgias que exijam uma estrutura mais completa para o atendimento, também estou disponível em clínicas parceiras nas cidades de Cachoeira Paulista e Cruzeiro, oferecendo o mesmo cuidado, atenção e dedicação de sempre.",
+      "Quando seu pet precisa de procedimentos ou de cirurgias que exijam uma estrutura mais completa para o atendimento, também estou disponível em clínicas veterinárias parceiras nas cidades de Cachoeira Paulista e Cruzeiro, oferecendo o mesmo cuidado, atenção e dedicação de sempre.",
       "Para agendar uma consulta em uma dessas unidades, entre em contato pelo WhatsApp e escolha a melhor opção para você e seu pet.",
     ],
-    pilulas: ["Cachoeira Paulista – SP", "Cruzeiro – SP", "Estrutura adequada para cirurgias e procedimentos veterinários."],
+    pilulas: ["Clínica veterinária parceira em Cachoeira Paulista – SP", "Clínica veterinária parceira em Cruzeiro – SP","Estrutura adequada para cirurgias e procedimentos veterinários."],
     foto: "/img/clinicas-parceiras.webp",
     foco: "center 40%",
     alt: "Veterinário examinando um golden retriever com estetoscópio na clínica",
@@ -54,7 +54,7 @@ const locais: Local[] = [
     titulo: "Aquarismo",
     subtitulo: "Consultoria presencial ou virtual",
     detalhe:
-      "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
+      "Consultoria especializada em aquários de água doce, com atendimento virtual ou presencial em Cachoeira Paulista, Cruzeiro e região e orientações personalizadas para manter seu aquário saudável e equilibrado, de acordo com as necessidades dos seus peixes, plantas e ambiente.",
     pilulas: ["Montagem e manutenção", "Qualidade e equilíbrio da água", "Peixes e plantas", "Diagnóstico de problemas comuns"],
     foto: "/img/onde-aquario.webp",
     // Foto cheia de detalhes (plantas e peixes): com qualidade menor fica bem mais leve sem diferença visível
@@ -85,7 +85,7 @@ export default function OndeAtendo() {
           <motion.div {...revelar("cima")}>
             <p className="kicker">Onde atendo</p>
             <h2 id="onde-titulo" className="titulo-grande">
-              Atendimento completo, <em>com flexibilidade.</em>
+              Atendimento veterinário a domicílio e em clínicas de <em>Cachoeira Paulista, Cruzeiro e região.</em>
             </h2>
           </motion.div>
           {/* As fotos ficam empilhados e já carregados, para a troca ser imediata; só o da aba aberta aparece */}

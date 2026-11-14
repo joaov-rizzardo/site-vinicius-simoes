@@ -9,9 +9,9 @@ const lato = Lato({ subsets: ["latin"], weight: ["400", "700"], variable: "--fon
 const serifa = Bodoni_Moda({ subsets: ["latin"], style: ["normal", "italic"], axes: ["opsz"], variable: "--font-serifa" });
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["500", "600", "700", "800"], style: ["normal", "italic"], variable: "--font-montserrat" });
 
-const titulo = "Veterinário em Domicílio no Vale do Paraíba | Vinicius Simões";
+const titulo = "Veterinário a Domicílio em Cachoeira Paulista e Cruzeiro | Dr. Vinicius Vicente Simões";
 const descricao =
-  "Médico veterinário de cães e gatos com atendimento em domicílio no Vale do Paraíba, clínicas em Cachoeira Paulista e Cruzeiro e consultoria de aquarismo.";
+  "Veterinário a domicílio para cães e gatos em Cachoeira Paulista, Cruzeiro e região. Atendimento em clínicas parceiras e consultoria de aquarismo.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

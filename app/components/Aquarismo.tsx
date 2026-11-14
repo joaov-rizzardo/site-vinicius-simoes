@@ -28,19 +28,22 @@ export default function Aquarismo() {
       <Bolhas />
       <div className="aqua__inner">
         <div className="aqua__texto">
-          <motion.h2 className="kicker" {...revelar("cima")}>
+          <motion.p className="kicker" {...revelar("cima")}>
             Aquarismo
-          </motion.h2>
+          </motion.p>
           <motion.p className="aqua__frase" {...revelar("cima", 1)}>
             Mais do que um hobby,
             <br />
             <span>um ecossistema em equilíbrio.</span>
           </motion.p>
-          <motion.p className="aqua__desc" {...revelar("cima", 2)}>
-            <strong>A consultoria de aquarismo</strong>, exclusiva para aquários de água doce, é feita de forma virtual ou
-            presencial, com orientações personalizadas para o seu tipo de aquário, peixes e rotina. Assim, você garante um ambiente saudável, com menos problemas e mais
+          {/* O H2 da seção (sinal de SEO) fica no início do parágrafo, com a mesma aparência do texto */}
+          <motion.div className="aqua__desc" {...revelar("cima", 2)}>
+            <h2 className="aqua__desc-titulo">
+              <strong>Consultoria de aquarismo</strong> para aquários de água doce, de forma virtual ou presencial em Cachoeira Paulista, Cruzeiro
+            </h2>{" "}
+            e região, com orientações personalizadas para o seu tipo de aquário, peixes e rotina. Assim, você garante um ambiente saudável, com menos problemas e mais
             vida no seu aquário.
-          </motion.p>
+          </motion.div>
           <div className="aqua__grade">
             {topicos.map((t, i) => (
               <motion.div key={t.texto} className="aqua__item" {...revelar("cima", i + 3)}>
